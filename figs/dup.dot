@@ -1,0 +1,73 @@
+//
+// figs/dup.dot
+//
+
+digraph dup
+{
+	node[fontname=TYPEWRITER,fontsize=8,width=0,height=0];
+	graph[fontsize=10];
+
+	subgraph cluster_orig
+	{	label="Original hierarchy";
+
+		obj1[shape=hexagon];
+
+		obj11[shape=diamond];
+		obj12[shape=diamond];
+
+		obj111;
+		obj112;
+
+		obj121;
+		obj122;
+
+		invisible[label="",shape=circle,style=invis,width=0,height=0,fixedsize=true];
+
+		obj1	-> obj11;
+		obj1	-> obj12;
+
+		obj11	-> obj111;
+		obj11	-> obj112;
+
+		obj12	-> obj121;
+		obj12	-> obj122;
+
+		obj111	-> invisible[style=invis];
+		obj112	-> invisible[style=invis]
+		obj121	-> invisible[style=invis];
+		obj122	-> invisible[style=invis];
+	}
+
+	subgraph cluster_dup_0
+	{	label="obj1->dup(0)";
+		fontname=TYPEWRITER_BOLD;
+
+		obj2[label="copy of obj1",shape=hexagon];
+		obj2	-> obj11;
+		obj2	-> obj12;
+	}
+
+	subgraph cluster_dup_1
+	{	label="obj1->dup(1)"; labelloc=b;
+		fontname=TYPEWRITER_BOLD;
+
+		obj3[label="copy of obj1",shape=hexagon];
+
+		obj31[label="copy of obj11",shape=diamond];
+		obj32[label="copy of obj12",shape=diamond];
+
+		invisible -> obj31[style=invis];
+		invisible -> obj32[style=invis];
+
+		obj31	-> obj3[dir=back];
+		obj32	-> obj3[dir=back];
+
+		obj111	-> obj31[dir=back];
+		obj112	-> obj31[dir=back];
+
+		obj121	-> obj32[dir=back];
+		obj122	-> obj32[dir=back];
+	}
+}
+
+// End of figs/dup.dot

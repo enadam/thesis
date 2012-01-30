@@ -1,0 +1,68 @@
+Long history
+============
+
+2004-01-19	r36	initial checkin
+2004-01-23	r48	my first commit
+2004-01-23	r50	large-scale OO reimplementation
+[work on lists, refcnt, CoW,  gs{sol,attr}.cc]
+2004-02-21	r85	gcc 3.3
+2004-02-23	r99	daemon checkin
+2004-02-24	r106	first test programs
+2004-02-25	r116	gsfitness checkin
+2004-02-26	r138	major complaints against lists implementation
+2004-02-27	r155	gsfitness completed
+2004-03-07	r157	daemon takeover
+2004-03-11	r173	daemon2: "brand new daemon reimplementation"
+2004-03-12	r177	daemon2: compiles, runs, BUG()s
+2004-03-13	r183	daemon2 builds menu tree
+2004-03-15	r185	gatator checkin
+2004-03-19	r199	major rewrites (starting to take over)
+[/me temporary blackout: wwmm]
+2004-05-16	r237	migraine
+2004-05-22	r239	GSLibv2: Aapl, GSObject, GSList, GSVaList
+2004-05-23 ?	r249	randtree
+2004-05-24	r253	GSLib compiles
+2004-05-25	r255	GSAttr finished
+2004-05-25	r268	GSList.cc removed, temapltes introduced
+2004-05-27	r285	randtree: "basic logic shoud be OK"
+2004-05-28	r289	TinyXml
+2004-06-01	r297	GSRandTree
+2004-06-03	r308	GSLibv1 good bye
+2004-06-03	r311	randtree: "should be OK by now"
+2004-06-06	r314	mdb
+2004-06-16	r342	DoxyGen
+2004-06-18	r356	GSRuler checkin
+2004-07-04	r412	GSMonitor
+2004-07-21	r425	GSError
+2004-07-21	r434	pb fitness
+2004-07-21	r436	daemon2 "testsuite"
+2004-07-28	r456	daemon2 network mode
+2004-08-06	r462	junkie2
+[/me temporary blackout: kt]
+2005-02-07	r487	gcc 3.4
+[work on avl]
+2005-02-??	avl	asciitree
+2005-02-16	avl	treetest, treecotest
+2005-02-22	avl	GSLibv3 shaping
+2005-04-05	r511	Cordelia integration
+2005-04-15	r539	move to cvs.i.v.h
+2005-05-05	r548	baggy, GSDB
+[/me temporary blackout ???]
+2005-08-02	r552	last cvs commit
+2005-08-15	avl	gsmon, gserr
+2005-08-31	avl	MGLib born
+[/me temporary blackout ???]
+2006-04-07	avl	daemon3, ttc
+2006-04-24	avl	daemon3: provision for CORBA
+[/me temporary blackout ???]
+2006-07-13	r625	GSLibv3
+2006-07-17	r626	coxi
+2006-08-09	r634	cmptest
+2006-08-15	r645	rules proto
+2006-08-29	r652	gcc 4.0
+2006-09-06	r662	rules integrated
+2006-10-04	r669	rulez born
+2006-10-31	r690	rulez finished
+2006-11-07	r694	Adios checkin
+2007-01-09	r701	eclipse
+???		???	subborn

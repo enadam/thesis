@@ -1,0 +1,187 @@
+% Encoding: T1
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Roman
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Roman 5 point
+/ComputerModern-5 (cmr5.pfb) ;				% T1b
+% Roman 6 point
+/ComputerModern-6 (cmr6.pfb) ;				% T1b
+% Roman 7 point
+/ComputerModern-7 (cmr7.pfb) ;				% T1b
+% Roman 8 point
+/ComputerModern-8 (cmr8.pfb) ;				% T1b
+% Roman 9 point
+/ComputerModern-9 (cmr9.pfb) ;				% T1b
+% Roman 10 point
+/ComputerModern-10 (cmr10.pfb) ;			% T1b
+% Roman 12 point
+/ComputerModern-12 (cmr12.pfb) ;			% T1b
+% Roman 17 point (more or less)
+/ComputerModern-17 (cmr17.pfb) ;			% T1b
+
+% Roman-Bold
+% Bold Extended Roman 5 point
+/ComputerModern-Bold-5 (cmbx5.pfb) ;			% T1b
+% Bold Extended Roman 6 point
+/ComputerModern-Bold-6 (cmbx6.pfb) ;			% T1b
+% Bold Extended Roman 7 point
+/ComputerModern-Bold-7 (cmbx7.pfb) ;			% T1b
+% Bold Extended Roman 8 point
+/ComputerModern-Bold-8 (cmbx8.pfb) ;			% T1b
+% Bold Extended Roman 9 point
+/ComputerModern-Bold-9 (cmbx9.pfb) ;			% T1b
+% Bold Extended Roman 10 point
+/ComputerModern-Bold-10 (cmbx10.pfb) ;			% T1b
+% Bold Extended Roman 12 point
+/ComputerModern-Bold-12 (cmbx12.pfb) ;			% T1b
+
+% Roman-Slanted
+% Slanted Roman 8 point
+/ComputerModern-Slanted-8 (cmsl8.pfb) ;
+% Slanted Roman 9 point
+/ComputerModern-Slanted-9 (cmsl9.pfb) ;
+% Slanted Roman 10 point
+/ComputerModern-Slanted-10 (cmsl10.pfb) ;
+% Slanted Roman 12 point
+/ComputerModern-Slanted-12 (cmsl12.pfb) ;
+
+% Roman Caps and Small Caps 10 point
+/ComputerModern-Smallcaps-10 (cmcsc10.pfb) ;		% T1b
+% Bold Extended Slanted Roman 10 point
+/ComputerModern-Bold-Slanted-10 (cmbxsl10.pfb) ;
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Italic
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Text Italic 7 point
+/ComputerModern-Italic-7 (cmti7.pfb) ;
+% Text Italic 8 point
+/ComputerModern-Italic-8 (cmti8.pfb) ;
+% Text Italic 9 point
+/ComputerModern-Italic-9 (cmti9.pfb) ;
+% Text Italic 10 point
+/ComputerModern-Italic-10 (cmti10.pfb) ;
+% Text Italic 12 point
+/ComputerModern-Italic-12 (cmti12.pfb) ;
+
+% Bold Extended Text Italic 10 point
+/ComputerModern-Italic-Bold (cmbxti10.pfb) ;
+% Unslanted Italic 10 point
+/ComputerModern-Italic-Unslanted (cmu10.pfb) ;
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SansSerif
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Sans Serif 8 pt
+/ComputerModern-SansSerif-8 (cmss8.pfb) ;		% T1b
+% Sans Serif 9 pt
+/ComputerModern-SansSerif-9 (cmss9.pfb) ;		% T1b
+% Sans Serif 10 pt
+/ComputerModern-SansSerif-10 (cmss10.pfb) ;		% T1b
+% Sans Serif 12 pt
+/ComputerModern-SansSerif-12 (cmss12.pfb) ;		% T1b
+% Sans Serif 17 pt (more or less)
+/ComputerModern-SansSerif-17 (cmss17.pfb) ;		% T1b
+
+% SansSerif-Slanted
+% Slanted Sans Serif 8 pt
+/ComputerModern-SansSerif-Slanted-8 (cmssi8.pfb) ;
+% Slanted Sans Serif 9 pt
+/ComputerModern-SansSerif-Slanted-9 (cmssi9.pfb) ;
+% Slanted Sans Serif 10 pt
+/ComputerModern-SansSerif-Slanted-10 (cmssi10.pfb) ;
+% Slanted Sans Serif 12 pt
+/ComputerModern-SansSerif-Slanted-12 (cmssi12.pfb) ;
+% Slanted Sans Serif 17 pt (more or less)
+/ComputerModern-SansSerif-Slanted-17 (cmssi17.pfb) ;
+
+% Sans Serif Bold Extended 10 pt
+/ComputerModern-SansSerif-Bold (cmssbx10.pfb) ;
+% Sans Serif Demibold Condensed 10 pt
+/ComputerModern-SansSerif-Demibold (cmssdc10.pfb) ;
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% ASCII
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% TeX extended ASCII characters for use with 8 point
+/ComputerModern-ASCII-8 (cmtex8.pfb) ;
+% TeX extended ASCII characters for use with 9 point
+/ComputerModern-ASCII-9 (cmtex9.pfb) ;
+% TeX extended ASCII characters for use with 10 point
+/ComputerModern-ASCII-10 (cmtex10.pfb) ;
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Typewriter
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Typewriter Text for use with 8 point
+/ComputerModern-Typewriter-8 (cmtt8.pfb) ;		% T1a
+% Typewriter Text for use with 9 point
+/ComputerModern-Typewriter-9 (cmtt9.pfb) ;		% T1a
+% Typewriter Text for use with 10 point
+/ComputerModern-Typewriter-10 (cmtt10.pfb) ;		% T1a
+% Typewriter Text for use with 12 point
+/ComputerModern-Typewriter-12 (cmtt12.pfb) ;		% T1a
+
+% Italic Typewriter Text for use with 10 point
+/ComputerModern-Typewriter-Italic (cmitt10.pfb) ;
+% Slanted Typewriter Text for use with 10 point
+/ComputerModern-Typewriter-Slanted (cmsltt10.pfb) ;
+% Typewriter Caps and Small Caps 10 point
+/ComputerModern-Typewriter-Smallcaps (cmtcsc10.pfb) ;
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Bold Roman 10 point
+%cmb10.pfb
+%% Dunhill Roman 10 point
+%cmdunh10.pfb
+%% Funny Roman 10 point
+%cmff10.pfb
+%% Funny Italic 10 point
+%cmfi10.pfb
+%% Roman Fibonacci Font
+%cmfib8.pfb
+%% Inch-High Sans Serif Bold Extended Caps and Digits
+%cminch.pfb
+%% Variable-Width Typewriter Text for use with 10 point
+%cmvtt10.pfb
+%
+%% Math Extension 10 point
+%cmex10.pfb
+%% Bold Math Symbols 10 point
+%cmbsy10.pfb
+%% Math Italic 5 point
+%cmmi5.pfb
+%% Math Italic 6 point
+%cmmi6.pfb
+%% Math Italic 7 point
+%cmmi7.pfb
+%% Math Italic 8 point
+%cmmi8.pfb
+%% Math Italic 9 point
+%cmmi9.pfb
+%% Math Italic 10 point
+%cmmi10.pfb
+%% Math Italic 12 point
+%cmmi12.pfb
+%% Math Italic Bold 10 point
+%cmmib10.pfb
+%% Sans Serif Quotation Style 8 point
+%cmssq8.pfb
+%% Sans Serif Quotation Style Slanted 8 point
+%cmssqi8.pfb
+%% Math Symbols 5 point
+%cmsy5.pfb
+%% Math Symbols 6 point
+%cmsy6.pfb
+%% Math Symbols 7 point
+%cmsy7.pfb
+%% Math Symbols 8 point
+%cmsy8.pfb
+%% Math Symbols 9 point
+%cmsy9.pfb
+%% Math Symbols 10 point
+%cmsy10.pfb
+
+% vim: filetype=postscr:

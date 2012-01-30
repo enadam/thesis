@@ -1,0 +1,18 @@
+%
+% figs/gsavl.tex
+%
+
+\begin{NewFig}{gsavl}
+\IncludeFig{gsavl}
+\caption[Internal representation of a \Tech{GSAvl} collection]%
+	{Internal representation of a \Tech{GSAvl} collection.
+	Numbers denote the keys of the nodes.
+	Rectangles: ends of the primary list (\Code{list->First()},
+	\Code{list->Last()}); hexagons: secondary nodes;
+	solid lines: tree edges (bold lines: right subtree)
+	(\Code{node->Left()}, \Code{node->Right()});
+	dashed lines: secondary list (\Code{node->VNext()});
+	dotted lines: primary list (\Code{node->HNext()}).}
+\end{NewFig}
+
+% End of figs/gsavl.tex

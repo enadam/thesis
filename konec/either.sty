@@ -1,0 +1,23 @@
+%
+% konec/either.sty -- to typeset "and/or"-style alternatives
+%
+
+\def\Either[#1]{\@ifnextchar[{#1\hspace{0pt plus .5em}/\hspace{0pt plus .5em}\Either}{#1\xspace}}
+\def\konec@alter#1#2{{%
+	\setbox\@tempboxa\hbox{\footnotesize #1}%
+	\@tempdima\wd\@tempboxa%
+	\setbox\@tempboxa\hbox{\footnotesize #2}%
+	\@tempdimb\wd\@tempboxa%
+	\ifnum\@tempdima<\@tempdimb
+		\hbox to \@tempdimb{%
+			\lower.8ex\hbox to 0pt{\footnotesize #2\hss}%
+			\hfil\raise.8ex\hbox{\footnotesize #1}\hfil}%
+	\else
+		% Hmm, somehow it always looks better when the wider
+		% text is in the top, shall we make it automatic?
+		\hbox to \@tempdima{%
+			\raise.8ex\hbox to 0pt{\footnotesize #1\hss}%
+			\hfil\lower.8ex\hbox{\footnotesize #2}\hfil}%
+	\fi}}
+
+% End of konec/either.sty

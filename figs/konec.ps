@@ -1,0 +1,55 @@
+%
+% figs/konec.ps -- general purpose Postscript functions
+%
+
+% Just like dot's /starnetISO except that the encoding vector is an argument.
+% (It looks as if under certain circumstances cmss wouldn't be encoded
+% properlu, but the PDF is all right.  So what?)
+/EncodeFont
+{	% font encodingvector
+	exch dup dup
+	findfont dup
+	length dict
+	begin
+	{ 1 index /FID ne 1 index /Encoding ne and { def }{ pop pop } ifelse
+	} forall
+        /Encoding 4 -1 roll def
+	currentdict end
+	definefont
+	def
+} def
+
+% /CurrentFontHeight is needed by SPECIAL(rotate).
+% /CurrentFontInfo is for SPECIAL(underline).
+/CurrentFontHeight { currentfont /ScaleMatrix get 3 get	} def
+/CurrentFontInfo   { currentfont /FontInfo    get	} def
+
+% Hijack /pdfmark to have /CropBox set /PageSize automatically;
+% may not be needed under newer ghoscripts.  Actually, it screws up
+% the x11 driver of Ghostscript, so enable our little tricks if and
+% only if interpreter == Ghostscript && driver == pdfwrite.  Shit.
+product (GNU Ghostscript)	eq
+product (AFPL Ghostscript)	eq or
+product (Aladdin Ghostscript)	eq or
+% Maybe we should check /revision too.
+{
+	/DevInfo currentdevice getdeviceprops .dicttomark def
+	DevInfo /Name get (pdfwrite) eq
+	{
+		currentdict /pdfmark.saved /pdfmark load put
+		/pdfmark
+		{
+			% Ignore all but /CropBox marks.
+			counttomark 1 sub index /CropBox eq
+			{
+				1 index aload pop
+				exch 4 1 roll exch sub 1 add 3 1 roll sub
+					1 add exch
+				<< /PageSize [ 5 -2 roll ] >> setpagedevice
+			} if
+			pdfmark.saved
+		} def
+	} if
+} if
+
+% End of figs/konec.ps

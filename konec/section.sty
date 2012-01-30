@@ -1,0 +1,24 @@
+%
+% konec/section.sty -- \Link:able \section:s
+%
+
+% TODO make it bookmark if \Hy@implicitfalse?
+\def\konec@@nsc#1#2#3#4{% \section, depth, title, label
+	\konec@log{\detokenize{#1#3}}%
+	\lowercase{\konec@log{target: #4}}%
+	#1{#3}
+	\lowercase{\label{sec:#4}}
+	% \hypertarget is created by \section
+	\ifnum#2>\c@tocdepth
+		\konec@may@bmfalse
+	\else
+		\konec@may@bmtrue
+	\fi}
+\def\konec@nsc#1#2{\konec@dblarg{\konec@@nsc#1#2}}
+
+\def\NewChapter{\konec@nsc\chapter1}
+\def\NewSection{\konec@nsc\section2}
+\def\NewwSection{\konec@nsc\subsection3}
+\def\NewwwSection{\konec@nsc\subsubsection4}
+
+% End of konec/section.sty

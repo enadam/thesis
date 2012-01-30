@@ -1,0 +1,153 @@
+%
+% figs/dotfun.ps -- Postscript library for `dot' figures
+%
+
+% Outline a box.
+% currentpoint == bottom-left corner
+/konec.box
+{	% width height
+	dup 0 exch rlineto		% ^
+	exch dup 0 rlineto exch		% >
+	0 exch neg rlineto		% v
+	neg 0 rlineto			% <
+} def
+
+% Outline a rounded-edge box
+% currentpoint == bottom-left corner
+/konec.rbox
+{	% width height ray
+	3 dict begin
+	/r exch def
+	/h exch def
+	/w exch def
+
+	matrix currentmatrix
+	currentpoint translate
+
+	[
+	0 r rmoveto
+	0 h h h r arcto
+	moveto pop pop
+	w h w 0 r arcto
+	moveto pop pop
+	w 0 0 0 r arcto
+	moveto pop pop
+	0 0 0 h r arcto
+	cleartomark
+
+	setmatrix
+	end
+} def
+
+% Outline an egg (ellipse).
+% currentpoint == center
+/konec.egg
+{	% width height
+	matrix currentmatrix
+	currentpoint translate
+	3 1 roll scale
+	newpath 0 0 0.5 0 360 arc
+	setmatrix
+} def
+
+% Generate random real numbers in the interval [mean+/-deviation].
+/konec.rand
+{	% mean deviation
+	% (rand() % 100*(2*d + 1)) / 100  - d + m
+	dup neg exch
+	2 mul 1 add 100 mul
+	rand exch
+	cvi mod 100 div add add
+} def
+
+/bogyos
+{	% ncols nrows boxwidth boxheight width height
+	4 dict begin
+	/height exch def
+	/width  exch def
+	2 index div height sub 2 div /vmargin exch def
+	2 index div width  sub 2 div /hmargin exch def
+
+	0 vmargin height 2 div add rmoveto
+	{
+		currentpoint
+		2 index {
+			% x := rand((currx + hmargin + width/2), hmargin)
+			% y := rand(curry, vmargin)
+			currentpoint
+				currentpoint
+					vmargin konec.rand
+					exch hmargin add width 2 div add hmargin
+						konec.rand exch
+					moveto
+				width height konec.egg stroke
+			exch width add hmargin 2 mul add exch moveto
+		} repeat
+		height add vmargin 2 mul add moveto
+	} repeat
+
+	pop
+	end
+} def
+
+% Box, bogyos inside.
+% Use with ``shape=BogyoBox''.
+/BogyoBox
+{
+	dup type (booleantype) eq { 0 } if
+	4 1 roll
+
+	pop pop aload pop
+	pop pop pop pop
+
+	moveto						% x1 y1
+	pop pop
+	currentpoint					% x2 y2 x1 y1
+	3 -1 roll					% x2 x1 y1 y2
+	exch sub					% x2 x1 h
+	3 1 roll					% h x2 x1
+	sub exch					% w h
+
+	currentpoint currentlinewidth			% save
+		5 5					% ncolr nrows
+		6 index currentlinewidth 2 mul sub	% w - lw/2
+		6 index currentlinewidth 2 mul sub	% h - lw/2
+		4 2					% wegg hegg
+		.5 setlinewidth
+		currentlinewidth dup rmoveto		% x, y += lw
+		bogyos
+	setlinewidth moveto				% w h
+
+	3 -1 roll konec.rbox stroke			% w h x y
+} def
+
+% Dot-dash linestyle (beware that FoxIt doesn't like it)
+/Dashing
+{	% dash-length || [ pattern ] || [ pattern ] offset
+	dup type (arraytype) eq
+	{	% [ pattern ]
+		0
+	} {
+		count 1 le
+		{	% dash-length
+			[ exch dup ] 0
+		} {	% dash-length || [ pattern ] offset
+			1 index type (arraytype) ne
+				{ [ exch dup ] 0 } if
+		} ifelse
+	} ifelse
+
+	setdash
+} def
+
+% Shorthand
+/DenseDots { [ 1 2 ] 0 setdash } def
+
+% Needed by /bogyos.
+realtime srand
+
+%100 100 moveto 200 200 konec.box
+%currentpoint stroke moveto
+%5 4 200 200 10 5 bogyos
+
+% End of figs/dotfun.ps

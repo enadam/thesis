@@ -1,0 +1,111 @@
+%
+% konec/keyword.sty -- writing keywords on the side margin
+%
+
+% \Keyword<text>
+\def\konec@kw@keyword<#1>{%
+	\konec@log{keyword: #1}%
+	\konec@major@mpar{#1}%
+	\konec@bm@nolabel{#1}{#1}}
+
+% \Keyword[\Format{text}]{mpar}
+\def\konec@kw@text[#1]#2{%
+	\konec@log{keyword: #2}%
+	\konec@major@mpar{#2}%
+	\konec@bm@nolabel{#1}{#2}}
+
+% \Keyword*{mpar}
+\def\konec@kw@notext*#1{%
+	\konec@log{keyword: #1}%
+	\konec@major@mpar{#1}%
+	\konec@bm@nolabel{}{#1}}
+
+% \Keyword\Format{text}
+\def\konec@kw@format#1#2{%
+	\konec@log{keyword: #2}%
+	\konec@major@mpar{#1{#2}}%
+	\konec@bm@format{#1}{#2}}
+
+% \Keyword\Target<text>
+\def\konec@kw@target@keyword<#1>{%
+	\konec@log{keyword: #1}%
+	\konec@major@mpar{#1}%
+	\konec@bm{#1}{#1}{#1}%
+	\lowercase{\label{#1}}}
+
+% \Keyword\Target\Format{text}
+\def\konec@kw@target@format#1#2{%
+	\konec@log{keyword: #2}%
+	\konec@major@mpar{#1{#2}}%
+	\konec@bm{#1{#2}}{#2}{#2}%
+	\lowercase{\label{#2}}}
+
+% \Keyword\Target[\Format{text}]{mpar}
+% \Keyword\Target[\Format{text}][mpar]{label}
+\def\konec@kw@target@mpar@label#1#2#3{%
+	\konec@log{keyword: #2}%
+	\konec@major@mpar{#2}%
+	\konec@bm{#1}{#2}{#3}%
+	\lowercase{\label{#3}}}
+\def\konec@kw@target@mpar[#1]{\konec@dblarg{\konec@kw@target@mpar@label{#1}}}
+
+% \Keyword\Link<text>
+\def\konec@kw@link@keyword<#1>{%
+	\konec@log{keyword: #1}%
+	\konec@major@mpar{#1}%
+	\konec@bm@nolabel{\konec@link{#1}{#1}}{#1}}
+
+% \Keyword\Link\Format{text}
+\def\konec@kw@link@format#1#2{%
+	\konec@log{keyword: #2}%
+	\konec@major@mpar{#1{#2}}%
+	\konec@bm@nolabel{\konec@link{#1{#2}}{#2}}{#2}}
+
+% \Keyword\Link[\Format{text}]{mpar}
+% \Keyword\Link[\Format{text}][mpar]{label}
+\def\konec@kw@link@mpar@label#1#2#3{%
+	\konec@log{keyword: #2}%
+	\konec@major@mpar{#2}%
+	\konec@bm@nolabel{\konec@link{#1}{#3}}{#2}}
+\def\konec@kw@link@mpar[#1]{\konec@dblarg{\konec@kw@link@mpar@label{#1}}}
+
+% \Keyword\Prog{prog}
+\def\konec@kw@prog\Prog#1{% TODO we bookmark the prog ID, not its name
+	\konec@log{keyword: #1}% hadda, because \detokenize fries commands
+	\konec@prog@name@check{#1}%
+	\konec@major@mpar{\konec@prog@name{#1}}%
+	\konec@bm@nolabel{\konec@prog@link{\konec@prog@name{#1}}{#1}}{#1}%
+	\konec@prog@ref@add{\konec@bm@lastlabel}{#1}}
+
+% \Keyword\File{fname}{dir}
+\def\konec@kw@file\File#1#2{%
+	\konec@log{keyword: #1}%
+	\konec@major@mpar{\Path{#1}}%
+	\Bookmark[\File{#1}{#2}]{#1}}
+
+% Dispatch
+\def\konec@kw@link\Link#1{%
+	\ifx#1<\let\@tempa=\konec@kw@link@keyword\else
+	\ifx#1[\let\@tempa=\konec@kw@link@mpar\else
+		\let\@tempa=\konec@kw@link@format%
+		\fi\fi
+	\@tempa#1}
+\def\konec@kw@target\Target#1{%
+	\ifx#1<\let\@tempa=\konec@kw@target@keyword\else
+	\ifx#1[\let\@tempa=\konec@kw@target@mpar\else
+		\let\@tempa=\konec@kw@target@format%
+		\fi\fi
+	\@tempa#1}
+\def\Keyword#1{%
+	\ifx#1<\let\@tempa=\konec@kw@keyword\else
+	\ifx#1[\let\@tempa=\konec@kw@text\else
+	\ifx#1*\let\@tempa=\konec@kw@notext\else
+	\ifx#1\Target\let\@tempa=\konec@kw@target\else
+	\ifx#1\Link\let\@tempa=\konec@kw@link\else
+	\ifx#1\Prog\let\@tempa=\konec@kw@prog\else
+	\ifx#1\File\let\@tempa=\konec@kw@file\else
+		\let\@tempa=\konec@kw@format%
+		\fi\fi\fi\fi\fi\fi\fi
+	\@tempa#1}
+
+% End of konec/keyword.sty

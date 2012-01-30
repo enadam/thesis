@@ -1,0 +1,53 @@
+%
+% parts/abstract-en.tex -- English abstract
+%
+
+\begingroup
+\vspace*{1cm}\vspace*{1ex}% ???
+{\centering\large\bfseries\MakeUppercase{Abstract}\par}
+\vspace*{12ex}
+
+\itshape\footnotesize
+
+This thesis is the technical and historical account of the \Menugene
+project, conducted by the Department of Information Systems and developed
+in joint partnership with the Department of Dietetics of the Semmelweis
+University, Budapest, which the author has participated in as a software
+developer.  The project goal is to establish a computer service for the
+layperson to help in the compilation of personal dietary menus that offer
+optimal nourishment and satisfy the consumer's taste as well.
+
+The system is composed of several layers and components: standalone
+user interfaces and a web interface for user interaction, a database
+for static nutrient data storage, and a system service that solves
+the problem of menu generation per user request, all linked through
+network.  The problem solver logic is based on genetic algorithms.
+
+Mature or experimental technologies exist for all of these components.
+The completed objective of the project was to fit them together in
+appropriate implementations, and to create a convenient research platform
+for the further improvement of the problem solver engine, taking special
+note of the future maintainability of the product.
+
+To this end several programs, applications, libraries and developer
+utilities have been written in Perl, C, C++ and PHP languages, and
+the inherited database schema has been reworked.  The source code
+is equipped with excessive documentation, which the present thesis
+is also part of.  As to the current state of affairs, the system is
+demonstratable.
+
+This document covers the software engineering aspects of \Menugene.
+It reviews the tools and practices that characterized the development
+process, along with the implementation technologies and methods, aiming
+at giving sufficient explanations concerning decisions for or against
+a particular item.  A detailed overview of genetic algorithms is also
+included.
+
+\bigskip
+\upshape\bfseries
+\noindent
+Keywords: \Menugene, nourishment, genetic algorithms, multi-objective
+optimization, software engineering, defensive programming
+\endgroup
+
+% End of parts/abstract-en.tex

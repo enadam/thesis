@@ -1,0 +1,90 @@
+\documentclass[12pt]{article}
+\usepackage{hyperref}
+
+\makeatletter
+
+\newcount\bookmark@cnt
+\newif\if@maybookmark
+\@maybookmarktrue
+
+%\def\bookmark#1{%
+%	\belowpdfbookmark{#1}{bookmarks\expandafter.\the\bookmark@cnt}%
+%	\advance\bookmark@cnt by 1}
+
+\def\bookmark@label[#1]#2{%
+	\ifx\WriteBookmarks\relax\else
+		\if@maybookmark
+			\@tempcnta\Hy@currentbookmarklevel
+			\advance\@tempcnta by 1
+			\@@writetorep{}{#2}{#1}{\expandafter\the\@tempcnta}{toc}%
+			\hyper@anchorstart{#1}\hyper@anchorend
+			\advance\@tempcnta by -1
+			\xdef\Hy@currentbookmarklevel{\the\@tempcnta}%
+		\fi
+	\fi}
+\def\bookmark@counter#1{%
+	\bookmark@label[bookmarks\expandafter.\the\bookmark@cnt]{#1}%
+	\global\advance\bookmark@cnt by 1}
+\def\bookmark{\@ifnextchar[\bookmark@label\bookmark@counter}
+
+\def\bumpbmlevel{%
+	\bgroup%
+	\@tempcnta\Hy@currentbookmarklevel
+	\advance\@tempcnta by 1
+	\xdef\Hy@currentbookmarklevel{\the\@tempcnta}}
+\def\knockbmlevel{%
+	\@tempcnta\Hy@currentbookmarklevel
+	\advance\@tempcnta by -1
+	\xdef\Hy@currentbookmarklevel{\the\@tempcnta}%
+	\egroup}
+
+\begin{document}
+
+\section{Mehehe}
+
+\bookmark{top}\bumpbmlevel
+\bookmark{mid1}\bumpbmlevel
+\bookmark{low11}
+\bookmark{low12}\knockbmlevel
+\bookmark{mid2}\bumpbmlevel
+\bookmark{low21}
+\bookmark{low22}\knockbmlevel
+\knockbmlevel
+
+\bookmark{mehehe}
+pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok
+pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok
+pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok
+pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok
+pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok
+\hyperlink{haha}{mehehe}
+
+\subsection{Bleeeeeee}
+\bookmark{mehehe.bleee}
+pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok
+pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok
+pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok
+pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok
+pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok
+\hyperlink{hihi}{mehehe}
+
+\newpage
+\section{Hihihi}
+
+\subsection{Bleeeeeee}
+\bookmark[haha]{hihi.blee}
+pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok
+pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok
+pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok
+pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok
+pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok
+
+\subsubsection{Arghhhhhhhh}
+\bookmark[hihi]{hihi.blee.argh}
+pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok
+pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok
+pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok
+pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok
+pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok
+
+\end{document}

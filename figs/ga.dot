@@ -1,0 +1,45 @@
+//
+// figs/ga.dot
+//
+
+#define LABEL		shape=plaintext,height=0,fontsize=12
+#define FAKE		style=invis
+
+digraph ga
+{
+	compound=true; ranksep=.1; fontsize=12;
+	node[fontsize=10,shape=Mrecord];
+	edge[style=DenseDots,arrowsize=.6];
+
+	subgraph cluster_space
+	{
+		subgraph cluster_pop
+		{
+			genome1[label="{Attribute 11|Attribute 12|...|Attribute 1M}",
+				SPECIAL(fill .827)];
+			genomeN[label="{Attribute N1|Attribute N2|...|Attribute NM}",
+				SPECIAL(fill .827)];
+
+			Genome1[LABEL,label="Genome 1"];
+			Genome1 -> genome1[dir=none];
+
+			GenomeN[LABEL,label="Genome N"];
+			GenomeN -> genomeN[dir=none];
+
+			Genomes[LABEL,label="..."];
+
+			Genome1 -> Genomes -> GenomeN[FAKE,constraint=false];
+		}
+
+		Population[LABEL];
+		Population -> Genomes[lhead=cluster_pop];
+
+		Sols[label="All possible\nsolutions",
+			fontsize=12,style=DenseDots];
+	}
+
+	Space[LABEL,label="Problem\nspace"];
+	Space -> Sols[lhead=cluster_space,constraint=false];
+}
+
+// End of figs/ga.dot

@@ -1,0 +1,70 @@
+//
+// figs/sysact.dot
+//
+
+digraph sysact_individual
+{
+	page="5,5"; center=true; nodesep=0.1;
+	node[fontsize=12];
+
+	// Fake a node so all nodes are placed the same
+	// as on the other graphs.
+	devs	[shape=ellipse,	label="Developers"];
+	MG	[shape=hexagon,	label="MenuGene",fontname=SANSSERIF];
+	fake	[style=invis,	label="",width=1,height=0];
+	user	[shape=ellipse,	label="Consumer"];
+
+	devs	-> MG;
+	fake	-> MG[style=invis];
+	user	-> fake[style=invis];
+	user	-> MG;
+}
+
+digraph sysact_proxied
+{
+	page="5,5"; center=true;
+	node[fontsize=12];
+
+	devs	[shape=ellipse,	label="Developers"];
+	MG	[shape=hexagon,	label="MenuGene",fontname=SANSSERIF];
+	HC	[shape=box,	label="Healthcare\nService"];
+	user	[shape=ellipse,	label="Consumer"];
+
+	devs	-> MG;
+	HC	-> MG;
+	user	-> HC;
+}
+
+digraph sysact_assisted
+{
+	page="5,5"; center=true; nodesep=0.1;
+	node[fontsize=12];
+
+	devs	[shape=ellipse,	label="Developers"];
+	MG	[shape=hexagon,	label="MenuGene",fontname=SANSSERIF];
+	HC	[shape=box,	label="Healthcare\nService"];
+	user	[shape=ellipse,	label="Consumer"];
+
+	devs	-> MG;
+	HC	-> MG;
+	user	-> HC;
+	user	-> MG;
+}
+
+digraph sysact_integrated
+{
+	page="5,5"; center=true;
+	nodesep=0.1;
+	node[fontsize=12];
+
+	devs	[shape=ellipse,	label="Developers"];
+	MG	[shape=hexagon,	label="MenuGene",fontname=SANSSERIF];
+	LS	[shape=hexagon,	label="Integration\nSystem"];
+	user	[shape=ellipse,	label="Consumer"];
+
+	devs	-> MG;
+	LS	-> MG;
+	user	-> LS;
+}
+
+// End of figs/sysact.dot

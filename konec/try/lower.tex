@@ -1,0 +1,76 @@
+\documentclass[12pt]{article}
+
+\makeatletter
+\input{generic}
+
+% Return the lowercase of one character
+%\def\LowChar#1{\ifcat #1a\char\lccode`#1\else#1\fi}
+%
+%\def\LowChar#1{{%
+%	\ifnum`A>`#1 #1\else\ifnum`Z<`#1 #1\else{%
+%		\count0=`#1%
+%		\advance\count0 by -`A
+%		\advance\count0 by `a
+%		\char\count0}%
+%	\fi\fi}}
+%
+%\def\LowChar#1{%
+%	\ifnum`#1=`A a\else\ifnum`#1=`B b\else\ifnum`#1=`C c\else
+%	\ifnum`#1=`D d\else\ifnum`#1=`E e\else\ifnum`#1=`F f\else
+%	\ifnum`#1=`G g\else\ifnum`#1=`H h\else\ifnum`#1=`I i\else
+%	\ifnum`#1=`J j\else\ifnum`#1=`K k\else\ifnum`#1=`L l\else
+%	\ifnum`#1=`M m\else\ifnum`#1=`N n\else\ifnum`#1=`O o\else
+%	\ifnum`#1=`P p\else\ifnum`#1=`Q q\else\ifnum`#1=`R r\else
+%	\ifnum`#1=`S s\else\ifnum`#1=`T t\else\ifnum`#1=`U u\else
+%	\ifnum`#1=`V v\else\ifnum`#1=`W w\else\ifnum`#1=`X x\else
+%	\ifnum`#1=`Y y\else\ifnum`#1=`Z z\else #1%
+%	\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi
+%	\fi\fi\fi\fi\fi\fi\fi}
+
+% Lowecase all characters of #1
+%\def\LowIt#1{{%
+%	\def\lowit@buf{}%
+%	\for@chars\hi@char:={#1}{%
+%		\edef\lowit@buf{\lowit@buf \expandafter\LowChar\hi@char}}%
+%	\lowit@buf}}
+%
+%\def\lowit@b#1#2\@{%
+%	\def\lowit@tmp{#1}%
+%	\expandafter\ifx\lowit@tmp\empty\else
+%		\edef\lowit@buf{\lowit@buf \LowChar#1}%
+%		\lowit@b#2\@
+%	\fi}
+%\def\lowit@a#1{%
+%	\def\lowit@buf{}%
+%	\expandafter\lowit@b#1\empty\empty\@%
+%	\lowit@buf\egroup}
+%\def\LowIt{%
+%	\bgroup%
+%	\def\whitespace{ }%
+%	\catcode`\ =\active\lccode`\~`\ \lowercase{\let~\whitespace}%
+%	\catcode`\^^I=\active\lccode`\~`\^^I\lowercase{\let~\whitespace}%
+%	\catcode`\^^M=\active\lccode`\~`\^^M\lowercase{\let~\whitespace}%
+%	\lowit@a}
+%
+%\def\lowit@a{\def\wa{a}\catcode`A=\active\lccode`\~=`A\lowercase{\let~\wa}}
+%\def\lowit@b{\catcode`A=11}
+
+\def\lowit@a#1#2{\lowercase{#2{#1}}}
+\def\LowIt#1#2{{\edef\@temp{{#2}}\expandafter\lowit@a\@temp#1}}
+
+\begin{document}
+
+\def\duma{Elfognak Es Felkotnek, Aldott Folddel Elfodnek!!!!}
+%``\LowIt{\duma \duma}''
+%
+%``\LowIt{hat a
+%faszom		erti ezt}''
+
+%\typeout{\LowIt{hehe}}
+%\write\@auxout{\LowIt{\duma}}
+
+\LowIt\typeout{\duma}
+
+vah vah vah
+
+\end{document}

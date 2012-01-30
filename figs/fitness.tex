@@ -1,0 +1,54 @@
+%
+% figs/fitness.tex
+%
+\begin{NewFig}{fitness}
+\IncludeFig{fitness}
+
+\def\cint#1{\MathVar{cint.#1}}
+\def\odiff#1{(\cint{o} - \cint{#1})^2}
+
+\small
+
+\[
+	\MathFun{fitness}(\MathVar{cset}) =
+		\sum_{\MathVar{cint} \in \MathVar{cset}}
+		\min(0, \MathFun{fit}(\MathVar{cint}))
+\]
+
+\begin{displaymath}
+\hfuzz2.2pt% no, it doesn't overfill
+\setlength\arraycolsep{2pt}
+\MathFun{fit}(\MathVar{cint}) =
+\left\{
+\begin{array}{l|lcl}
+-\odiff{v} + \odiff{l} - 1
+	& \cint{v} & \le & \ \cint{l}		\\
+-\frac{\odiff{v}}{\odiff{l}}
+	& \cint{v} & \in & ( \cint{l}; \cint{o})\\
+0
+	& \cint{v} &  =  & \ \cint{o}		\\
+-\frac{\odiff{v}}{\odiff{r}}
+	& \cint{v} & \in & ( \cint{o}; \cint{r})\\
+-\odiff{v} + \odiff{r} - 1
+	& \cint{v} & \ge & \ \cint{r}		\\
+\end{array}
+\right.
+\end{displaymath}
+
+\caption[The fitness function of \Menugene]%
+	{The fitness function of \Menugene. \cite[pp.~61--64]{TDK}
+	\MathVar{cset} is a set of constraints (\MathVar{cint}).
+	\cint{l}, \cint{o}, and \cint{r} are parameters of the curve
+	(the accepted minimum, the optimal, and the tolerated maximum
+	amount of a nutrition component in the solution being measured),
+	while \cint{v} is the actual amount of the corresponding component.
+	The graph depicts an example one-dimensional curve parametrized
+	with $\{ 1, 3, 7 \}$.  This function, in fact, \emph{penalizes}
+	deviations from the optimum. (Our implementation also negates the
+	fitness score at the end, but it does not invalidate the point.)
+	At the bounds (pointed to by arrows) the penalty jumps very
+	high, making it infeasible that the solution will compare well
+	with other solutions.}
+\end{NewFig}
+
+% End of figs/fitness.tex

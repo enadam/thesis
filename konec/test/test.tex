@@ -1,0 +1,32 @@
+\documentclass[12pt,oneside]{report}
+\usepackage[trace,hyperref=colorlinks]{konec}
+
+\reversemarginpar
+\makeatletter
+\setlength\parindent{0pt}
+
+\def\showarg#1{{\def\@tempa{#1}\show\@tempa}}
+\def\traceon{\tracingmacros1\tracingonline1}
+\def\traceoff{\tracingmacros0}
+\def\mkduma#1{{%
+	\@tempcnta#1%
+	\loop
+	\ifnum\@tempcnta>0
+		pofazok
+		\advance\@tempcnta by -1
+	\repeat}\ignorespaces}
+\def\Format{\Code}
+%\def\Dispatch#1{%
+%	\ifx#1<\let\@tempa=\konec@cmd@angle\else
+%	\ifx#1[\let\@tempa=\konec@cmd@bracket\else
+%	\ifx#1*\let\@tempa=\konec@cmd@star\else
+%	\ifx#1\Fun\let\@tempa=\konec@cmd@fun\else
+%		\let\@tempa=\konec@cmd@format%
+%		\fi\fi\fi\fi
+%	\@tempa#1}
+
+\begin{document}
+
+\section{Megorulok}
+
+\end{document}

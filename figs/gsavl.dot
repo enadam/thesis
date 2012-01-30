@@ -1,0 +1,121 @@
+//
+// figs/gsavl.dot
+//
+
+digraph gsavl_15
+{
+	nodesep=.2;
+	node[fontname=TYPEWRITER,fontsize=12,width=0.5,height=0.3];
+	edge[fontsize=12,arrowhead=odot];
+
+	// Level 0
+	n383[label="383",shape=diamond];
+
+	// Level 1
+	n293[label="293"];
+	n415[label="415"];
+
+	// Level 2
+	n149[label="149"];
+	n335[label="335"];
+	n386[label="386"];
+	n492[label="492",shape=box];
+
+	// Level 3
+	n27 [label="27",shape=box];
+	n263[label="263"];
+	n362[label="362"];
+	n421[label="421"];
+
+	// Level 4
+	n59 [label="59"];
+	n190[label="190"];
+	n277[label="277"];
+
+	// Secondaries
+	n293_1[label="293_1",shape=hexagon];
+	subgraph n362_ssl
+	{
+		rank=same;
+		n362_1[label="362_1",shape=hexagon];
+		n362_2[label="362_2",shape=hexagon];
+	}
+
+	// AVL
+	n383 -> n293[taillabel="Left child                  "];
+	n383 -> n415[style=bold,taillabel="                              Right child"];
+
+	n293 -> n149;
+	n293 -> n335[style=bold];
+
+	n149 -> n27;
+	n149 -> n263[style=bold];
+
+	n27  -> n59[style=bold];
+
+	n263 -> n190;
+	n263 -> n277[style=bold];
+
+	n335 -> n362[style=bold];
+
+	n415 -> n386;
+	n415 -> n492[style=bold];
+
+	n492 -> n421;
+
+	// SSL
+	subgraph ssl
+	{
+		edge[style=dashed,arrowhead=normal,arrowsize=0.8];
+		n293   -> n293_1 -> n293;
+		n362   -> n362_1[taillabel="            SSL"];
+		n362_1 -> n362_2[minlen=3];
+		n362_2 -> n362;
+	}
+
+	// Order
+	n27  -> n59  -> n149 -> n190 -> n263 -> n277 -> n293 -> n335 ->
+		n362 -> n383 -> n386 -> n415 -> n421 -> n492
+		[style=dotted,arrowhead=normal,arrowsize=0.8];
+}
+
+//// Test
+//digraph gsavl_10
+//{
+//	// Level 0
+//	n383[label="383",shape=diamond];
+//
+//	// Level 1
+//	n293[label="293"];
+//	n415[label="415"];
+//
+//	// Level 2
+//	n277[label="277"];
+//	n335[label="335"];
+//	n386[label="386"];
+//	n492[label="492",shape=box];
+//
+//	// Level 3
+//	n149[label="149",shape=box];
+//	n421[label="421"];
+//
+//	// AVL
+//	n383 -> n293;
+//	n383 -> n415[style=bold];
+//
+//	n293 -> n277;
+//	n293 -> n335[style=bold];
+//
+//	n277 -> n149;
+//
+//	n415 -> n386;
+//	n415 -> n492[style=bold];
+//
+//	n492 -> n421;
+//
+//	// Order
+//	n149 -> n277 -> n293 -> n335 -> n383 -> n386 -> n415 -> n421 ->
+//		n492[style=dotted];
+//}
+
+// End of figs/gsavl.dot

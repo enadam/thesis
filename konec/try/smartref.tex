@@ -1,0 +1,45 @@
+\documentclass[12pt]{article}
+\usepackage{hyperref}
+
+\makeatletter
+
+\def\label@@to@anchor#1#2{%
+	\ifx#1\relax#2\else\expandafter\@fourthoffive#1\@empty\@empty\fi}
+\def\label@to@anchor#1{\expandafter\label@@to@anchor\csname r@#1\endcsname{#1}}
+\def\sm@ref[#1]#2{\hyperlink{\label@to@anchor{#2}}{#1}}
+
+\AtBeginDocument{%
+	\let\ht@ref\ref%
+	\def\ref{\@ifnextchar[\sm@ref\ht@ref}}
+
+\begin{document}
+
+See figure \ref{fig:akarmi}.
+
+See figure \ref*{fig:akarmi}.
+
+See \autoref{fig:akarmi}.
+
+See \ref[figure \ref*{fig:akarmi}]{fig:akarmi}.
+
+\section{haho}
+
+pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok
+pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok
+pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok
+pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok
+pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok
+
+\newpage
+
+\begin{figure}
+pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok
+pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok
+pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok
+pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok
+pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok
+\caption{mehehe}
+\label{fig:akarmi}
+\end{figure}
+
+\end{document}

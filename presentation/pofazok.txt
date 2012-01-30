@@ -1,0 +1,55 @@
+ -- vegzett munkamrol adjak szamot
+ -- evolucio
+
+Kellemes delutant kivanok, en Lofasz Joska vagyok, es azert jottem, hogy
+egy taplalkozastudomanyi tanacsadoio rendszeren vegzett szoftverfejlesztesi
+munkamrol adjak szamot. A munkat Gaal Balazs vezette, es azert beszelhetunk
+szoftverevoluciorol, mert volt szerencsem aktiv szerepet vallalnom abban
+a hosszu folyamatban, mialatt a rendszer kezdeti allapotabol a jelenlegive
+teljesedett ki.
+
+ -- a rendszer celja
+ -- objektiv, szubjektiv igenyek
+ -- 3 osztaly, pelda
+ -- tudasabrazolas
+ -- igenyek + receptek + GA = menu
+
+Elsokent beszeljunk a megoldando problemarol! A rendszer letcelja, hogy
+olyan etlapokat allitson ossze, amelyek tekintetbe veszik es kielegitik
+az emberek objektiv es szubjektiv etkezesi igenyeit. Ezeknek az igenyeknek
+-- amelyeket a felhasznalok mondjuk szakertoi segitseggel deritenek fel --
+harom osztalyat kepes kezelni a rendszer. Peldaul azt, hogy kinek mennyi
+az optimalis napi kaloriafogyasztasa, vagy azt, hogy bizonyos eteleket
+csak nagyon modjaval, esetleg egyaltalan nem szabad fogyasztania, de akar
+az is, hogy sok etel csak a kiserojevel egyutt igazan finom, mondjuk egy
+jo bor melle egy jo sajt. Ezeket az informaciokat a rendszer szamszerusitve
+es strukturaltan abrazolja, es a rendelkezesre allo adatbazisbol genetikus
+programozas segitsegevel olyan recepteket -- eteleket -- igyekszik kivalasztani,
+amelyek egyuttesen jol megfelelnek a felhasznalok igenyeinek. Ez a menu
+generalas.
+
+-- egyszeruen hangzik, de
+-- HioN
+-- tobb komponens
+-- halozat, XML
+-- felhasznalo, GUI
+-- nyelvek
+
+Ez eleg egyszeruen hangzik, de a kovetkezo szamadatok bizonyitjak,
+hogy az ordog a reszletekben rejlik.  Hogy erzekeljuk az aranyokat,
+osszehasonlitaskent tekinthetjuk a HioN nevu magyar nyelvu elvalasztasra
+es meg sok minden masra is kepes programot.  A MenuGene tobb komponensre
+oszlik, amelyek kozul nehanyan halozaton keresztul kapcsolodnak ossze,
+es XML-ben cserelnek informaciot, a vegfelhasznalo pedig valamilyan
+grafikus interface elott ul. Ami a programozasi nyelveket illeti,
+a C csaladon kivul sok esetben dinamikus nyelvekhez folyamodtam,
+ahogy az aktualis feladat eppen megkivanta.
+
+-- kek, szurke dobozok
+-- szaggatott nyilak
+-- menjunk vegig
+
+Itt lathatjuk a rendszer komponens-strukturajat; a kek dobozok az en
+munkam eredmenyei, de a szurkekkel is sokat kellett foglalkoznom.
+A szaggatott nyilak halozati osszekottetest jelolnek.  Mondjunk par
+szot mindegyik komponensrol, kezdve az aljarol.

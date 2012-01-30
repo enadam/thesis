@@ -1,0 +1,50 @@
+%
+% konec/generic.sty -- a handful generally useful macros
+%
+
+% Stolen from/based on eplain.tex
+\def\edefappend#1#2{%
+	\toks@=\expandafter{#1}%
+	\edef#1{\the\toks@#2}}
+\def\xdefappend#1#2{{%
+	\toks@=\expandafter{#1}%
+	\xdef#1{\the\toks@#2}}}
+\def\csn#1{\csname#1\endcsname}%
+\def\ece#1#2{\expandafter#1\csname#2\endcsname}
+
+% Stolen from hyperref.sty
+\def\label@@to@pageno#1{%
+	\ifx#1\relax\else\expandafter\@secondoffive#1\@empty\@empty\fi}
+\def\label@to@pageno#1{\expandafter\label@@to@pageno\csname r@#1\endcsname}
+
+\def\label@@to@anchor#1{%
+	\ifx#1\relax\else\expandafter\@fourthoffive#1\@empty\@empty\fi}
+\def\label@to@anchor#1{\expandafter\label@@to@anchor\csname r@#1\endcsname}
+
+% Losely based on the UK FAQ
+\def\ifstr#1#2{%
+	\edef\@tempa{#1}\edef\@tempb{#2}%
+	\ifx\@tempa\@tempb}
+\def\ifprefix#1#2{% string, prefix
+	\def\@tempa##1#2{\def\@tempb{##1}\iffalse}%
+	\expandafter\@tempa#1#2\fi
+	\ifx\@tempb\@empty}
+\def\iflowercase#1{%
+	\def\@tempa{#1}%
+	\lowercase{\ifstr\@tempa{#1}}}
+\def\ifjob#1{\ifstr{\jobname}{\detokenize{#1}}}
+
+% Writing the auxiliary file
+\def\writeaux#1{\write\@auxout{\detokenize{#1}}}
+\def\writendo#1{\writeaux{#1}#1}
+
+% Fonts
+% These are only for *decoration*, not for typesetting running text.
+% Changing fonts this way is a capital sin, which sould be rewarded
+% accordingly.
+\def\Times{\fontfamily{ptm}\selectfont}
+\def\endTimes{\par}
+\def\Courier{\fontfamily{pcr}\selectfont}
+\def\endCourier{\par}
+
+% End of konec/generic.sty

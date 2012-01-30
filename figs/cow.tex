@@ -1,0 +1,21 @@
+%
+% figs/cow.tex
+%
+
+\begin{NewFig}[1.0cm]{cow}
+\FigPair{cow}%
+[1]	{Initial state. \Tech{cow} is shared among four watchers.
+	Solid lines represent \Term{has} relationships.}
+[2]	{The fourth watcher indicates its desire to have a private copy
+	of \Tech{cow}.  \Tech{cow} begins to notify the watchers about it.
+	The first one \Tech{dup()}s \Tech{cow}, and \Code{release()}s the
+	original object.  Dashed lines represent message routes.}
+\FigPair{cow}%
+[3]	{The notification of \Tech{cow} reaches all watchers.}
+[4]	{Final state.  \Tech{cow} is owned by the fourth watcher
+	exclusively; the other watchers share the duplicate of
+	\Tech{cow}.}
+\caption{The process of copying on write}
+\end{NewFig}
+
+% End of figs/cow.tex

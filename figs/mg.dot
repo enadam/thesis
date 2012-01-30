@@ -1,0 +1,88 @@
+//
+// figs/mg.dot
+//
+
+#define BOGYOS		shape=BogyoBox,width=.5,height=.3
+#define LABEL		shape=plaintext,fontsize=10
+#define LABELLINK	style=DenseDots,arrowsize=.75
+#define FAKE		style=invis
+
+digraph mg
+{
+	rankdir=LR; ranksep=0; nodesep=0.15; compound=true;
+	node[label=""];
+	node[width=.3,height=.2,fixedsize=true];
+	edge[fontsize=10,fontname=SANSSERIF,labelfontsize=10];
+
+	subgraph cluster_L1
+	{
+		weekly1;
+		weekly2[shape=plaintext,height=0,label="..."];
+		weeklyN;
+	}
+
+	// `dot' will warn about `width' being too small, never mind.
+	L1 [LABEL,height=.5,label="L1\nPopulation\nof weekly\nmenu plans",
+		SPECIAL((setfont (L1) BOLD 10),
+			(setfont (Population) ROMAN 10))];
+	L1 -> weekly1[LABELLINK,lhead=cluster_L1,constraint=false,minlen=2];
+
+	subgraph L2
+	{
+		rank=same;
+
+		node[BOGYOS]; daily1; daily2; daily3; daily4;
+
+		L2[LABEL,height=.5,
+			label="L2\nA population\nof daily\nmenu plans",
+			SPECIAL((setfont (L2) BOLD 10),
+				(setfont (A population) ROMAN 10))];
+		L2 -> daily1[LABELLINK,minlen=2];
+	}
+
+	subgraph L3
+	{
+		rank=same;
+
+		node[BOGYOS]; meal1; meal2; meal3;
+
+		L3[LABEL,label="L3\nA population\nof meals",
+			SPECIAL((setfont (L3) BOLD 10),
+				(setfont (A population) ROMAN 10))];
+		meal3 -> L3[LABELLINK,dir=back,minlen=2];
+	}
+
+	subgraph cluster_pool
+	{
+		node[shape=box,width=0.2,height=0.2];
+		course1; course2; course3; course4; course5;
+		courseN[shape=plaintext,height=0,label="..."];
+		courseM;
+	}
+
+	pool	[LABEL,label="Pool of\nrecipes",height=.3];
+	L3	-> pool[FAKE];
+	pool	-> course5[LABELLINK,lhead=cluster_pool];
+
+	// Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday
+	weekly1	-> daily1	[label="Monday"];
+	weekly1	-> daily2	[label="Tuesday"];
+	weekly1	-> daily3	[label="Wednesday"];
+	weekly1	-> daily4	[label="..."];
+
+	// Breakfast, Lunch, Dinner
+	daily1	-> meal1	[label="breakfast"];
+	daily1	-> meal2	[label="lunch"];
+	daily1	-> meal3	[label="dinner",taillabel="of a daily\nmenu plan",
+					labeldistance=5,labelangle=0];
+
+	// Topping, Garnish, Soup, Drink, Dessert
+	meal1	-> course1	[label="topping"];
+	meal1	-> course2	[label="garnish"];
+	meal1	-> course3	[label="soup"];
+	meal1	-> course4	[label="drink"];
+	meal1	-> course5	[label="dessert",headlabel="of a meal"
+					labeldistance=5,labelangle=10];
+}
+
+// End of figs/mg.dot

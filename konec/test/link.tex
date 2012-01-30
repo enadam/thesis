@@ -1,0 +1,53 @@
+`\Link<link1p1>'
+
+alpha \Link<link1p1> beta
+
+\konec@hardcopyfalse
+
+first pdf
+\par\Link<Link1p1>\dotfill\par\Link<link2p1>\hrulefill
+\par\Link<Link1p2>\dotfill\par\Link<link2p2>\hrulefill
+\par\Link<Link1p3>\dotfill\par\Link<link2p3>\hrulefill
+
+second pdf
+\par\Link<Link1p1>\dotfill\par\Link<link2p1>\hrulefill
+\par\Link<Link1p2>\dotfill\par\Link<link2p2>\hrulefill
+\par\Link<Link1p3>\dotfill\par\Link<link2p3>\hrulefill
+
+\konec@hardcopytrue
+
+`\Link<link1p2>'
+
+alpha \Link<link1p3> beta
+
+first hardcopy
+\par\Link<link1p1>\dotfill\par\Link<Link2p1>\hrulefill
+\par\Link<link1p2>\dotfill\par\Link<Link2p2>\hrulefill
+\par\Link<link1p3>\dotfill\par\Link<Link2p3>\hrulefill
+
+second hardcopy
+\par\Link<link1p1>\dotfill\par\Link<Link2p1>\hrulefill
+\par\Link<link1p2>\dotfill\par\Link<Link2p2>\hrulefill
+\par\Link<link1p3>\dotfill\par\Link<Link2p3>\hrulefill
+
+\Target*{link1p1}
+\mkduma{50}
+
+\Target*{link2p1}
+\mkduma{50}
+
+\newpage
+
+\Target*{link1p2}
+\mkduma{50}
+
+\Target*{link2p2}
+\mkduma{50}
+
+\newpage
+
+\Target*{link1p3}
+\mkduma{50}
+
+\Target*{link2p3}
+\mkduma{50}

@@ -1,0 +1,70 @@
+//
+// figs/gsxml.dot
+//
+// <Article type="editorial" year="1982" reviewed="true">
+// 	<Authors>
+// 		<Author initials="L." last_name="Joseph"/>
+// 		<AndOthers/>
+// 	</Authors>
+// 	<Title>My apologies</Title>
+// 	When I was born...
+// </Article>
+
+digraph gsxml
+{
+	rankdir=LR; ranksep=.2;
+	node[shape=record,fontname=SANSSERIF,fontsize=8];
+
+	subgraph nodes
+	{
+		node[SPECIAL(setfont (CNode) SANSSERIF_BOLD 8)];
+		Article	[label="CNode|tag: \"Article\"|<Att>attrs|<Chn>children"];
+		Authors	[label="CNode|tag: \"Authors\"|<Att>attrs|<Chn>children"];
+		Others	[label="CNode|tag: \"AndOthers\"|<Att>attrs|<Chn>children"];
+		Author	[label="CNode|tag: \"Author\"|<Att>attrs|<Chn>children"];
+		Title	[label="CNode|tag: \"Title\"|<Att>attrs|<Chn>children"];
+	}
+
+	subgraph attributes
+	{
+		node[shape=Mrecord];
+
+		node[SPECIAL(setfont (CAttr) SANSSERIF_BOLD 8)];
+		reviewed[label="CAttr|key: \"reviewed\"|value: true"];
+		type	[label="CAttr|key: \"type\"|value: \"editorial\""];
+		year	[label="CAttr|key: \"year\"|value: 1982"];
+
+		initials[label="CAttr|key: \"initials\"|value: \"L.\""];
+		lastname[label="CAttr|key: \"last_name\"|value: \"Joseph\""];
+	}
+
+	subgraph leaves
+	{
+		node[style=filled];
+
+		node[SPECIAL(setfont (CLeaf) SANSSERIF_BOLD 8)];
+		TitleText[label="CLeaf|value: \"My apologies\""];
+		Duma     [label="CLeaf|value: \"When I was born...\"",
+				width=1.5];
+	}
+
+	type -> year	[style=invis];
+	year -> reviewed[style=invis];
+
+	Article:Att -> type;
+	Article:Att -> reviewed;
+	Article:Att -> year;
+	Article:Chn -> Authors;
+	Article:Chn -> Title;
+	Article:Chn -> Duma;
+
+	Authors:Chn -> Author;
+	Authors:Chn -> Others;
+
+	Author:Att  -> initials;
+	Author:Att  -> lastname;
+
+	Title:Chn   -> TitleText;
+}
+
+// End of figs/gsxml.dot

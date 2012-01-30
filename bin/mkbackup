@@ -1,0 +1,23 @@
+#!/bin/sh
+#
+# bin/mkbackup
+#
+
+files="_darcs";
+files="$files master.tex duma.tex duma.bib";
+files="$files figs images parts";
+files="$files demo.tex NOTES";
+files="$files MARKUP konec.sty konec mybeast.bst";
+files="$files scratch memos bin .vimrc";
+
+if [ "$1" ];
+then
+	die="$1";
+else
+	dir="/mnt/usb/backup";
+fi
+out=`date '+bla_%Y-%m-%d'`;
+
+tar ch $files | gpg -c -o "$dir/$out.tar.gpg";
+
+# End of bin/mkbackup

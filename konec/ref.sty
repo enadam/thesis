@@ -1,0 +1,45 @@
+%
+% konec/ref.sty -- \ref{}erring sections and figures
+%
+
+% TODO All these prefixes, it's a mess :(
+\def\konec@ref#1#2#3#4{% objectname, lprefix, hprefix, label
+	\konec@link{#1~\ref*{#2#4}}{#3#4}}
+
+% \Appendix{label}, \APPendix{label}
+\def\Appendix{\konec@ref{appendix}{sec:}{}}
+\def\APPendix{\konec@ref{Appendix}{sec:}{}}
+
+% \Chapter{label}, \CHAPter{label}
+\def\Chapter{\konec@ref{chapter}{sec:}{}}
+\def\CHAPter{\konec@ref{Chapter}{sec:}{}}
+
+\def\konec@ref@far#1#2#3[#4]#5{% objectname, lprefix, hprefix, label, chapter
+	\konec@ref{#1}{#2}{#3}{#4} in \Chapter{#5}}
+
+% Dispatch
+\def\konec@ref@low#1#2#3#4{% objectname, lprefix, hprefix, nextchar
+	\ifx#4[\def\@tempa{\konec@ref@far{#1}{#2}{#3}#4}\else
+	\ifx#4*\def\@tempa##1{\konec@link{\ref*{#2##1}}{#3##1}}\else
+		\def\@tempa{\konec@ref{#1}{#2}{#3}{#4}}%
+		\fi\fi
+	\@tempa}
+\def\konec@ref@cap#1#2#3#4{% objectname, lprefix, hprefix, nextchar
+	\ifx#4[\def\@tempa{\konec@ref@far{#1}{#2}{#3}#4}\else
+		\def\@tempa{\konec@ref{#1}{#2}{#3}{#4}}%
+		\fi
+	\@tempa}
+
+% \Section*{label}, \Section{label}, \Section[label]{chapter}
+\def\Section{\konec@ref@low{section}{sec:}{}}
+
+% \SECTion{label}, \SECTion[label]{chapter}
+\def\SECTion{\konec@ref@cap{Section}{sec:}{}}
+
+% \Figure*{label}, \Figure{label}, \Figure[label]{chapter}
+\def\Figure{\konec@ref@low{figure}{fig:}{fig:}}
+
+% \FIGure{label}, \FIGure[label]{chapter}
+\def\FIGure{\konec@ref@cap{Figure}{fig:}{fig:}}
+
+% End of konec/ref.sty

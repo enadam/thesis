@@ -1,0 +1,88 @@
+%
+% parts/guide.tex -- some cheer up chatter
+%
+
+\clearpage
+\section*{How to read this document}
+\markright{\MakeUppercase{How to read this document}}
+\thispagestyle{plain}
+
+% /intended audience/
+This text \Target[aims]{docaim} at documenting the development process
+of \Menugene as perceived by the author, in the inarticulate hope of
+attracting successors who would carry on the work.  In this regard it
+can be read as a manual, which helps in finding the way around while
+making improvements to the system.  Those who have this intention will
+definitely learn most from the \Link[third chapter]{GSLib}.  The ones
+who do not wish to dwell into technical details, but are interested in
+the \emph{what}s are best served by the \Link[first chapter]{executive
+summary}.  Finally, those professionals who are not very excited by
+the high-level mission of the system, nor by its implementation nuts and
+bolts may find the \Link[second chapter]{overview of the implementation}
+a good reading into software engineering.
+
+% /scope/
+The scope of this document is limited to those bodies of knowledge that
+are not apparent from the source code.  This is to avoid overlaps, which
+would inevitably reduce the usefulness of this text.  It follows that
+we abstained from including lengthy code samples.  For this the source
+codebase should be consulted, which we tried to make as seamless as
+possible by the means of crossreferences.
+
+% {annotation}
+The text is extensively \Keyword[annotated]{annotation} and
+crossreferenced to foster the rapid overview of sections and the
+quick localization of additional information.  In the electronic
+version nearly all paragraphs are bookmarked, which gives the
+impression of a very detailed table of contents if displayed
+with a suitable viewer.  This case the crossreferences behave
+as hyperlinks.  In the hardcopy edition this is emulated by
+indicating the referred page number on the margin, out of the
+text body to minimize distraction in reading.
+
+% /colors/
+\makeatletter
+Crossreferences are colored differently, depending on the type of
+their destinations.  \textcolor{\@linkcolor}{Internal links} take the
+reader to another point within the text body, including tables and
+figures.  \textcolor{\@citecolor}{Citations} point to entries in the
+\Link<bibliography> or in the \Link<progliography> (list of referred
+software).  \textcolor{\@urlcolor}{External references} are meant to
+help in looking up the authentic source of information, which can be
+checked up.  Unless it is clearly visible otherwise these links point to
+files and directories in the source codebase.  To leverage the immediate
+access offered by them the repository must be extracted in \Path{/src}.
+\makeatother
+
+% /style conventions/
+Many words in the text are set in distinctive typefaces to facilitate
+the semantic decoding of dense technical material.  Code fragments
+and path elements are set in \Code{typewriter} style, allowing for
+the unambiguous identification of functions and variables.  Proper
+technical names are \Tech{sans serif}, while \textsc{small caps} are
+reserved for concrete, widely recognized software names cited from
+the \Link<progliography>.  \emph{Italics} emphasize key points in
+a phrase, or markup auxiliary subjects.
+
+% [dbend]
+\Warning
+Occasionally a \Target[little sign]{dbend}\footnote{Borrowed from
+\cite{TeXBook}, whose author placed it into public domain.} demands
+attention on the margin, warning that the following topic might be
+hard to swallow.  Its rough interpretation is that we suggest that
+readers who cannot make sense of the paragraph in question at the
+first sight just ignore the explanations and accept the statements
+as they are.
+
+% {colophon}
+This document was \Keyword[typeset]{colophon} by \Prog{TeX},
+employing hundreds of custom macros organized into an integrated
+package developed by the author while writing this thesis.  Most
+figures have been prepared with \Prog{Graphviz}, its \Tech{PostScript}
+output being heavily customized by other homegrown tools.  In this
+work \cite{PostScript1,PostScript2} have proven indispensable.
+During composition the safety and the consistency of the document
+sources were guarded by the \Prog{darcs} revision control system,
+which turned out to be extremely suited for this kind of situations.
+
+% End of parts/guide.tex

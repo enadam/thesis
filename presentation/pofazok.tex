@@ -1,0 +1,346 @@
+\documentclass[12pt]{beamer}
+\usepackage[T1]{fontenc}
+%\usepackage[english]{babel}
+
+%\includeonlyframes{this,that}
+
+% Preamble <<<
+% Fonts <<<
+\DeclareFontFamily{T1}{comic}{}
+\DeclareFontShape{T1}{comic}{m}{n}{<-> fonts/comic}{}
+
+\DeclareFontFamily{T1}{futura}{}
+\DeclareFontShape{T1}{futura}{m}{n}{<-> fonts/futura-condensed}{}
+\DeclareFontShape{T1}{futura}{m}{sl}{<-> fonts/futura-condensed-slanted}{}
+\DeclareFontShape{T1}{futura}{m}{it}{<-> fonts/futura-condensed-slanted}{}
+\DeclareFontShape{T1}{futura}{bx}{n}{<-> fonts/futura}{}
+\DeclareFontShape{T1}{futura}{bx}{sl}{<-> fonts/futura-slanted}{}
+\DeclareFontShape{T1}{futura}{bx}{it}{<-> fonts/futura-slanted}{}
+% >>>
+
+% Declarations
+\usetheme{Warsaw}
+\setbeamercovered{transparent}
+
+% Customization <<<
+% Indent level1 enums just like normal text;
+% indent level2 enums to line up with level1.
+% Be Futura our default normal font,
+% Courier our typewriter font.
+\leftmargini 1em
+\leftmarginii 1em
+\def\sfdefault{futura}
+\def\ttdefault{pcr}
+
+% \c@mainframes := # of presentation frames (sans appendix)
+\makeatletter
+\let\orig@appendix\appendix
+\def\appendix{%
+	\immediate\write\@auxout{\string\@writefile{nav}%
+		{\noexpand\headcommand{%
+			\noexpand\def\noexpand\c@mainframes{%
+				\the\c@framenumber}}}}
+	\orig@appendix}
+\makeatother
+
+% Insert the remaining number of frames in the frame title
+\makeatletter
+\addtobeamertemplate{frametitle}{%
+	\let\orig@frametitle\insertframetitle%
+	\def\insertframetitle{%
+		\orig@frametitle
+		\begingroup
+		\ifdefined\c@mainframes
+			\@tempcnta=\c@mainframes
+		\else
+			\@tempcnta=\inserttotalframenumber
+		\fi
+		\advance\@tempcnta by -\c@framenumber
+		\ifnum\@tempcnta<0\else
+			\hfill\the\@tempcnta
+		\fi
+		\endgroup}}
+	{}
+\makeatother
+% >>>
+
+% Commands <<<
+\makeatletter
+\def\AlignedItem#1#2#3{%
+	\setbox\@tempboxa\hbox{#1#3}%
+	\@tempdima\wd\@tempboxa%
+	\setbox\@tempboxa\hbox{#2#3}%
+	\advance\@tempdima by -\wd\@tempboxa
+	#2#3\hspace\@tempdima}
+\makeatother
+% >>>
+% >>>
+
+\begin{document}
+
+% Title page <<<
+\title{The Evolution of MenuGene}
+\subtitle{A Dietary Counselling System}
+\author{A. Endrodi}
+\institute{Dept. of Information Systems \\ Supervisor: B. Gaal}
+\maketitle
+% >>>
+
+% Set running text in wide futura,
+% reserve narrow shape for titles.
+\bfseries
+
+% Information flow <<<
+\begin{frame}
+\frametitle{Process view}
+\hspace*{-1cm}%
+\hbox to 0pt{%
+	\includegraphics*[trim=5mm 0mm 5mm 0mm]
+		{figs/sysinf}\hss}
+\end{frame}
+% >>>
+
+% Blurb <<<
+\begin{frame}
+\frametitle{Technical view}
+
+\begin{columns}[totalwidth=\linewidth]
+%\column{.5\linewidth}
+%\begin{itemize}
+%\item	wc:\par
+%	\begin{itemize}
+%	\item	43457 lines
+%	\end{itemize}
+%\item	\color{gray!60}
+%	HioN v3.1 (1994):\par
+%	\begin{itemize}
+%	\color{gray!60}
+%	\item	5911 lines
+%	\end{itemize}
+%\end{itemize}
+%\column{.5\linewidth}
+%\begin{itemize}
+%\item[] \invisible{wc:\par}
+%	\begin{itemize}
+%	\item	1097040 bytes
+%	\end{itemize}
+%\item[] \invisible{HioN v3.1 (1994):\par}
+%	\begin{itemize}
+%	\color{gray!60}
+%	\item	198435 bytes
+%	\end{itemize}
+%\end{itemize}
+%\end{columns}
+
+\column{.5\linewidth}
+\begin{itemize}
+\item	MenuGene:\par
+	\begin{itemize}
+	\item	43457 lines
+	\item	1097040 bytes
+	\end{itemize}
+\end{itemize}
+\column{.5\linewidth}
+\begin{itemize}
+\item	\color{gray!60}
+	HioN v3.1 (1994):\par
+	\begin{itemize}
+	\color{gray!60}
+	\item	5911 lines
+	\item	198435 bytes
+	\end{itemize}
+\end{itemize}
+\end{columns}
+
+\smallskip
+
+\begin{columns}[totalwidth=\linewidth]
+\column{.5\linewidth}
+\begin{itemize}
+\item	technologies:
+	\begin{itemize}
+	\item	networking
+	\item	web, XML
+	\item	Oracle
+	\item	GUI
+	\item	genetic algorithms
+	\end{itemize}
+\end{itemize}
+\column{.5\linewidth}
+\begin{itemize}
+\item	languages:
+	\begin{itemize}
+	\item	Perl
+	\item	C
+	\item	(Objective C)
+	\item	C++
+	\item	PHP
+	\end{itemize}
+\end{itemize}
+\end{columns}
+\end{frame}
+% >>>
+
+%% Layers <<<
+%\makeatletter
+%\begin{frame}
+%\frametitle{Vertical view}
+%
+%\centering
+%\setbox\@tempboxa\hbox{\includegraphics[page=1]{figs/sysarch}\hspace{1em}}
+%$\left.\parbox{\wd\@tempboxa}{\includegraphics[page=1]{figs/sysarch}}\right\}$
+%\hspace{1em}MVC\par
+%\end{frame}
+%\makeatother
+% >>>
+
+% Structural view <<<
+\pgfdeclareimage[page=2]{sysarch}{figs/sysarch}
+\input{figs/sysarch}
+
+\begin{frame}<0>[label=arch]
+\centering
+\begin{gv_sysarch_now}
+\pause
+\color{red}\pgfsetlinewidth{2bp}
+\only<+>{\gv{Database}}
+\only<+>{\gv{rulez}}
+\only<+>{\gv{GALib}}
+\only<+>{\gv{MGLib}\gv{GSLib}\gv{MGLib->GSLib}}
+\only<+>{\gv{daemon}}
+\only<+>{\gv{BITS}}
+\only<+>{\gv{junkie}}
+\end{gv_sysarch_now}
+\par
+\end{frame}
+% >>>
+
+\againframe<1-7>{arch}
+
+\againframe<8->{arch}
+
+% Junkie screenshots <<<
+\begin{frame}[plain]
+\frametitle{Junkie}
+\framesubtitle{Data entry for daily menu generation}
+\hspace*{-1cm}%
+\begin{pgfpicture}{0mm}{0mm}{128mm}{83mm}
+\pgfputat{\pgfpoint{0mm}{84mm}}{\pgfbox[left,top]{%
+	\includegraphics*[trim=0mm 14mm 6mm 20mm,width=128mm]
+		{images/junkie-daily-init}}}
+\end{pgfpicture}
+\end{frame}
+
+\begin{frame}[plain]
+\frametitle{Junkie}
+\framesubtitle{Optimal daily menu}
+\hspace*{-1cm}%
+\begin{pgfpicture}{0mm}{0mm}{128mm}{83mm}
+\pgfputat{\pgfpoint{0mm}{84mm}}{\pgfbox[left,top]{%
+	\includegraphics*[trim=0mm 14mm 6mm 20mm,width=128mm]
+		{images/junkie-daily-menu}}}
+\begin{visibleenv}<2>
+\pgfmoveto{\pgfpoint{00mm}{38.5mm}}
+\pgflineto{\pgfpoint{34mm}{38.5mm}}
+\pgflineto{\pgfpoint{34mm}{34.5mm}}
+\pgflineto{\pgfpoint{00mm}{34.5mm}}
+\pgfsetlinewidth{1bp}\color{red}
+\pgfclosestroke
+\end{visibleenv}
+\end{pgfpicture}
+\end{frame}
+% >>>
+
+% Thesis <<<
+\begin{frame}
+\frametitle{Behind the hardcover}
+
+\begin{itemize}
+\item	4220 lines, 99735 bytes
+\item	%7 languages:\par
+	\TeX, Perl, states
+	%make, gnuplot, GraphViz
+\item	PostScript, SVG
+\item	\dots
+\end{itemize}
+
+\begin{visibleenv}<2->
+\vfill
+\fontfamily{comic}\mdseries\Huge\selectfont
+\centering\alert{Over}\par
+\end{visibleenv}
+\end{frame}
+% >>>
+
+\appendix
+
+% GSLib <<<
+\begin{frame}
+\frametitle{The framework}
+\framesubtitle{GSLib}
+
+\begin{itemize}
+\item<+-> Object model
+	\begin{itemize}
+	\item	reference counting
+	\item	copy on write
+	\item	containers
+	\end{itemize}
+\item<+-> Logging
+\item<+-> Error handling
+\item<+-> Collections
+\item<+-> XML driver
+\item<+-> Test suite
+\end{itemize}
+\end{frame}
+% >>>
+
+% BITS <<<
+\begin{frame}
+\frametitle{Development tools}
+\framesubtitle{BITS}
+
+\begin{itemize}
+\item<+-> \AlignedItem{subborn}{mdb}{:} memory profiler
+\item<+-> \AlignedItem{subborn}{ttc}{:} execution tracer
+\item<+-> \AlignedItem{subborn}{subborn}{:} Subversion history browser
+\item<+-> \AlignedItem{subborn}{Prima}{:} several enhancements
+	\begin{itemize}
+	\item	drag'n'drop
+	\item	undo manager
+	\item	a new geometry manager
+	\end{itemize}
+\end{itemize}
+\end{frame}
+% >>>
+
+% Postgres <<<
+\begin{frame}
+\frametitle{Database schema}
+\framesubtitle{Postgres}
+
+\begin{itemize}
+\item	table inheritance
+\item	type domains
+\item	composite types
+\item	arrays
+\item	partial indices
+\end{itemize}
+\end{frame}
+% >>>
+
+% Moral <<<
+\begin{frame}
+\frametitle{Moral lessons}
+
+\begin{itemize}
+\item	Don't fear low marketshare technologies
+\item	Do fear the \alert{I}nferior \alert{B}ut \alert{M}arketable
+\item	Investment in development tools pays back
+\end{itemize}
+\end{frame}
+% >>>
+
+\end{document}
+
+% vim: set foldmarker=<<<,>>> foldmethod=marker:

@@ -1,0 +1,126 @@
+%
+% master.tex
+%
+\documentclass[12pt,oneside]{report}
+\usepackage[american]{babel}
+\usepackage[latin2]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
+\usepackage{fancyhdr}
+\usepackage{setspace}
+\usepackage[perpage]{footmisc}
+\usepackage{pdfpages}
+\usepackage{tabularx}
+\usepackage{caption}
+\usepackage[numbers,sort]{natbib}
+\usepackage[hyperref={colorlinks,citecolor=blue,hyperfootnotes=false},subfigure=tight]{konec}
+
+% Required to \pdfinclude{assignment}
+\pdfoptionpdfminorversion=4
+
+% Page geometry
+% left=4cm and mparwidth=3cm allows for 1cm binding margin
+\geometry{paper=a4paper,head=15pt,%
+	left=4cm,right=3cm,vmargin=3cm,marginparwidth=3cm}
+\reversemarginpar
+
+% Penalties
+\clubpenalty10000
+\widowpenalty10000
+\hyphenpenalty0
+\brokenpenalty8000
+\doublehyphendemerits100
+\finalhyphendemerits100
+
+% Running head and footer
+\renewcommand\sectionmark[1]{\markright{\thesection. #1}}
+\fancypagestyle{plain}{%
+	\def\headrulewidth{0pt}
+	\fancyhf{}\rfoot{\thepage}}
+\fancypagestyle{myfancy}{%
+	\def\headrulewidth{.4pt}
+	\fancyhf{}\lhead{\rightmark}\rfoot{\thepage}}
+
+% Bibliography style
+\bibsep0pt
+\def\bibfont{\small}
+\def\bibnamestyle{\textsc}
+\def\bibsection{\NewSection{Bibliography}}
+
+% Misc
+\setcounter{tocdepth}{4}
+\captionsetup{font=small}
+\graphicspath{{figs/}{images/}}
+
+\begin{document}
+
+% Overhead
+\pagestyle{empty}
+\begin{Times}
+\input{parts/titlepage}
+\includepdf{parts/assignment}
+\input{parts/shitbluff}
+\newpage
+\input{parts/abstract-en}
+\newpage
+\input{parts/abstract-hu}
+\end{Times}
+
+% Prepare the rest
+\clearpage
+\pagestyle{myfancy}
+\setcounter{page}{1}
+
+% ToC, LoF
+\tableofcontents
+\listoffigures
+
+% The guide
+\input{parts/guide}
+
+\begin{onehalfspace}
+\input{duma}
+\end{onehalfspace}
+
+\NewChapter{Appendices}
+\def\konecnewfigplacement{[ht!]}
+
+% Bibliography
+\bibliographystyle{mybeast}
+\bibliography{duma}
+
+\clearpage
+\NewSection{Progliography}
+\bibfont
+\input{parts/progliography}
+\normalsize
+
+\clearpage
+\NewSection{Supplementary figures}
+\vspace*{0pt plus .5fil}
+\par\input{figs/fitness}
+\par\input{figs/relations}
+
+\clearpage
+\NewSection{Screenshots}
+\vspace*{0pt plus .5fil}
+\input{parts/images}
+
+% postgre.sql
+\clearpage
+\begin{adjustwidth}{-2cm}{-2cm}
+\NewSection[Annotated database schema]{database schema}
+
+\lstinputlisting[style=SQL,breaklines=false,%
+	basicstyle=\small,keywordstyle=\upshape\ttfamily,%
+	sensitive=true,%
+	delim={**[l][commentstyle]--},%
+	deletestring={[d]"},deletestring={[d]'},
+	otherkeywords={(,),\[,\],\{,\},[TODO]},
+	linerange={1-163,713-987,1495-1837}]
+	{parts/postgre.sql}
+\end{adjustwidth}
+
+\end{document}
+
+% End of master.tex

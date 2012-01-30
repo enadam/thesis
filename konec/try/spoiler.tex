@@ -1,0 +1,49 @@
+\documentclass[12pt]{article}
+
+\makeatletter
+
+\def\spoiler@recode#1#2{%
+	\def\spoiler@tmp{#2}%
+	\catcode`#1=\active%
+	\lccode`\~=`#1%
+	\lowercase{\let~\spoiler@tmp}}
+\def\spoiler@end#1#2#3{\end{Spoiler}}%
+\newenvironment{Spoiler}{\bgroup%
+	\let\e=\spoiler@end%
+	\spoiler@recode{a}{n}\spoiler@recode{b}{o}\spoiler@recode{c}{p}%
+	\spoiler@recode{d}{q}\spoiler@recode{e}{r}\spoiler@recode{f}{s}%
+	\spoiler@recode{g}{t}\spoiler@recode{h}{u}\spoiler@recode{i}{v}%
+	\spoiler@recode{j}{w}\spoiler@recode{k}{x}\spoiler@recode{l}{y}%
+	\spoiler@recode{m}{z}\spoiler@recode{n}{a}\spoiler@recode{o}{b}%
+	\spoiler@recode{p}{c}\spoiler@recode{q}{d}\spoiler@recode{r}{e}%
+	\spoiler@recode{s}{f}\spoiler@recode{t}{g}\spoiler@recode{u}{h}%
+	\spoiler@recode{v}{i}\spoiler@recode{w}{j}\spoiler@recode{x}{k}%
+	\spoiler@recode{y}{l}\spoiler@recode{z}{m}\spoiler@recode{A}{N}%
+	\spoiler@recode{B}{O}\spoiler@recode{C}{P}\spoiler@recode{D}{Q}%
+	\spoiler@recode{E}{R}\spoiler@recode{F}{S}\spoiler@recode{G}{T}%
+	\spoiler@recode{H}{U}\spoiler@recode{I}{V}\spoiler@recode{J}{W}%
+	\spoiler@recode{K}{X}\spoiler@recode{L}{Y}\spoiler@recode{M}{Z}%
+	\spoiler@recode{N}{A}\spoiler@recode{O}{B}\spoiler@recode{P}{C}%
+	\spoiler@recode{Q}{D}\spoiler@recode{R}{E}\spoiler@recode{S}{F}%
+	\spoiler@recode{T}{G}\spoiler@recode{U}{H}\spoiler@recode{V}{I}%
+	\spoiler@recode{W}{J}\spoiler@recode{X}{K}\spoiler@recode{Y}{L}%
+	\spoiler@recode{Z}{M}}%
+	{\egroup}
+
+\begin{document}
+
+abdula babdula hipp-hopp te!
+
+a b c d e f g h i j k l m n o p q r s t u v w x y z
+
+A B C D E F G H I J K L M N O P Q R S T U V W X Y Z
+
+\begin{Spoiler}
+noqhyn onoqhyn uvcc-ubcc gr!
+
+n o p q r s t u v w x y z a b c d e f g h i j k l m
+
+N O P Q R S T U V W X Y Z A B C D E F G H I J K L M
+\end{Spoiler}
+
+\end{document}

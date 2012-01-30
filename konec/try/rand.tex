@@ -1,0 +1,53 @@
+\documentclass[12pt]{article}
+
+\makeatletter
+
+% Based on random.tex.
+% state := \day * \time
+\newcount\rand
+\rand=\day
+\multiply\rand by \time
+
+% state  = (state % 127773) * 16807 - (state / 127773) * 2836
+\def\nextrand{%
+	\begingroup
+	\@tempcntb=\rand
+	\divide\@tempcntb by 127773%	exp2	:= state / 127773
+	\@tempcnta=\@tempcntb
+	\multiply\@tempcnta by 127773%	exp1	:= exp2  * 127773
+	\@tempcnta= -\@tempcnta
+	\advance\@tempcnta\rand%	exp1	:= state - exp1
+	\multiply\@tempcnta by 16807%	exp1	*= 16807
+	\multiply\@tempcntb by 2836%	exp2	*= 2836
+	\rand=\@tempcnta
+	\advance\rand by -\@tempcntb%	state	:= exp1 - exp2
+	\ifnum\rand<0%			state	+= 2147483647
+		\advance\rand by 2147483647
+	\fi
+	\global\rand=\rand
+	\endgroup}
+\def\modulo#1#2{%
+	\edef\@tempa{#1= -#1\advance#1\the#1}%
+	\divide#1 by #2\multiply#1 by #2%
+	\@tempa}
+
+\AtBeginDocument{%
+	\everypar=\expandafter{\the\everypar%
+		\nextrand%
+		\@tempcnta\rand
+		\modulo\@tempcnta{256}
+		\typeout{Fucked \the\@tempcnta\space times today.}}}
+
+\begin{document}
+
+Szep az elet, trallala.
+
+Szep az elet, trallala.
+
+Szep az elet, trallala.
+
+Szep az elet, trallala.
+
+Szep az elet, trallala.
+
+\end{document}

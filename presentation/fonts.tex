@@ -1,0 +1,83 @@
+\documentclass[12pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[a4paper,hmargin=1cm,vmargin=2cm]{geometry}
+
+\DeclareFontFamily{T1}{comic}{}
+\DeclareFontShape{T1}{comic}{m}{n}{<-> fonts/comic}{}
+\def\Comic{\fontfamily{comic}\selectfont}
+
+\DeclareFontFamily{T1}{futura}{}
+\DeclareFontShape{T1}{futura}{m}{n}{<-> fonts/futura-condensed}{}
+\DeclareFontShape{T1}{futura}{m}{sl}{<-> fonts/futura-condensed-slanted}{}
+\DeclareFontShape{T1}{futura}{bx}{n}{<-> fonts/futura}{}
+\DeclareFontShape{T1}{futura}{bx}{sl}{<-> fonts/futura-slanted}{}
+\def\Futura{\fontfamily{futura}\selectfont}
+
+\pagestyle{empty}
+
+\def\TestDuma{
+	0123456789, ([?!]).
+
+	\"ot sz\'ep sz\H{u}z l\'any \H{o}r\"ult \'\i r\'ot ny\'uz
+
+	\"OT SZ\'EP SZ\H{U}Z L\'ANY \H{O}R\"ULT \'\i R\'OT NY\'UZ
+
+	\begin{verse}
+	When I find my code in tons of trouble,	\\
+	Friends and colleagues come to me,	\\
+	Speaking words of wisdom:		\\
+	"Write in C."				\\
+
+	As the deadline fast approaches,	\\
+	And bugs are all that I can see,	\\
+	Somewhere, someone whispers:		\\
+	"Write in C."				\\
+
+	Write in C, Write in C,			\\
+	Write in C, oh, Write in C.		\\
+	LOGO's dead and buried,			\\
+	Write in C.				\\
+
+	I used to write a lot of FORTRAN,	\\
+	For science it worked flawlessly.	\\
+	Try using it for graphics!		\\
+	Write in C.				\\
+
+	If you've just spent nearly 30 hours,	\\
+	Debugging some assembly,		\\
+	Soon you will be glad to		\\
+	Write in C.				\\
+
+	Write in C, Write in C,			\\
+	Write in C, yeah, Write in C.		\\
+	BASIC's not the answer.			\\
+	Write in C.				\\
+
+	Write in C, Write in C			\\
+	Write in C, oh, Write in C.		\\
+	Pascal won't quite cut it.		\\
+	Write in C.				\\
+	\end{verse}}
+
+\begin{document}
+
+\large
+
+\sffamily
+\TestDuma\newpage
+
+\Futura
+\TestDuma
+\textsl{Hey man, what do you see? \\ Something beautiful, something free.}
+\newpage
+
+\begin{bfseries}
+\TestDuma
+\textsl{Hey man, what do you see? \\ Something beautiful, something free.}
+\end{bfseries}
+\newpage
+
+\Comic
+\TestDuma\newpage
+
+\end{document}

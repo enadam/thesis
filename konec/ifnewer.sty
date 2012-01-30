@@ -1,0 +1,31 @@
+%
+% konec/ifnewer.sty -- to compare dates
+%
+
+% Work around some tex implementation bug.
+\def\if@newer@true{\iftrue}
+\def\if@newer@false{\iffalse}
+
+% this >= req
+% Doesn't workin \if ... \fi :(
+\def\if@newer#1/#2/#3\@#4/#5/#6\@{% this, req
+	\begingroup
+	\ifnum#1<#4%		lyear < ryear
+		\aftergroup\if@newer@false%
+	\else\ifnum#1>#4%	lyear > ryear
+		\aftergroup\if@newer@true%
+	\else\ifnum#2<#5%	lmon  < rmon	&& lyear == ryear
+		\aftergroup\if@newer@false%
+	\else\ifnum#2>#5%	lmon  > rmon	&& lyear == ryear
+		\aftergroup\if@newer@true%
+	\else\ifnum#3<#6%	lday  < rday	&& lyear == ryear
+		\aftergroup\if@newer@false%	&& lmon  == rmon
+	\else%			lday >= rday	&& lyear == ryear
+		\aftergroup\if@newer@true%	&& lmon  == rmon
+	\fi\fi\fi\fi\fi
+	\endgroup}
+\def\ifnewer#1#2{\if@newer#1\@#2\@}
+\def\if@latex@atleast#1{% req
+	\expandafter\ifnewer\expandafter{\fmtversion}{#1}}
+
+% End of konec/ifnewer.sty

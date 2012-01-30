@@ -1,0 +1,12 @@
+%
+% konec/warning.sty -- the famous double-bend sign, telling the reader
+% his/her mind is about to bend
+%
+
+% Based on manmac.tex
+\font\konec@dbend@font=manfnt
+\def\konec@dbend@sym{{\konec@dbend@font\char127}}
+\def\dbend{\parbox[c][0.7cm][t]{0.5cm}{\konec@dbend@sym}}
+\def\Warning{\konec@minor@mpar{\hyperlink{dbend}{\dbend}}}
+
+% End of konec/warning.sty

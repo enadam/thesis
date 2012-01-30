@@ -1,0 +1,6 @@
+This presentation relies on the beamer package and uses custom fonts
+(Futura and Comic).
+
+presentation.pdf	The slideshow itself, every page being a step
+			in the presentation.  There are some more contents
+			after the final slide as a preparation for questions.

@@ -1,0 +1,31 @@
+%
+% konec/styles.sty -- the look of your subjects
+%
+
+\def\Tech{\textsf}
+\def\Term{\textit}
+\def\Talk{\emph}
+\def\Subject{\emph}
+\def\Interposition#1{\textup{[#1]}}
+\protected\def\Code{\begingroup\def\UrlFont{\ttfamily}\Url}
+\protected\def\Path{\begingroup\def\UrlFont{\ttfamily}\Url}
+\def\MathVar#1{\ensuremath{\mathit{#1}}}
+\def\MathFun#1{\ensuremath{\mathop\textrm{#1}}}
+
+% Uhm, cm doens't have bf tt.
+\lstloadlanguages{C++,XML,SQL}
+\lstset{basicstyle=\ttfamily,
+	emphstyle=\rmfamily\itshape,%
+	keywordstyle=\Courier\bfseries,%
+	showstringspaces=false,%
+	breaklines,breakatwhitespace}
+\lstdefinestyle{C++}{language=C++}
+\lstdefinestyle{XML}{language=XML}
+\lstdefinestyle{SQL}{language=SQL,morekeywords={%
+	SCHEMA,SEQUENCE,FUNCTION,COMMENT,%
+	INHERITS,REFERENCES,%
+	VOID,BOOLEAN,BIGINT,TEXT,%
+	TO,FOR,BEGIN,ALIAS,DECLARE,LANGUAGE,RETURN,RETURNS,%
+	NEXTVAL}}
+
+% End of konec/styles.sty

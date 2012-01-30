@@ -1,0 +1,30 @@
+%
+% konec/ifrpr.sty -- detecting recent \pageref{}s
+%
+
+\def\last@rpr{\relax}
+\everypage{\gdef\last@rpr{\relax}}
+
+% defined new && old != new && new != this
+\def\ifrecentpageref#1#2#3#4{% refname, ifrecent, ifthispage, otherwise
+	\edef\this@rpr{\label@to@pageno{#1}}%
+	\ifx\this@rpr\@empty\else
+		\ifx\this@rpr\last@rpr
+			\edef\this@rpr{{#1}{\this@rpr}}%
+			\ifx#2\relax\else\expandafter#2\this@rpr\fi%
+		\else
+			\begingroup
+			\@tempcnta\this@rpr%
+			\advance\@tempcnta0%
+			\edef\this@rpr{{#1}{\this@rpr}}%
+			\ifnum\@tempcnta=\c@page
+				\ifx#3\relax\else\expandafter#3\this@rpr\fi%
+			\else
+				\ifx#4\relax\else\expandafter#4\this@rpr\fi%
+				\xdef\last@rpr{\the\@tempcnta}%
+			\fi
+			\endgroup
+		\fi
+	\fi}
+
+% End of konec/ifrpr.sty

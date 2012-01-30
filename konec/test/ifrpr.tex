@@ -1,0 +1,34 @@
+\def\samepage#1#2{this page}
+\def\recent#1#2{recent #2}
+\def\notrecent#1#2{not recent #2}
+
+% this page
+`\lowercase{\ifrecentpageref{Akarmi}}\recent\samepage\notrecent'
+
+% not recent
+`\lowercase{\ifrecentpageref{Valami}}\recent\samepage\notrecent'
+
+% recent
+`\lowercase{\ifrecentpageref{Valami}}\recent\samepage\notrecent'
+
+% not recent
+`\ifrecentpageref{semmi} \recent\relax\notrecent'
+
+% recent
+`\ifrecentpageref{semmi} \recent\relax\notrecent'
+
+% <empty>
+`\ifrecentpageref{akarmi}\recent\relax\notrecent'
+
+\label{akarmi}
+\mkduma{50}
+
+\newpage xx \newpage
+
+\label{valami}
+\mkduma{50}
+
+\newpage xx \newpage
+
+\label{semmi}
+\mkduma{50}

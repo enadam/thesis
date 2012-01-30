@@ -1,0 +1,2996 @@
+% Beginning of the end
+
+\NewChapter{Executive summary}
+
+\NewSection{Purpose} % <<<
+
+\Topic{What}
+\Menugene is a system of software for computer aided dietary counselling.
+Its ultimate goal is to help ordinary people in the assembly of daily
+and weekly dietary menus---what to have for breakfast, lunch etc. so that
+their nutritional needs, dietary allowances and taste are all satisfied.
+
+% <[consumer objectives]>
+% [SKIP energy, carbohydrate, lipids, protein, sugar, vitamins]
+\Topic<consumer objectives>
+From the system's point of view a person's \Subject{nutritional needs}
+are defined by the optimal daily consumption of elementary ingredients,
+such as carbohydrate, protein, and lipids.  \Subject{Dietary allowances}
+restrict the range of dishes consumable by the subject, as in the case of
+people with milk susceptibility.  \Subject{Taste} expresses preferences
+towards or against particular kinds of meals, or any combinations thereof.
+
+% {intended audience}
+The \Keyword<intended audience> extends from the ill to healthcare
+providers.  \Subject{People with diabetic disabilities} benefit in
+breaking the routine meals by discovering new recipes that are as fitting
+to their special needs as the ones prescribed by dietary consultants.
+\Subject{Healthy individuals} conscious about their condition will find
+it a cheap and easy way to improve their nutrition.  \Subject{Domestic
+partners} are relieved of deciding what to prepare for their families,
+so that everyone's taste is respected.  \Subject{Diatery experts} may be
+able to give their clients better advice.  Finally, \Subject{healthcare
+providers} may find it appealing as a low-cost addition to their existing
+portfolio.
+
+% {use cases}
+\Menugene has three \Keyword[levels of application]{use cases}.
+The mid-level usage enables consumers to store, represent and communicate
+diatery information \emph{structurally}: recipes, nutritional needs,
+dietary allowances, taste.  The high-level use case implies the previous
+one, and in addition the system constructs (\Term{generates}) a menu
+plan by artificial intelligence methods, attempting to observe all the
+constraints expressed with regards to an ideal menu.  On the lowest level
+\Menugene is \emph{designed} to be a platform for research in these fields
+of information and knowledge representation, and artificial intelligence.
+
+\input{figs/sysinf}
+
+% {deployment configurations}
+\Menugene can be deployed and accessed \Keyword[several ways]{deployment
+configurations}, as illustrated in \Figure{sysact}.  In the simplest
+case (\Figure*{sysact-1}) the consumer is in direct interaction with
+the system, telling about \HisHer nutritional needs (perhaps deriving
+them from popular literature), dietary allowances, and preferences, then
+interpreting the auto-generated menu plan without external assistance.
+This setting is well-suited for voluntary \AndOr regular uses of the
+service, when the fitting of the menu is not critical or the consumer
+has already gathered enough experience with it.  It is also possible
+to draw on a third-party consultant (\Figure*{sysact-2}) estimating the
+personal requirements and formulating professional advice based on the
+machine-generated plans.  This case the consumer may not even be aware
+of the working of the computer aid, which is convenient for those who
+do not wish to engage in technical details.  The configuration depicted
+in \Figure{sysact-3} is a synthesis of the former ones: consumers are
+given freedom in specify their preferences, while the responsibility of
+determining diatery requirements remains on the shoulders of experts.
+Finally (\Figure*{sysact-4}), the system can be envisaged as an integrated
+part of another comprehensive advisory system, such as \Link\Prog{Cordelia}.
+This setting is best for healthcare providers whose existing services can
+gain from the structured personal dietary information held by \Menugene.
+
+\input{figs/sysact}
+
+The presence of `developers' in the figures is meant to emphasize
+the importance of the continuous maintenance and enhancement of 
+the \Menugene databases, without which the system would quickly
+degrade into obsoleteness.
+% Purpose >>>
+
+\NewSection{Structure} % <<<
+
+% {layers}
+% [SKIP ears, mouth, stomach]
+The system consists of several components which we can categorize
+roughly into three groups, \Keyword[layered]{layers} upon the top of
+one another.  (\FIGure{sysarch-1}) The first layer interacts with
+the \Subject{end-user}, accepting requests and presenting results
+in human-friendly fashion.  The decoded queries are passed onto the
+component that has a global view on the problem to be solved and
+\Subject{controls} its resolution, which is done at the bottom by
+specialized, reusable \Subject{libraries}.  The communication within
+the system and toward end-users is mostly networked, which allows
+more scalability and flexibility in deployment.  \FIGure{sysarch-2}
+shows the \emph{use}-relationships between the actors, whose detailed
+description follows.
+
+\input{figs/sysarch}
+
+% {[junkie]}
+\Subject{Consumers}, who need dietary advice are served by \Keyword%
+\Target\Tech{junkie}, the web front-end of \Menugene.  Users can
+enter their nutritional needs into HTML forms, the program relays this
+information to the controller, and displays the tabulated daily or weekly
+menu recommendation along with goodness estimations when the response is
+ready.  The interface is multi-lingual (currently English and Hungarian
+are supported) and can be embedded into other web services, making it
+possible to take user requirements from sources other than its own forms.
+\FIGure{junkie} shows screenshots of the interface.
+
+% {[MenuGeneAdmin]}, {[database]}
+The system's another user-accessible entry point is \Keyword\Target%
+\Tech{MenuGeneAdmin}, which is intended for \Subject{dietary experts}.
+This application runs on the local computer and allows editing the
+\Menugene database remotely through a graphical user interface.%
+%%%%%%%%%
+\footnote{The author claims no affiliation with the creation of this
+software, and takes no responsibility for it.}
+%%%%%%%%%
+The \Keyword\Target<database> supply the controller with bulk, static
+information essential for the menu generation.  It is static in the sense
+that its contents are not subject to change in the course of problem
+solving.  The database is loaded with recipes (acquired commercially from
+\Prog{QuadroByte}) that the final menu recommendation will be consist of,
+groupings of the recipes (such as puddings, soft drinks, or fast food),
+and a set of constraints applicable in typical circumstances (i.e. to
+people suffering from some common disease).  Privileged dietary experts
+have means to improve and customize this data set by \Tech{MenuGeneAdmin}
+in the interest of their clientele.
+
+% {rulez}
+The last user-visible application of the system is \Keyword\Link\Tech{rulez},
+which can be used by all end-users to edit \Link<rules>.  The integration
+of this program is still in the alpha stage.
+
+% {[daemon]}
+The heart of \Menugene is the \Keyword\Target\Tech{daemon}, which formulates
+the problem in exact terms based on the information coming from \Link\Tech%
+{junkie} and the static data fetched from the database.  (``\Talk{Given~\dots\
+find~\dots\ such that~\dots.}'')  Then it configures the engine and calls upon
+for problem resolution.  Depending on the configuration this can be a rather
+time-consuming process.  Whilst it is proceeding run-time status information
+about the engine is available from the (kind of barefoot) \Link[monitoring
+facility]{logging} of the \Tech{daemon}.  Besides the regular network
+interface used by \Link\Tech{junkie} the program can be operated from
+the command line, and also is accessible via \Cite{CORBA} (not merged
+into mainline).  The former is reserved for developers, the latter is
+held back until future experimentation.
+
+% {engine}, [MGLib]
+Once the \Keyword<engine> starts it works unsupervised until a satisfactory
+solution is found.  Menus are generated by \Link[genetic algorithms]{works}
+(GAs) in collaboration between two software libraries.  \Prog{GALib} is an
+external library (with some local adjustments) implementing generic GAs,
+which call back into \Target\Tech{MGLib} for problem-specific algorithmic
+bits.  The work of both \Tech{MGLib} and \Link\Tech{daemon} is assisted by
+\Link\Tech{GSLib}, which essentially defines a convenient general framework
+for \emph{clean} software development.  None of the libraries has any
+knowledge about the database and its internal schemata.
+
+% {BITS}
+\Keyword\Link\Tech{BITS} of software play an important role in the life of
+\Menugene developers.  It is a collection of \Link[miscellany utilities]%
+{homegrown utilities} which take no part in the normal operation of the
+system, but are supportive of the development process.  They include debug
+aids, visualizers, database maintenance tools and more.
+
+% {[future]}
+\FIGure{sysarch-3} shows a \Keyword\Target[substantially different]%
+{future} system architecture envisaged for the enterprise in admission
+that that market demands more scalability than \Menugene offers currently.
+In the proposition \Link\Tech{daemon} should lose its central position,
+taken over by a \Prog{JBoss} conglomerate in its place.  User-visible
+interfaces would be sited in the application server, giving users the
+feel of a local-running program by means of dummy proxying mock-ups
+(not included in the figure).  Bulk data would be hidden behind a
+`knowledge base', which can represent complex relationships between
+pieces of information that is hard to model in relational databases.
+With respect to the database, the basic data set of \Prog{QuadroByte}
+is going to be \Link[superseded]{database migration} by the one of the
+U.S. Department of Agriculture (\Cite{USDA}), which is believed to be of
+higher quality.  Also, we are planning on making room for dynamic hints
+derived from past runs for the \Link\Tech{daemon}, so it could start
+off searching for optimal menu plans from points proven to be favorable.
+This is called \Term{case-based menu generation}.  All these areas have
+been worked on, reaching varying status of readiness.
+% Structure >>>
+
+\NewSection[The works]{works} % <<<
+
+In this section we will give a high-level outline of the workings of
+\Menugene that produces menus satisfying \Link[requirements]{consumer
+objectives}.  In this text we will only cover the underlying theory to
+the extent, and from the perspective of that is necessary to facilitate
+the understanding of the topic in focus.  Interested readers should follow
+up \cite{TDK}.
+
+\Topic{Tale}
+The engine operates in the \Term{problem space}.  This imaginary space
+is filled with \Term{solutions} to the given problem.  In the context of
+\Menugene a solution is, certainly, an optimal weekly menu plan, while
+the problem space is the (finite) set of all possible weekly diatery menu
+plans.  Thus, the duty of the engine is to \emph{pick out} a solution
+from the problem space that matches the consumer's needs as closely as
+possible.
+
+% {entities}
+The engine \Keyword[utilizes]{entities} \Term{genetic algorithms} (GA)
+for this purpose.  GAs maintain a subset of the problem space called
+\Term{population}, which restricts what solutions the GA can consider
+\emph{at a given time}.  The size of the population is chosen so that
+computations over the subset taking linear or higher order time become
+feasible.  Solutions elected into the population are the \Term{genomes}.
+Which genomes these are is of cardinal importance, since the final
+solution to the problem will be chosen from them when the algorithm ends.
+
+% [TODO We don't \Figure{} it; not that I feel very compelled to.]
+% [TODO Maybe this figure shouldn't be included at all?]
+\input{figs/ga}
+
+% {genetic algorithm}
+It follows that the \Keyword[task of the GA]{genetic algorithm} is to
+bring forth a population that features the genome which is a (near)
+optimal solution to the problem the \Menugene engine set out to solve.
+For this the genetic algorithm improves its population incrementally.
+Iterations of the GA are called \Term{generations}.  In each generation
+the GA \Term{evolves} the current population, changing the constituting
+genomes in some or other way around.  In formal terminology some of the
+genomes are replaced by solutions from the problem space.  This process
+may be driven by the intention to get closer to a set of genomes that
+appear to have the desired characteristics, or conversely to back off
+because the current population seems to be a dead end.%
+\footnote{The special case is when the evolution does not have any
+particular goal in mind; this is called \Term{random search}.}
+
+Actually, the population is evolved by considering small subsets thereof.
+This is why a final \Term{selection} is done before the next generation,
+taking all proposed members of the new population into account at
+the same time.  The algorithm ends when some \Term{terminal condition}
+is reached.  The following pseudo-code summarizes the main points:
+
+\begin{lstlisting}[%
+	keywords={genetic_algorithm,evolution,selection,%
+		terminal_condition,best_of},%
+	emph={population}]
+sub genetic_algorithm(population)
+{
+	population = selection(evolution(population))
+		until terminal_condition(population);
+	return best_of(population);
+}
+\end{lstlisting}
+
+% {encoding}, [solution encoding]
+In order to be of any use genomes must \Keyword\Target[\Term{encode}]%
+[encoding]{solution encoding} the solutions they represent in a way the
+applied genetic algorithm understands, making it possible to evaluate,
+compare and evolve them.  \FIGure{ga} has already alluded to a potential
+encoding, in which genomes are partitioned into several compartments
+called \Term{attributes} or \Term{genes}.  An attribute has a name by
+which it can be uniquely identified in a given genome.  Every attribute
+encodes a different piece of information.  The type of this information
+(the value of the attribute) is arbitrary (e.g. numbers, text, or any
+complex data structure).  It is worth noting that many genetic algorithms
+expect that the genomes in the population have the same set of attributes.
+
+% {[GA hierarchy]}
+The engine of \Menugene employs three kind of genomes: weekly menu plans,
+daily menu plans and meals.  Each is bred in separate populations,
+not allowing for mixins.  The relation between the different kinds of
+genomes is \Keyword\Target[hierarchic]{GA hierarchy}, as depicted in
+\Figure{mg} along with the corresponding attributes.  The point is that
+\emph{the values of the attributes of all three levels of nutrition
+are solutions themselves picked from an appropriate problem space}.
+This is the distinctive feature, which we shall credit to \cite{TDK}
+explicitly, making it possible to break down a complex problem into
+several smaller ones with fewer dimensions (\Talk{divide \& conquer}).
+
+\input{figs/mg}
+
+% {genetic operators}
+% [NOTE Math mode doesn't linebreak, which is kinda stupid I think.
+The genetic algorithms of \Menugene have two \Keyword[means of evolving]%
+{genetic operators} genomes.  One of them is the standard \Term{crossover},
+which takes a pair of genomes (the parents) and results in a pair of new
+ones (the children).  All attributes of the parents live on in the children,
+but it is up to the crossover operator which child inherits a particular
+attribute.  For example, crossing the genomes in \Figure{ga} may result in
+two children having $\{$ attribute$_{\mathrm{N}1}$, attribute$_{12}$, \dots,
+attribute$_{\mathrm{NM}}$ $\}$ and $\{$ attribute$_{11}$,
+attribute$_{\mathrm{N}2}$, \dots, attribute$_{1\mathrm{M}}$ $\}$.
+
+\Term{Mutation} is the other way (as far as \Menugene is concerned) to
+renew a genome.  From the genetic algorithm's point of view by mutation
+a single genome is replaced by another solution.  In \Menugene this is
+implemented by asking some attributes of the genome under mutation to
+acquire a new value.  How the attribute responds is a function of its
+type, opening the scene for three alternatives.
+
+% {[attribute types]}, [attr-pool]
+\Tech{GA}-type \Keyword\Target[attributes]{attribute types} (L1 and
+L2 only) run a genetic algorithm (which is private to the attribute),
+and the new value of the attribute will be the best solution of this
+GA can produce.  \Target[\Tech{POOL}]{attr-pool}-type attributes choose
+their values from a preset static pool of genomes randomly.  In \Menugene
+recipes are in a pool, because they do not change during generation.
+(The system generates menus, not recipes.)  A \Tech{COMPOSIT} attribute
+masters a set of subordinate attributes and asks each of them to renew
+its value by whatever means it is capable of.  At the end \Tech{COMPOSIT}
+master will choose the best solution presented by its subordinates.
+This kind of relationship is useful when the problem space has sensible
+(to humans) divisions, such as coldcut breakfast and brunch.
+
+These mechanisms are stacked recursively (i.e. a \Tech{COMPOSIT} attribute
+may have \Tech{COMPOSIT} subordinates).  \FIGure{relations} illustrates
+all the meaningful combinations of relations between different attribute
+types.  The pool of recipes are read from a \Link<database>, whose annotated
+schemata is reproduced in the \Link[appendix]{database schema}.  The included
+listing is intended as a starting point to grasp the conception of dietary
+menus of \Menugene.
+
+% {evaluation}
+To determine which one is the best, solutions are \Keyword[\Term{evaluated}]%
+{evaluation} and compared to each other.  Naturally, the evaluation
+must reflect the \Link[consumer's requirements]{consumer objectives}:
+\HisHer nutritional needs, dietary allowances, and taste.  The first
+of these are taken care of by the first pass of the evaluation, the
+\Term{fitness function}.  In \Menugene nutritional needs are expressed
+by a \Term{constraint set}.  For a given nutrient a constraint specifies
+its expected minimal and maximal amount in a solution, along with the
+desired optimum.
+
+% {[fitness calculation]}
+A solution (weekly, daily menu or a meal) may have multiple constrained
+nutrients, all of which the fitness function must \Keyword\Target[take
+into account]{fitness calculation} (\Term{multi-objective optimization}).
+First it \Link[decodes]{solution encoding} the solution to be evaluated,
+and calculates the cumulative amount of the nutrients in question.
+These figures are realized at the bottom of the \Link<GA hierarchy>
+by genomes from a \Link[\Tech{POOL}]{attr-pool} representing recipes.
+Each sum is used to sample a curve parametrized by the corresponding
+constraint; an example is given in \Figure{fitness}.  The grand total
+of these samples constitutes the \Term{fitness score} of the solution.
+
+% {[rules]}
+Per se the fitness score provides enough information for the genetic
+algorithm to estimate the `goodness' of a solution.  Before that, however,
+the remaining consumer objectives (dietary allowances and taste) are
+accounted for.  Recall that these requirements state what dishes or what
+combinations thereof the consumer \Either[should not][must not][would not]
+eat.  \Menugene handles these within its \Keyword\Target<rules> subsystem.
+A rule is essentially a pattern of solutions.  If the pattern matches
+the contents of a solution (e.g. the items of a daily menu) its fitness
+score is scaled with  factor associated with the rule.%
+\footnote{We have intentionally omitted many details; more information
+can be found in \File<src/MGLib/doc> of the source repository.}
+
+It is possible to attach constraints and rules at any levels of the
+\Link<GA hierarchy>.
+
+% {running times}
+% [TODO Tell them these numbers are sans DB load time?]
+To speed up menu generation the engine employs some optimization
+techniques, notably caching the sums in the \Link<fitness calculation>,
+and the \Link<copy on write> manipulation of genomes.  \Keyword<Running
+times> vary depending on the configuration of the genetic algorithms,
+but it has proven capable of completing the task in five seconds for
+daily menus, and in half a minute for weekly menus.
+% The works >>>
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\NewChapter{Overview of the implementation}
+
+\NewSection{Brief history} % <<<
+
+\Topic{introduction}
+Whenever someone meets a sizeable piece of software with the intention
+of dwelling into its internals questions are naturally raised about
+the events that has influenced its history in order to put its current
+state into context, allowing for predictions.  The following account was
+partly recovered from memory, and as such, at times it cannot be free from
+personal tone.  Certainly, many episodes had to be omitted, save for the
+most important ones.  Interested readers can learn more from the
+\File<commitlogs>.
+
+% {zeroth generation}
+\Menugene started its existence as a scientific experiment of Balázs
+Gaál, an undergraduate student of information technology then, who
+meant to explore innovative methods for computer aided production
+of optimal dietary menus in 2002. All scientific work was done at
+that time, including research of the literature, elaboration of
+the multi-level organization of genetic algorithms, its application
+to the problem space, and the design of the fitness function with
+consultancy by dietary experts. The net result was a test program
+written in Microsoft Visual C++ demonstrating the feasibility of the
+idea and taking performance measurements. We call this software the
+\Keyword<zeroth generation> \Menugene because later it became the
+takeoff point of further development. The work was presented on the
+2003 annual National Academic Student League (OTDK) \cite{TDK}.
+
+% {[first generation]}
+The zeroth generation \Menugene was incapable of anything beyond its
+designated scope (namely performance testing) and was not adjustable for
+other purposes. To remedy the situation, in January 2004 the author was
+asked to join the development, and shortly after the \Keyword\Target%
+<first generation> was born. The objective was to create \Link\Tech{GSLib},
+a software library that would embody the optimization algorithm (above
+all the handling of multi-level genetic algorithms) on the top of an
+external generic GA library, \Prog{GALib}. We still have both of them,
+although the function of \Link\Tech{GSLib} changed later; now that part
+is called \Link\Tech{MGLib}.  The original intention was to make provision
+for other problem spaces which could make use of MLGA optimization. Since
+then this has become a minor point, and today the software concentrates
+exclusively on dietary menu generation.
+
+% {daemon}
+One of the urgent tasks was to write a networked program we ended up
+calling simply \Keyword\Link\Tech{daemon}, which would receive the
+desired parameters of a menu over network, then as a server would
+generate it using the new \Link\Tech{GSLib} library. Before that a
+number of things awaited for being taken care of, therefore the first
+period of the project was spent on design decisions and factorization:
+class hierarchy, object relationships and recognized interfaces. Few
+code fragments of the consolidated library from that time has survived
+up to these days, but many of the concepts introduced then have remained.
+
+% {infrastructural crisis}
+By March 2004 \Link\Tech{daemon} had acquired some functionality: it
+built the internal data structures essential for the menu generation
+from the database, but \Link\Tech{GSLib} was not ready for that yet.
+It would have been vital for the project that the library become
+operational as soon as possible, but the early implementation had
+\Keyword[begun to show its fragility]{infrastructural crisis}. It is
+common knowledge that software components can usually be divided into
+two broad categories: the ones (call them the \Term{engine}) that are
+very specific to the task your program will eventually perform, and
+those (the \Term{infrastructure}) whose reason to exist is to support
+the engine, not knowing anything about the details of the problem.
+Out of indolence the first generation \Link\Tech{GSLib} employed a
+set of homegrown (and quite unsophisticated) classes for low-level
+data structure handling, whose maintenance got burdensome due to
+the increasing demands of the engine, the optimization algorithm.
+The infrastructure either had to be got right or be superseded by
+a third-party library.
+
+% {[second generation]}, [Aapl], [TinyXml]
+The quest for a definite solution took several weeks and an experimental
+subproject (\Link\Tech{migraine}). Finally a new external, template-based
+library, the \Target\Prog{Aapl} got merged into the source code repository,
+and this marks the birth of the \Keyword\Target<second generation>.
+With \Prog{Aapl} one could define and manage collections of arbitrary types
+relatively easily, so our goal was achieved, it seemed. It felt so successful
+that in a week another external library, \Target\Prog{TinyXml} landed in
+the repository in order to take over XML output production (formerly it
+had been done via unstructured \Code{printf()}s).
+
+% {junkie}, {[Cordelia]}
+These merges gave significant boost to development progress. Early in
+June 2004 we could run the optimization algorithm of \Link\Tech{GSLib}
+over random data via \Tech{randtree} (since then this program has
+become part of the \Link\Tech{MGLib} test suite and it lives under
+the name \File[mlga]{src/MGLib/test/mlga.cc}). Certainly we wanted to
+generate dietary menus, and it was \Link\Tech{daemon} which connected
+the algorithm with the nutrition database. While that program had a
+developer-friendly command-line interface, the plan had always been
+to have \Link\Tech{daemon} running silently in the background on a
+server machine, and let a client application display the results in
+a user-friendly manner. Thus \Keyword\Link\Tech{junkie} was born,
+a web application, which communicated with \Link\Tech{daemon} over
+network.  By August 2004 the system had become demonstratable, and
+some months later it was coupled with \Keyword\Target\Prog{Cordelia},
+the Department's lifestyle counselling system.
+
+% {[avl]}, {MenuGeneAdmin}, {ontologies}
+After these accomplishments development split into two branches.
+One of them aimed at reengineering \Link\Tech{GSLib} to get rid of
+\Link\Prog{Aapl}; it was necessary because few felt comfortable
+with the compromises induced by the unnatural linkage of that library.
+This effort (the \Keyword\Target\Tech{avl} branch), took a while to
+mature, so in the meantime the other branch engaged in tasks that did
+not depend directly on \Link\Tech{GSLib}. One of them was the creation
+of \Keyword\Link\Tech{MenuGeneAdmin} for the dietary experts hired
+for professional consultance, enabling them to remotely edit our
+nutrition database. Another subproject that emerged at that time was
+the exploitation of \Keyword<ontologies> to represent the knowledge
+of a human dietary expert. Being done that would make it possible for
+humans to configure the optimization algorithm using terms and concepts
+more familiar to them than the \Link[solution-attribute model]%
+{solution encoding} understood by the system.
+
+% {[database migration]}
+Lastly, it turned out to be unavoidable to \Keyword\Target[migrate]%
+{database migration} and rework our nutrition database. Since day one
+\Menugene had relied on the database of \Prog{Cordelia}, which was
+sold and abandoned in the course of events. Its data had been derived
+from sheets of a commercial vendor (\Prog{QuadroByte}) and it had been
+managed by \Prog{Oracle} on an unattended box. The problems were that
+doubts arose concerning the correctness of the information content,
+and that nobody wanted to dig into \Prog{Oracle} and learn its advanced
+capabilities. It was time to work out an appropriate database schema,
+fill in with industry-quality content collected by the U.S.  Department of
+Agriculture \cite{USDA}, and place it in the hands of \Prog{PostgreSQL},
+which the team knew better. These subprojectes, ontologies and migration,
+are still in flux, but definitely they are being worked on.
+
+%[SKIP]
+%
+%% CORBA
+%In late April 2006 \Link\Tech{daemon} (which was also renewed, hence the
+%version bump) got checked in, and soon it featured a new interface for
+%CORBA clients. \cite{Attee}
+%
+%% rules
+%Having a solid foundation, it was timely to add a
+%long-awaited feature, rule support (see p.~\pageref{rules}) in Sept 2006.  
+
+% {[third generation]}
+Meanwhile the \Link\Tech{avl} branch of the split was shaping, and evolved
+into a complete, future-proof rewrite of the existing \Link\Tech{GSLib}.
+The reason behind the main surgery is that one needs to break certain
+psychological barriers to make large-scale incompatible changes. Once
+the taboos are down you might be better off getting through all of
+your long-standing intrusive ideas, because the next opportunity may
+come too late. In case of \Menugene among others the object model, the
+monitoring and error-reporting facilities, the XML writer underwent major
+improvements, many test programs were added and lots of documentation was
+written.  For a detailed list of accomplishments the reader is referred
+to the \File{TODO}{src/GSLib/doc} file. In particular, it was then when
+the engine was moved to its own library, \Link\Tech{MGLib}, leaving
+all the infrastructural code in \Link\Tech{GSLib}. In mid-July 2006 the
+branch was ready to take over the mainline, and the \Keyword\Target%
+<third generation> came into existence, making it feasible to implement
+some greatly anticipated features.
+
+% {future}
+\Keyword[At the time of writing]{future} (\today) most development power
+is spent on the \Link<database migration>. The management is seeking for
+commercial investors, and the eventual goal is to make enough profit to
+get the project self-supporting. May we see whatever outcome, the author
+is confident that future developers will have a solid foundation that
+is worth building their innovations upon.
+
+\begin{table}
+\centering
+\begin{tabular}{rrl}
+Date	   & Subversion revision & Event				\\
+\hline
+2004-01-19 & r36  & \Link\Tech{GSLib} v1 (initial checkin)		\\ % *
+2004-01-23 & r50  & large-scale OO reimplementation			\\
+2004-02-23 & r99  & \Link\Tech{daemon} checkin				\\
+2004-03-07 & r157 & \Link\Tech{daemon} takeover				\\
+2004-03-11 & r173 & \Link[\Tech{daemon2}]{daemon} born			\\
+2004-03-13 & r183 & \Link[\Tech{daemon2}]{daemon} builds menu trees	\\ % *
+2004-03-19 & r199 & major rewrites (starting to take over)		\\
+2004-05-16 & r237 & \Link\Tech{migraine}				\\ % *
+2004-05-22 & r239 & \Link\Tech{GSLib} v2 (\Link\Prog{Aapl} checkin)	\\ % *
+2004-05-28 & r289 & \Link\Prog{TinyXml} checkin				\\
+2004-06-03 & r311 & \Tech{randtree} is functional			\\ % *
+2004-06-06 & r314 & \Link\Tech{mdb}					\\
+2004-07-28 & r456 & \Link[\Tech{daemon2}]{daemon} network mode		\\
+2004-08-06 & r462 & \Link[\Tech{junkie2}]{junkie} born			\\ % *
+2005-04-05 & r511 & \Link\Prog{Cordelia} integration			\\ % *
+2006-04-07 & avl  & \Link[\Tech{daemon3}]{daemon}, \Link\Tech{ttc}	\\
+2006-04-24 & avl  & \Link[\Tech{daemon3}]{daemon}: provision for CORBA	\\
+2006-07-13 & r625 & \Link\Tech{GSLib} v3 transition complete		\\ % *
+2006-09-06 & r662 & \Link<rules> integrated				\\
+2006-10-04 & r669 & \Link\Tech{rulez} born				\\
+\end{tabular}
+\caption{Milestones of project history}
+\end{table}
+
+\begin{table}
+\centering
+\def\ifusedtreshold{999}
+\begin{tabularx}{\linewidth}{r|X}
+VASSÁNYI István		& PostgreSQL, general advisor,
+			  academic contact			\\
+GAÁL Balázs		& original idea, project executive,
+			  business contact, chief evangelist	\\
+VÉGSÕ Balázs		& \Link\Tech{MenuGeneAdmin}		\\
+MAYOR Zsolt		& initial \Link\Tech{daemon} code	\\
+CZIGÁNY Attila		& CORBA interface for \Link\Tech{daemon}\\
+SZENTE Zsuzsanna	& ontologies				\\
+HERCZINGER Viktor	& PostgreSQL, system administration	\\
+the author		& pretty much all and everything else	\\
+\end{tabularx}
+\caption{Past and present project participants}
+\end{table}
+% Brief history >>>
+
+\NewSection{Qualitative goals} % <<<
+
+% {extreme programming}
+% [SKIP] "the only truly important product of the system development process
+% is code"
+% [SKIP] "There is no Big Design Up Front."
+\Topic{introduction}
+\Menugene was not developed with any particular methodologies in mind
+because none of the team members had been educated in these matters
+of software engineering.  Nevertheless we cannot say the process was
+driven by individuals' inconsistent actions, either.  In retrospect we
+can identify a set of values that we took quite seriously, cutting out
+any others from the subconscious.  This is similar to \Keyword\Target%
+<extreme programming> (XP, see \cite{XP}), an agile software development
+methodology which is expressly suited for research projects having
+unstable requirements.  It turns out many of the properties described
+below play an important role in extreme programming as well.
+
+\NewwSection{Maintainability} % <<<
+
+We postulate \emph{no part of a system lasts forever}: one day or another
+it will be necessary to improve, fix, or investigate any given code fragment,
+no matter how still it used to be.  To save the codebase from becoming
+an obstacle in its own development we strongly discouraged writing code
+on the assumption that once it is finished, it can be forgotten.
+
+% {reasonable factorization}
+In practice, one way to ensure maintainability was paying special attention
+to \Keyword<reasonable factorization>.  Whenever a new function was added,
+in the reviewing cycle we routinely examined: \Talk{Is it the appropriate
+place for that function?  Wouldn't the implementation be simpler elsewhere?
+Or maybe is it worth splitting it up for better understanding?}  If so, we
+tried hard to reach a reassuring conclusion.
+
+% {elegant interfaces}
+Related to code organization is the question of interfaces.  As we all
+know, an entry point lies between the caller and the callee, their
+interaction depending on the encoding and decoding of arguments and
+return values, and the \emph{mental} overhead of these processes can be
+significant (then painful).  We realized this, and as a countermeasure
+we always sought to come up with \Keyword<elegant interfaces>.  Sometimes
+we found compromises unavoidable, because what callers appreciate is not
+necessarily comfortable for the callee.  Other times we had to resort to
+code refactorization to be able to move, split, merge, generalize, or
+specialize interfaces, all because it appeared mental overhead would be
+less the other way.  A set of well-pronounced guidelines on this topic
+can be found in \cite{dietlibc} by the author of ``glibc on diet''.
+
+Gradual refactorization (both code- and interface-wise) is a key element
+of extreme programming.  While it might be regarded as trivial day-to-day
+practice, we decided this task deserved more responsibility.  If for no
+better reason, because it can break existing code considerably (which we
+did \Link[several times]{brief history}), but we have learnt being courageous
+(one of the principal XP-values) pays off.
+
+% {consistent coding style}
+% [SKIP] common language -- common ownership
+XP also advocates good communication, which we (unknowingly) sustained
+by growing accustomed to a \Keyword<consistent coding style>.  \emph{%
+Developers express and interpret (communicate) program behavior by writing
+and reading code}, and they code the same thing very differently, in the
+terms of their personal vocabulary.  We thought, at the cost of some soft
+restrictions we could spare a lot of mental overhead, because reviewers
+would not be forced to change their mindset when working on components
+written by someone else.  Our coding style covered code formatting, markups,
+naming conventions, and the usage of language features.  Once it had been
+documented, but later we saw it was better to let people accommodate,
+rather than treating them as children who must obey their father's rules.
+
+% {[proper documentation]}
+% [SKIP] improve language skills
+Finally, our professional experience had taught us not to neglect
+\Keyword\Target<proper documentation>.  Following our \Link[postulate of
+maintainability]{maintainability}, during the course of development we
+settled down on the principle \emph{nothing in the codebase should be
+regarded as private asset} which need not be documented because it is
+shielded by publicly accessible layers.  We attempted to make careful
+note of every detail which might not be obvious by just looking at the
+source, including expected entry conditions, side effects, relations with
+other functions (contributing to the access protocol of the component
+they are part of), and everything known to require further attention
+(TODO).  Of course, there was the danger of watering down the source
+by excessive commentary%
+%%%%%%%%%
+\footnote{Not a big threat as for today's standards.}.
+%%%%%%%%%
+For us another utility of documentation was to gain feedback: \Talk{Does the
+behavior I have coded really make sense?} It occurred to us an idea is less
+likely to contain flaws if it can be phrased convincingly both in a spoken
+and in a programming language.
+% Maintainability >>>
+
+\NewwSection{Correctness} % <<<
+
+% {automated testing}
+% [TODO] \cite{some software engineering book (SSLD?)}
+Besides the qualitative feedback picked up by writing documentation it was
+apparent we needed some quantitative measurements as well.  Books on modern
+software engineering call for \Keyword<automated testing>, an idea we
+adopted wholeheartedly for its promise of thoroughness and of saving human
+resources.
+
+% {torture testing}
+One can automate his tests by several means.  \Keyword[Knuth]{torture
+testing}, for example, to verify the robustness of his \Prog{TeX}
+compiler crafted a special input file along with the expected
+output \emph{manually} in the hope that the presence of bugs in the
+implementation would be visible either by a distraction in the output
+or by an unwelcome crash: \cite{Knuth}
+
+\begin{quote}
+The idea is to construct a test file that is about as different from a
+typical user application as could be imagined. Instead of testing things
+that people normally want to do, the file tests complicated things that
+people would never dare to think of, and it embeds these complexities in
+still more arcane constructions.
+\end{quote}
+
+Knuth went as far as demanding no program shall claim itself a \TeX\
+implementation until it passes this test.  He concluded: ``This method
+of debugging, combined with the methodology of structured programming
+and informal proofs (otherwise known as careful desk checking), leads
+to greater reliability of production software than any other method
+I know.'' While we support this view, for \Menugene we needed a test
+method that relies less on the elaboration of test vectors.
+
+% {unit testing}
+An appealing alternative was \Keyword<unit testing>, so prevalent among
+Java developers that every book on Java programming, it seems, feels
+obliged to mention \Tech{JUnit} at least%
+%%%%%%%%%
+\footnote{Giving the impression that Java does not know about any
+other testing methods---a statement we cannot accept faithfully.}
+%%%%%%%%%
+(see \cite{Java} for example).  Its application is quite diverse, but we
+can make a couple of observations.  First, unit testing (as a methodology)
+does not let testing become an afterthought, done (or forgotten altogether)
+after all user requirements have been met, because test cases and production
+code must be developed in parallel%
+%%%%%%%%%
+\footnote{Even more, in a test-driven development pattern the test case
+for a unit is created \emph{prior to} writing production code.}
+%%%%%%%%%
+Consequently, in the codebase there cannot be
+untested units.  Exactly what constitutes a unit is largely unspecified
+\cite{IEEE:unit_testing}, but the assumption of a one-to-one mapping between
+units and classes appears to be customary.
+
+% {integration testing}
+Most certainly we wanted testing to be an integral part of our software
+development lifecycle. On the other hand the tendency of unit testing
+\Talk{if each unit feels good, the whole program feels good} raised
+concerns about \Keyword[inter-unit relationships]{integration testing}.
+By writing endless test cases one risks missing the forest for the
+trees, because operations of one object may \emph{inadvertently} affect
+the state of other objects. Prime examples are global variables, shared
+resources in general and concurrency.
+
+% {[stress testing]}
+% [TODO] Reference literature for fuzzing?
+In the end what we have come up with may not be very different from some
+interpretation of unit testing. Our test suites consist of standalone
+programs, which are not built around any standard framework (although we
+managed to factor out some common code).  Since our \Link<build system>
+understands their invocation it is a matter of keystrokes to launch a test
+(or an entire test suite), and see if there is any regression. A test
+program tries to stress the implementation by use case basis, sometimes
+covering a subset of a class, other times more than one class. The test
+subject is \Keyword\Target[put under stress]{stress testing} by feeding
+it with \emph{bulk}, \emph{random}%
+%%%%%%%%%
+\footnote{Actually, pseudo-random.  The seeds are always saved for
+the sake of reproducibility.}
+%%%%%%%%%
+input for a \emph{long} time. The input is generated on the fly
+in such a way that frequently values are chosen near the limits
+of the input domain of the variables. IEEE refers to this method
+as \Term{boundary-value analysis} \cite[chap.~5]{SWEBOK}. For the
+input is ensured to be acceptable (though meaningless) the subject
+must not crash (see \Section{robustness}).
+
+Our line of thinking was the longer the subject is exposed the more likely
+we will hit a bug---if there is any.  The advantage of the randomization
+is that we need not design test vectors to the minute details; it is enough
+to set the main directions, and leave the rest to chance.  This technique
+is called \Term{fuzzing} in security engineering, and its usage is naturally
+a compromise, but a good one at that in our assessment.
+
+% {[co-testing]}
+Stress testing (combined with measures to ensure robustness) performed
+well at demonstrating the behavior of the test subject is not incorrect,
+but its capability of gathering positive evidence is limited, because
+often the correctness of the results can only be checked indirectly.
+For this reason we advanced the method a little, and termed the result of
+our efforts \Keyword\Target<co-testing> for it is based on the simultaneous
+execution of two processes in a client-server manner, the client being
+the test program, and the server being the test subject. During testing,
+the client sends requests to the server, but \emph{the operation is
+carried out by both parties}. At regular intervals the subject is asked
+to return detailed information about its state. As this information is
+internally tracked by the test program too all the time, they can be
+compared to see if the subject has been malfunctioning. IEEE mentions
+this method under the name \Term{back-to-back testing}.
+
+% {qbot} TODO needs \Tech on \marginpar
+It is important to emphasize the independence of the implementation
+of the test program. In our case not even the programming language is
+shared, yielding additional benefit of having insight into the problem
+the subject tries to solve from a different point of view . In an
+\Keyword[other project]{qbot} we experimented more with co-testing, and
+finally established a framework for trying the robustness and conformance
+of untrusted programs. \cite{qbot}
+% Correctness >>>
+
+\NewwSection{Robustness} % <<<
+
+% {defensive programming}
+One of our priorities was to write programs that \Keyword[behave well]%
+{defensive programming} even under unexpected circumstances: if the input
+is intended (documented) to be acceptable (from the perspective of the
+callee) then, be it however extreme, it must be processed correctly;
+otherwise the error must be signalled to the caller very clearly, As we
+have seen in \Section{correctness}, much has been invested in the testing
+suite to probe this property of the implementation. Eric S. Raymond (ESR)
+characterizes robustness as ``the child of transparency and simplicity''
+\cite{ESR}. We have already touched upon these dimensions of software
+quality in \Section{maintainability}; now we will review the measures
+we have taken to prevent bogus input \emph{silently} producing bogus
+output\footnote{This is not to be confused with GIGO (garbage in, garbage
+out), which is said when nonsensical (but acceptable) input about is
+fed to a well-meaning, correct program.}.
+
+% {appropriate data types}
+ESR says ``One very important tactic for being robust under odd inputs
+is to avoid having special cases in your code.'' \cite[\Ibid]{ESR}
+We translated his advice into practice by making a good deal of
+special cases impossible.  More closely, whenever feasible we declared
+variables with \Keyword[constrained types]{appropriate data types}
+(like \Code{unsigned} and \Code{enum}%
+%%%%%%%%%
+\footnote{%
+The GNU C Compiler also has an \Code{__attribute__((not_null))}
+extension, meaning a pointer declared such cannot be \NULL.  It is yet
+to be investigated, though propagation rules may wreck havoc on its
+usefulness.  PostgreSQL 8.x has a more flexible mechanism to attach
+\emph{custom} constraints to data types via \Code{CREATE DOMAIN}.
+This feature fit very well in our database schemata.}).
+%%%%%%%%%
+Not only this gave a chance to the compiler to do static type
+analysis and catch misuse, but the point is to \emph{confine the domain
+of the variables to the range that actually makes sense in that context}.
+A frequent use case is storing size or quantity, which obviously cannot
+be negative.  Having not restricted their domain, they must be checked
+before usage---a special case we sought to fend off by ESR's words.
+
+% {[consistency checkpoints]}
+Choosing the appropriate data type is a good starting point, but we
+knew it cannot work miracles, for example when the constraint is too
+complex to be formulated within the facilities of the type system of
+the target language%
+%%%%%%%%%
+\footnote{%
+This is the case with Perl, which does not even distinguish between
+numbers and strings. In exchange it offers excellent validation
+capabilities.},
+%%%%%%%%%
+or when the constraint is not known until run-time. As another layer of
+defense we strewed the codebase with internal \Keyword\Target<consistency
+checkpoints> everywhere we could think of. Similar in spirit to database
+constraints, these checkpoints try to spot inconsistencies in the state
+of the program as early as possible, and once one is found, they bring
+on outright termination%
+%%%%%%%%%
+\footnote{%
+The Linux kernel developers take the same approach, except that they
+seldom panic the kernel in consideration of fault tolerance. Instead
+they let the error signal propagate back to user space.}.
+%%%%%%%%%
+For implementation we used both \Code{assert(3)}-style short statements
+and separate sanity checking routines. After a while we came to using
+these safeguards as complementary formal documentation, and begun adding
+them purely for that purpose, even if they were known to be redundant.
+The price to be paid was the CPU-time spent on consistency checking,
+causing an order of magnitude slowdown. To cancel the effect, our
+\Link<build system> can be \Link[configured]{CONFIG_DEBUG} to skip all
+the checkpoints, or just the most expensive ones of them.
+
+% {input validation}
+Robustness is a requirement of secure software. While \Menugene is not
+specifically security-sensitive (save for \Link\Tech{junkie}, the web
+interface, which \emph{is}), buying their agenda \cite{SecProg} is
+always a good idea, because one day any piece of code can end up in
+a context where security is a chief concern. One lesson people have
+(hopefully) learnt from web application development is the necessity
+of (program) \Keyword<input validation>. \cite{OWASP} exemplifies
+a number scenarios when invalid input leads to incorrect behavior in
+subtle ways. It is important to realize that it does not make difference
+whether the input is invalid on (malicious) intention or just by mistake%
+---the end result is the same unless this vector is taken care of properly.
+
+% {error checking}
+The textbook rule of thumb says you must also account for errors reported
+by subroutines (e.g. checking the return value).  While it may sound too
+pedantic to bring up such a triviality in this document, visible evidence
+suggests developers still perceive \Keyword<error checking> as a bothersome
+and unfruitful exercise%
+%%%%%%%%%
+\footnote{%
+Exceptions may help to hide this problem, but they will not take you much
+farther; see the next paragraph.}.
+%%%%%%%%%
+It is not that we were after illegible code for the sake of purity,
+but in our experience trading reliability for convenience is not a
+profitable deal in the long run.
+
+% {graceful failure}
+We have already alluded to various error handling strategies we employed
+in \Menugene: for example, halt on internal consistency error (bug) or
+on critical resource outage (i.e. insufficient stack space, or object
+allocation failure).  The repertoire is broad; however, the point we
+made was to \Keyword[fail gracefully]{graceful failure}: do not crash
+the program, and try to clean up before exit.  The latter clause may
+seem unrelated to the topic of this section, but an adhering component
+will appear to be more robust by not leaving mess behind even if it finds
+itself in trouble.  Looks human psychology pervades software engineering.
+% Robustness >>>
+
+\NewwSection{Serviceability} % <<<
+
+\emph{Designing for failure may be the key to success} is the title of an
+interview \cite{Lindsay} conducted with Bruce Lindsay, IBM DB2 architect
+and RDBMS guru.  Sections \Section*{correctness} and \Section*{robustness}
+showed how \Menugene is prepared to meet bugs and other failures.
+This section describes the built-in facilities that help developers and
+operators track down the source of failures.
+
+% {[information gathering]}
+In such a situation it is probably information what the maintenance
+team appreciate the most: information about what the system had
+been doing before the error occurred, details about the context
+etc.  Run-time \Keyword\Target<information gathering> is facilitated
+by the \Link\Tech{gsmon} subsystem, which bears some resemblance
+with the \Tech{syslogd} daemon.  Scattered in the codebase, just like
+\Link<consistency checkpoints> there are calls to \Link\Tech{gsmon}
+that inform about the progress of execution, current state, warn
+before entering and after leaving critical sections, or about anything
+the developer thought \emph{might} be worth making record of some day.
+The logged information is filtered by the subsystem, and only the relevant
+pieces are presented.  The source of the information (which component,
+function emitted it) is preserved as well as the call stack at the time
+the message was logged (with a little aid).
+
+% {error stack}
+Components often fail due to the failure of another component. This case
+the error propagates back in the dynamic scope of the program.  The error
+could be logged by every component involved in the chain of events.  While
+\Link\Tech{gsmon} is perfectly suitable for this usage, we chose to add an
+\Keyword<error stack> manager, \Link\Tech{gserr} to assist handling the
+chain of errors%
+%%%%%%%%%
+\footnote{In Java, we talk about exception chaining.}.
+%%%%%%%%%
+In a typical use case when an error is encountered it is added to the
+queue, and the control is returned to the caller (indicating the failure).
+Depending on the error handling strategy of the caller, it may give up
+too, retry the operation, or just acknowledge the error and proceed.
+Not all of these cases needs the error to be reported.  \Link\Tech{gserr}
+can clear the queue either reporting or just forgetting its contents,
+depending on the judgment of the caller.  This way the full chain of
+events can be retrieved if necessary, but they will not flood the logs
+if they are harmless.
+
+% {service interfaces}
+Both logging and the error queue are active in normal operation mode.
+\Menugene also has \Keyword<service interfaces>, which come into play
+in actual debug sessions. Some of the interfaces function as hooks.
+These are placeholder NOP instructions which you can set a breakpoint
+on, allowing, for example, to trap exceptions.  (This is not possible
+otherwise in C++.)  Other service interfaces exist to instruct various
+components of the system to produce extra debugging information (like 
+statistics, for profiling).
+% Serviceability >>>
+
+\NewwSection{Care} % <<<
+
+In a way care can be regarded as a meta-value: having high
+standards of the values discussed so far infers care about
+the quality of the software overall. Extreme programming has
+added respect as the last of its own values (the original
+proposition did not have it).  XP practitioners respect their
+work by pursuing high quality and looking for the best design
+for the solution at hand.
+
+% prototyping
+Unfortunately quality does not come for free. Often we found ourselves
+spending days or even weeks on interface design, refactorization, and
+\Keyword<prototyping>, coding several possible variations to choose the
+best one.  Done with that in some cases we managed to integrate prototypes
+into our \Link[co-testing framework]{co-testing}, saving materia that
+otherwise would have been consigned to oblivion.
+% Care >>>
+% Qualitative goals >>>
+
+\NewSection{Development environment} % <<<
+
+\NewwSection{Platform} % <<<
+
+% {Linux}
+Before the author joined \Menugene had been developed and run on
+Microsoft Windows. Shortly after the team shifted to \Keyword<Linux>,
+and has remained with it ever since. The reason behind the move was
+simply that we had more experience with Linux, and we wanted to support
+that platform anyway. Currently the system neither compiles nor runs
+under Windows, but porting should be fairly trivial, because care
+was taken not to overuse platform-specific features. Beside the two
+mainstream desktop operating systems, no other has ever been considered.
+% Platform >>>
+
+\NewwSection{Programming languages} % <<<
+
+The bulk of \Menugene is written in C++, mixed with some embedded SQL,
+surrounded by Perl and PHP programs, and glued by shell scripts.
+
+% {C++}
+The choice of \Keyword<C++> was predetermined by the external low-level
+genetic algorithm library, \Tech{GALib}, which was also written in C++,
+and replacing that library was out of question%
+%%%%%%%%%
+\footnote{%
+The project management pled to its alleged widespread scientific usage.}.
+%%%%%%%%%
+Since the engine of \Menugene and \Tech{GALib} need to cooperate
+closely, choosing another language would have introduced unacceptable
+risks of instability. C++ is a usual compromise between execution speed,
+development speed, and portability. For \Menugene the first one is the
+deciding factor, for genetic algorithms are truly CPU-intensive.
+
+% {[migraine]}
+As noted above, C++ is usually a compromise. Many feel dissatisfied
+with its misfeatures and unpredictable behavior (see \cite{Critique}
+for a well-founded case against C++). \cite{LiteFAQ,GotW} list
+\emph{hundreds} of obscure situations when the language acts far off
+the expectations---not one of them we had the pleasure to deal with.
+In an attempt to back out of the jumble of C++ we created a short-lived
+branch, \Keyword\Target[\File{migraine}{src}]{migraine}, to probe into
+Objective~C. The subproject was canned soon, but the gathered experience
+bore heavy influence on the memory management subsystem of the second
+generation \Link\Tech{GSLib}.
+
+% {Perl}
+The need for a higher level language was stressing. As an alleviating
+resolution we incorporated \Keyword<Perl> to write auxiliary and helper
+applications, such as GUI visualizers, like \Link\Tech{rulez}. Perl is
+very good at handling data structures, functional programming and
+object oriented programming%
+%%%%%%%%%
+\footnote{Despite the near-complete lack of special syntax for OOP.}.
+%%%%%%%%%
+Its characteristics makes it ideal not only for prototyping, and the
+author expects to see an increasing portion of \Menugene being written
+in Perl, if the development of the system is to be continued once.
+% Programming languages >>>
+
+\NewwSection{Compilers} % <<<
+
+% {gcc}
+Contrary to popular misconceptions the C++ compiler of the GNU Compiler
+Collection (\Prog{gcc}%
+%%%%%%%%%
+\footnote{%
+By the acronym we will refer both to the GNU C and GNU C++ compilers.
+See \cite[p.~3]{gccman} for other meanings of the acronym.})
+%%%%%%%%%
+is not the only one available on Linux. A serious alternative is the
+Intel C/C++ compiler (\Prog{icc}), which is said to generate faster,
+superior code. However, we decided to stick with \Keyword\Prog{gcc},
+which we understood very well, and reserved \Prog{icc} as an option
+for later evaluation. \Prog{gcc} has a wide variety of vendor-specific
+extensions which we sought to exploit aggressively (grep the source for
+``gcc-specific'' to see the whereabouts). As neither compiler-neutrality
+nor purity was an objective explicit dependency upon these extensions
+only made life easier for us.  Arguably, it is a bad idea to get into a
+vendor lockin deliberately, but in this special case there is a way out:
+the \Prog{icc} is rumored to be compatible with \Prog{gcc} to such an
+extent that even the Linux kernel has no problem with it. \cite{ICC}
+% Compilers >>>
+
+\NewwSection{Build system} % <<<
+
+By \Term{build system} we refer to the framework that utilizes your
+compiler toolchain to automatically compile source files and produce
+an executables. (See \cite[p.~114]{SWEBOK} for a better, more abstract
+definition.) Self-contained IDE:s (like Microsoft Visual Studio and
+Eclipse) come with their own build systems, storing related settings in
+\Term{project files}.  Unlike with the \Prog{gcc}, we definitely did
+not want to depend on a particular IDE to work on the system---people
+are different, after all, and an editor that fits one's needs may be
+a pain to use for others.
+
+% {make}
+Instead the build is controlled by GNU \Keyword\Prog{make}%
+%%%%%%%%%
+\footnote{%
+It must be noted that there exists many other build systems, such as
+\Prog{cons} and the infamous \Prog{jam}.  It is only that the extended
+capabilities of GNU \Prog{make} made it a satisfactory solution for us.}.
+%%%%%%%%%
+Making use of the macroing capabilities of the GNU version (\Code{\$(call
+)}), all the building logic is sourced out to one specific location
+(the \File{BUILD}{src} directory).  Developers can usually get on by
+copying an existing \Path{Makefile} and adjusting a few variables as
+documented in \File{Makefile.vars}{src/BUILD}.
+% Build system >>>
+
+\NewwSection{Software configuration managers} % <<<
+
+% [TODO] Mention darcs?
+A software configuration manager (SCM) is a program that, put very simply,
+tracks the history of the codebase and allows team members to share their
+improvements with each other.  When a change is done the developer must
+notify (\Term{commit}) the SCM.  \cite[chap.~7]{SWEBOK} has a comprehensive
+review of all related concepts.
+
+% {CVS}
+IEEE attributes critical role to SCM in the software maintenance process.
+\cite{IEEE:maintainability} It is no coincidence that the codebase of
+\Menugene has been under version control since the very beginning.
+Initially \Keyword\Prog{CVS}, the de facto tool of not-for-profit
+development efforts was responsible for SCM. It was neither particularly
+featureful nor reliable; especially its inability to follow file and
+directory renames was disappointing.
+
+% {Subversion}
+When it become apparent that \Prog{CVS} loses commits we decided it
+was time for departure. A potential successor was \Prog{Monotone}, a
+distributed SCM supporting disconnected (offline) operation. This mode
+was quite welcome by the author, who did not have Internet connectivity
+at home at that time. We considered \Prog{Monotone} briefly, but the
+team rejected it on the grounds of being too different from what we were
+used to. Eventually \Keyword\Prog{Subversion} took over \Prog{CVS}
+at the same time when the \Link<third generation> of \Link\Tech{GSLib}
+was merged. The transition period lasted no longer than a week, and
+at the end, much to our reassurance we managed to preserve the history
+of the codebase.
+% Software configuration managers >>>
+
+\NewwSection{Developer tools} % <<<
+
+Out of respect to developers' freedom we did not discipline what CASE
+tools are to be used for everyday duties, except when agreement was
+absolutely necessary (e.g. the choice of SCM).  As a matter of long-%
+established preference the author keeps on using \Prog{Vim} for editing,
+\Prog{gdb} for debugging and \Prog{ctags} for generating source code
+cross-references.  Other team members settled on \Prog{Eclipse} and are
+content with it.
+
+% {[homegrown utilities]}
+An often neglected segment of software construction is the creation of
+\Keyword\Target<homegrown utilities> that automates repeated tasks (for
+example, disassembly of a dump file) or makes the developer's life easier
+otherwise.  We did not make trouble of it and wrote new tools whenever
+necessity came in the same vein as any other code.  The \Link[next section]%
+{BITS} provides a detailed listing and description of these tools.
+% Developer tools >>>
+
+\NewwSection{Database managers} % <<<
+
+% {Oracle}
+Part of the \Menugene system is an \Keyword\Prog{Oracle} database
+manager, which provides efficient access to nutrition data for other
+system components. (See \Figure[sysarch]{executive summary}.) The
+database schema and contents dates back to days when the author was not
+affiliated with the project yet, when \Menugene was planned to be a
+subsystem of \Prog{Cordelia}, the Department's lifestyle counselling
+system. (A weak linkage has been \Link[fixed]{Cordelia}, but only for
+demonstration purposes.)
+
+\Topic{criticism}
+It is obvious now, \Prog{Oracle} is an \Keyword[overkill]{criticism}.
+Its capabilities are greatly under-utilized, and the database schema
+has stagnated beyond all bearings. \Menugene has proven not to be a
+data-intensive application anyway, as its data supply scarcely exceeds
+a few megabytes.
+
+% {PostgreSQL}
+In response to the first and second lines of criticism, the project is
+drifting away from the world's leading vendor of information management
+software towards \Keyword\Prog{PostgreSQL}. One of its key advantages
+that led to the decision is its remarkably comprehensive and readable
+documentation%
+%%%%%%%%%
+\footnote{%
+Though compared to the API:s and manuals of \Prog{Oracle} anything may
+seem `excellent'.}.
+%%%%%%%%%
+The transition is also a good opportunity to rethink and (at last)
+document the database schema---a long-due debt to repay.
+% Database managers >>>
+
+\NewwSection{Documentation} % <<<
+
+% {source code commentary}
+\Menugene does not have any \emph{formal} documentation, largely
+because there was no up front design in the first place; this document
+is written in the hope to \Link[fill the gap]{docaim}. This is not to
+say there is not an explanatory word in the codebase, that would be
+against our \Link[qualitative goals]{proper documentation}. Rather,
+most of the information is in the \Keyword<source code commentary>.
+There was an early attempt to make it compatible with \Prog{doxygen},
+which would then produce nice HTML sheets just like \Prog{Javadoc},
+but the effort has lost interest. In the \Path{doc} subdirectories
+there are some complementary files for the record of notes not fitting
+elsewhere. The draft \Prog{PostgreSQL} database schema is kept in
+\File<src/daemon/doc/postgre.sql>. The description of various database
+objects (\Code{TABLE}s, \Code{DOMAIN}s, \Code{VIEW}s etc.) are also
+available on-site in \Code{COMMENT} blocks, so SQL development environments
+can access them.
+
+% {TODO files}
+Bug tracking (\Term{defect tracking}) is also handled informally.
+Once we had a \Prog{Bugzilla} to put bugs on public exposure, but
+it turned out not to help productivity.  What we needed instead
+was a registry of missing and broken features ordered by relative
+importance to know what areas call for attention.  This list is
+maintained in the \Keyword[\File{TODO}{src/GSLib/doc}]{TODO files} file.
+By recalling past version of this file via the SCM, one can estimate
+the accomplishments and limitations of the system at any given time.
+% Documentation >>>
+
+\NewwSection {Quality assurance tools} % <<<
+
+% {memory-related bugs}
+Several tools have been put in service to assure the \Link<correctness>
+and \Link<robustness> of \Menugene. While they differ in specific uses,
+all of them are employed to unveil \Keyword<memory-related bugs>. A common
+detrimental side-effect of these tools is the significant slowdown they
+cause, making their application difficult during \Link<stress testing>.
+
+% [efence], [ccmalloc]
+\begin{itemize}
+\item	\Target\Prog{efence} is a library that transparently replaces
+	all routines of the \Code{malloc(3)} family to catch \emph{%
+	buffer overruns} as soon as they happen.  The technique is solid,
+	but wasteful: even a single byte of allocated memory will occupy
+	kilobytes.  (The formula is not linear.)  Worse, on Linux the size
+	of user address space will drop down to a fraction of the normal
+	limits.  This means the program will not be able to claim more
+	than half gigabytes of memory, no matter how much is available.
+
+	Nevertheless, the help of \Prog{efence} has been invaluable.
+	Years ago we forked a version under the name \Tech{ElectricTense}
+	for private enhancements.  Since then it has grown completely
+	independent, and today it is part of \Cite\Prog{qbot}.
+\item	\Target\Prog{ccmalloc} is another transparent library, which
+	we primarily used to detect \emph{memory leaks}.  The library
+	can tell where the unreleased piece of memory was allocated
+	in the source, hinting at the faulty data path.
+	% [SKIP] OCI leaks like hell
+\item	\Prog{valgrind} is a virtual machine which observes program
+	behavior on the machine instruction level, and draws inference
+	from that.  We used it to spot \emph{references to uninitialized
+	variables}.
+	% [SKIP] doesn't work under PaX
+\item	\Link\Tech{mdb}:
+	One of our homegrown utilities to \emph{profile memory consumption}.
+\end{itemize}
+
+% [SKIP] These are C-specific (except valgrind).
+Java developers will notice their choice of language offers these services
+out of the box. While there is no getting around it, it must also be noted
+the tools listed above are not the king achievements of the 21st century
+realm of C.  For one, the copyright of \Prog{efence} dates back as far as
+1987---eight years before the burst of Java.
+% Quality assurance tools >>>
+% Development environment >>>
+
+\NewSection{The codebase} % <<<
+
+\NewwSection{A walk through the repository} % <<<
+In this section we will review the contents of the \Menugene repository.
+We will concentrate on role and functionality, allowing for few technical
+details.  These can be followed up at the referred pages, or in the source
+code itself if the component is not discussed further in this document.
+
+\begin{itemize}
+\item	\Repo{BUILD}{src}\par
+	This directory contains the common files needed to
+	\Link[build]{build system} the system.
+
+	\BumpBMLevel
+	\def\cwd{src/BUILD}
+	\begin{itemize}
+	\item	\Repo{eclipsize}\cwd\par
+		This script is invoked by \Link\Code{make eclipse}
+		to get the source browsing capabilities of the
+		\Prog{Eclipse} IDE fully functional.  It does
+		so by linking header files to another place
+		in the file system.  \Link\Code{make xclean} undoes
+		the effect, making the repository pristine again.
+	\item	\Repo{Makefile.vars}\cwd\par
+		This file is sourced by every \Path{Makefile}s.
+		It describes the build environment, such as the
+		desired compiler to use.  These parameters are
+		intended to be customizable to fit local needs.
+	\item	\Repo{Makefile.macros}\cwd\par
+		Sourced internally by \File{Makefile.vars}{src/BUILD},
+		and describes the actual operating system commands to
+		execute in order to build a part of the system.
+		It should be general enough to be applicable
+		unmodified to any Unix-like systems.
+	\item	\Repo{Makefile.rules}\cwd\par
+		This file is also sourced by every \Path{Makefile}.
+		It consolidates all the information from the
+		\Path{Makefile}s described above, and eventually
+		tells \Prog{make} when, how and what to build.
+	\end{itemize}
+	\KnockBMLevel
+
+\item	\Repo{GALib}{src}\par
+	Complete source code of \Prog{GALib}, the external low-level
+	genetic algorithm library \Menugene relies on.  It is included
+	in the repository to be at hand if the system happens to need
+	a feature not provided by the upstream version.  It has been
+	brought up-to-date with newer compiler standards, and the source
+	layout has been rearranged to be more consistent with the rest
+	of the repository.
+
+\item	\Repo{GSLib}{src}\par
+	This directory contains the source code and test suite of
+	\Link\Tech{GSLib}, the infrastructural library of \Menugene.
+	In more precise terms, in this library reside the code of
+	the \Link<object model>,
+	the generic complex \Link[data structures]{collections},
+	the \Link[XML output driver]{XML driver},
+	the \Link<logging>, and
+	the \Link[error reporting]{error handling} subsystems.
+
+\item	\Repo{MGLib}{src}\par
+	In this directory are the source code, documentation and the
+	test suite of the \Link\Tech{MGLib} library, the engine of
+	\Menugene, responsible for the generation of optimal menu plans;
+	this is where the optimization algorithm lives.  This library
+	is not an abstraction layer above \Link\Tech{GSLib}, because
+	client applications need to interfere with both of them.
+
+\item	\Repo{migraine}{src}\par
+	An early attempt to \Link[reimplement]{migraine} the optimization
+	method in Objective~C.  By now it has lost all of its functions,
+	but we believe the idea is worth keeping in mind.
+
+\item	\Repo{perl}{src}\par
+	This is the location of all sort of Perl modules \Code{use}d
+	by Perl programs all over the repository.
+
+	% [GSDB]
+	\BumpBMLevel
+	\def\cwd{src/perl}
+	\begin{itemize}
+	\item	\Repo{Adios}\cwd\par
+		\Tech{Adios} is the author's bundle of custom Perl modules
+		for random utility purposes.  It is not maintained as part
+		of \Menugene; what is in the repository is merely a copy
+		of the (unreleased) upstream.
+	\item	\Repo{CoTest.pm}\cwd\par
+		Provides common functions for \Link<co-testing> parties.
+		It helps in establishing a communication channel between
+		the tester and the subject, and in comparing the results
+		of the parallel execution.
+	\item	\Target\Repo{GSDB.pm}[GSDB]\cwd\par
+		This is an abstraction layer which makes accessing
+		the \Menugene database conceptually more natural
+		for the programmer.
+	\item	\Repo{Rules.pm}\cwd\par
+		Prototype implementation of the \Link[rule matching]{rules}
+		function of \Link\Tech{MGLib}.  In part, it is used for
+		testing.
+	\item	\Repo{MyPrima.pm}\cwd\par
+		This is a collection of widgets and subsystems that
+		extends the functionality of the \Prog{Prima} GUI
+		toolkit, which is required by some of the \Menugene
+		programs.  Among the additions are a drag-and-drop
+		manager, an undo manager, a flexible scrollbar manager,
+		and a new layout manager.
+	\end{itemize}
+	\KnockBMLevel
+
+\item	\Repo{daemon}{src}\par
+	There is the source code of \Link\Tech{daemon}, a client program
+	that takes user criteria, loads some data from the database and
+	generates appropriate menu plans with the help of \Link\Tech{MGLib}.
+	It has a network interface, making it suitable to be used as a
+	mid-level tier behind a user-friendly presentation layer.
+
+	\BumpBMLevel
+	\def\cwd{src/daemon}
+	\begin{itemize}
+	\item	\Repo{postgre.sql}{\cwd/doc}\par
+		This is the draft of the new \Prog{PostgreSQL} database
+		schemata of \Menugene.  The database that the system has
+		today unfortunately lacks documentation.  Until the
+		replacing database manager takes place this draft can be
+		consulted to get an impression about the conceptual design
+		of the current schema.
+	\end{itemize}
+
+	The following files appear in many other parts of the codebase,
+	so it is worth casting a few words about them.
+
+	\begin{itemize}
+	\item	\Repo{.depend}\cwd\par
+		This file is generated by \Link\Code{make dep} and
+		used by the \Link<build system> of \Menugene to
+		track dependencies between source and object files.
+	\item	\Repo{.ccmalloc}\cwd\par
+		This is the configuration file of \Prog{ccmalloc},
+		one of our \Link[quality assurance]{ccmalloc} tools.
+	\item	\Repo{.suppress}\cwd\par
+		Configuration file of \Prog{valgrind}.
+		Both \Path{.suppress} and \Path{.ccmalloc} are used
+		to instruct the associated tools to try to keep out
+		false positives from their failure report as much
+		as possible.
+	\item	\Repo{.gdbinit}\cwd\par
+		Initialization file of \Prog{gdb}, the author's choice
+		of debugger.  The commands in \Path{.gdbinit} make
+		the debug session more convenient and more efficient.
+	\end{itemize}
+	\KnockBMLevel
+
+\item	\Repo{junkie}{src}\par
+	Source code of \Link\Tech{junkie}, the chief end-user
+	web interface of \Menugene.  It relays user input to
+	\Link\Tech{daemon} through network and presents the
+	results in a neat form.
+
+	% [rulez]
+\item	\Target\Repo{rulez}{src}\par
+	\Tech{rulez} is a GUI program for assembling \Link<rules> for
+	\Link\Tech{MGLib}, guiding it in the selection of menu plans
+	based on user taste and other preferences.  Originally, it was
+	intended to be just developer tool to create test vectors for
+	the associated functionality, but we believe its user interface
+	has been polished up to the level of meeting not-so-high end user
+	expectations, like drag'n'drop and unlimited depth undo.
+	\FIGure{rulez} demonstrates the program in operation.
+
+% [BITS], [asciitree], [coxi], [baggy], [subborn], [mdb], [ttc]
+\item	\Target\Repo{BITS}{src}\par
+	This is the developer's private quarters.  The code in this
+	directory -- our \Link[homegrown tools]{homegrown utilities} and
+	other asset -- is required neither for building nor running the
+	system, but can be of value when developing it.  Demonstration
+	screenshots can be seen at the \Link[appendix]{screenshots}.
+
+	\BumpBMLevel
+	\def\cwd{src/BITS}
+	\begin{itemize}
+	\item	\Target\Repo{asciitree.pl}[asciitree]\cwd\par
+		Text-mode XML visualizer.  It reads XML files and
+		draws flat ASCII diagrams showing the hierarchy of
+		XML elements.  This tool is used to inspect the XML
+		output of \Link\Tech{daemon}.
+	\item	\Target\Repo{coxi.pl}[coxi]\cwd\par
+		This is a GUI XML browser, useful at exploring larger
+		XML structures than \Tech{asciitree} is suited to.
+		We had evaluated a number of mature XML browsers before
+		writing \Tech{coxi}, but all of them felt so heavyweight
+		that we decided they were not worth the disk space for
+		our modest needs.
+		% [SKIP]
+		% \FIGure{coxi} shows a screenshot of our program.
+	\item	\Target\Repo{baggy.pl}[baggy]\cwd\par
+		Along the lines of \Tech{coxi}, this is the browser of the
+		\Menugene database.  It displays the \Link[relationships]%
+		{attribute types} between solutions, attributes and solution
+		sets.  \Tech{baggy} was our first GUI tool, and in part it
+		served as a pilot project probing into the GUI potentials
+		of Perl---with salient success.
+	\item	\Repo{dolly.pl}\cwd\par
+		Downloads the complete \Menugene database and saves
+		it in a compact binary file which \Tech{baggy} and
+		\Link\Tech{rulez} can read, so they can operate
+		disconnected from the database manager.
+	\item	\Target\Repo{subborn.pl}[subborn]\cwd\par
+		\Tech{subborn} is a \Prog{Subversion} repository browser,
+		with special focus on convenient history traversal.
+		In a mouse click it lists what the currently selected
+		directory contained at the previous revision, and with the
+		help of the \Prog{Vim} editor it can depict the differences
+		between two revision of the same file in unmatched quality.
+		To our astonishment, we found no standalone applications
+		among the mainstream \Prog{Subversion} GUI clients that
+		had similar features.
+		% [SKIP]
+		% \FIGure{subborn} shows the program in action.
+
+	\item	\Repo{PROTO}\cwd\par
+		\BumpBMLevel
+		Prototypes for various parts of the system used to live
+		here.  As time passed and they had fulfilled their purpose,
+		most of them have been removed from the repository.  The
+		only one remaining is \Repo{cow.pl}{\cwd/PROTO},
+		modeling the implementation of the optimization algorithm
+		of \Link\Tech{MGLib}.
+	\item	\Repo{demos}{\cwd/PROTO}\par
+		The diagrams in this directory have been generated by
+		\File{cow.pl}{\cwd/PROTO}, and have been used to examine
+		and demonstrate workings of the optimization algorithm
+		as implemented in the prototype.  It has been planned
+		to add a real-time monitor to \Link\Tech{daemon} with
+		similar diagrams on display.  This work is yet to be done.
+		\KnockBMLevel
+	\item	\Repo{TOYS}\cwd\par
+		Developer playground.  The code fragments here are not
+		meant to do anything useful, they are just samples of
+		how to accomplish a particular task.
+
+	\item	\Target\Repo{mdb}\cwd\par
+		\BumpBMLevel
+		\Tech{mdb} is a small library for memory profiling.
+		In run time it logs all memory operations (\Code{malloc()},
+		\Code{realloc()} and \Code{free()}) to a binary file which
+		can be analysed with \Repo{mdbstat.pl}{\cwd/mdb} later.
+		In this data one may discover patterns in the memory
+		usage of her program, and associate them with operations
+		being executed at that time, helping code optimization.
+		\KnockBMLevel
+	\item	\Target\Repo{ttc}\cwd\par
+		\BumpBMLevel
+		Total tracer is a C++ add-on tracing function and method
+		calls during a program's lifetime.  Similar to \Tech{mdb}
+		these events are recorded in a binary log file, which is
+		decoded by \Repo{ttc.pl}{\cwd/ttc}.  The output is listing
+		of what functions in what order from where were called during
+		the tracing.  Naturally, this list can grow quite long,
+		but the decoder takes great pains making it as compact
+		and readable as possible.
+		\KnockBMLevel
+	\end{itemize}
+	\KnockBMLevel
+\end{itemize}
+% A walk through the repository >>>
+
+\NewwSection{Dependencies} % <<<
+\Menugene makes extensive use of external tools and libraries.
+The following packages are sufficient to build and run all of
+the components of the system.
+
+% [myOCI]
+\begin{adjustwidth}{-1cm}{-1cm}
+\def\ifusedtreshold{999}
+\bigskip\noindent
+\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash\hsize=.3\linewidth}X|>{\hsize=.7\linewidth}X}
+Package					& Remarks
+\\\hline
+GNU \Prog{make}				&
+	any recent version will do, but it must be the GNU variant
+\\
+a minimal POSIXy environment		&
+	required by the \Link<build system>
+\\
+the \Prog[GNU C++ Compiler]{gcc}		&
+	v3.4 is what we are using; v3.0 will not do, v3.3 might do,
+	v4.0 is known to generate incorrect code
+\\
+\Prog{Perl}				&
+	either v5.6 or v5.8 will do but the former lacks a few modules,
+	which might need to be installed separately then
+\\% [myOCI]
+the \Prog[Oracle Client Interface]{OCI}	&
+	either v9.2 (9{\itshape i} series) or v10.2 (10{\itshape g} series)
+	will do; for the least trouble we recommend \Target[our]{myOCI}
+	\File[stripped OCI distribution]{ARCHIVE/Oracle}
+\\
+the \Prog{Prima} Perl GUI toolkit	&
+	required by \Link\Tech{rulez} and \Link\Tech{subborn}; since Linux
+	distributors seem not to offer binary packages, we have rolled our
+	\File[own]{ARCHIVE/Prima}, which is as easy to install as unpacking
+	a \Tech{tar} archive
+\end{tabularx}
+\end{adjustwidth}
+
+\bigskip
+Also, one may want to obtain the packages below in case she
+intends to carry on the development of \Menugene and put our
+\Link[in-house tools]{BITS} in working order.
+
+\begin{adjustwidth}{-1cm}{-1cm}
+\def\ifusedtreshold{999}
+\bigskip\noindent
+\begin{tabularx}{\linewidth}{l|>{\hsize=.7\hsize}X|>{\raggedright\arraybackslash\hsize=.3\hsize}X}
+Package & Description & Needed by
+\\\hline
+  \Prog{gobjc}
+& the GNU Objective~C Compiler
+& \Link\Tech{migraine}
+\\\Prog{zsh}
+& the Z shell (Unix command line interpreter)
+& \Link\Tech{mdb}
+\\\Prog{DBD::Oracle}
+& \Prog{Oracle} backend for DBI, the Perl Database Interface
+& \Link\Tech{GSDB}
+\\\Prog{Gtk}
+& Perl bindings to the \Prog{gtk} GUI toolkit library
+& \Link\Tech{baggy}
+\\\Prog{Math::Random}
+& Perl module generating random deviates;
+  used to generate test vectors
+& co-testers, \File{cow.pl}{src/BITS/PROTO},
+  \File{cross.pl}{src/BITS/PROTO}
+\\\Prog{Math::Combinatorics}
+& Perl module enumerating combinations and permutations;
+  used to generate test vectors
+& \File{cross.pl}{src/BITS/PROTO}
+\\\Prog{HTML::Parser}
+& One-pass HTML processor module for Perl;
+  used to read XML files
+& \Link\Tech{asciitree}
+\\\Prog{HTML::Tree}
+& HTML parser module for Perl;
+  used to read XML files
+& \Link\Tech{coxi}
+\\\Prog{Date::Parse}
+& Perl module interpreting textual representations of dates
+& \Link\Tech{subborn}
+\\\Prog{Graphviz}
+& Graph rendering software package
+& \File{relations.pl}{src/MGLib/doc},
+  \File{cow.pl}{src/BITS/PROTO},
+  \File{cross.pl}{src/BITS/PROTO}
+\end{tabularx}
+\end{adjustwidth}
+% Dependencies >>>
+
+\NewwSection{How to build it} % <<<
+% {[daemon]}
+Building the executables of the system is relatively straightforward.
+The first step is to adjust the settings in \File<src/daemon/daemon.pc>
+under the heading ``Ora connectinfo''.  Based on these settings knows
+\Keyword\Link\Tech{daemon} where to find and how to log in the database
+manager.  We have not made these values run-time configurable because
+our server has never changed.  Nevertheless it would be a reasonable
+improvement.
+
+% {OCI}, <$ORACLE_HOME>
+It is wise to verify the \Var{$ORACLE_HOME} environment variable
+is set correctly.  This variable belongs to the \Keyword\Prog{OCI}
+libraries, and is supposed to point to a directory where C header
+files and shared libraries can be found underneath.  If you have
+our \Link[OCI distribution]{myOCI} installed, \Code{source}ing
+\Path{/usr/local/bin/oracle_env.sh} will set the variable correctly.
+
+% {configuration}, [config.h], <[CONFIG_DEBUG]>
+There are some other \Keyword<configuration> options and tunable
+parameters in \Target[\File<src/GSLib/include/gslib/config.h>]%
+{config.h}, but we figure that their present values are just right.
+It might be desirable to change \Target\Var{CONFIG_DEBUG} of
+\File<src/BUILD/Makefile.vars>, which controls whether to build
+debugable or production object code.  See the files themselves
+for the complete list of available settings.
+
+% {make}
+Now \Keyword\Prog{make} is ready to build the executable parts of \Menugene.
+Invoked from the root of the repository (\Path{src}) it will take care of
+everything automatically. Components can also be built individually by
+issuing the command from their directory. The code should compile without
+warnings when \Code{CONFIG_DEBUG=full}. Below that debug level (\Code{half}
+or \Code{none}) the ever-cautious \Prog{gcc} will take notices about possible
+instances of uninitialized variables; these warnings have all been verified
+to be false positives and can safely be ignored.  The following operations
+(\Term{targets}) are available:
+
+% <make all>,
+% <[make dep]>, <make .depend>
+% <make <source..o>, <make <program>>
+% <make tags>, <[make eclipse]>
+% <make clean>, <[make xclean]>
+\begin{itemize}
+\item	\Code{make} or \Make{all}:\par
+	Just build everything in the current directory.
+\item	\Target\Make{dep} or \Make{.depend}:\par
+	Recalculate object file dependencies.  \Prog{make} will into
+	all source files (\Term{sources}) to see what other files
+	(\Term{includes}) do they refer to.  This is necessary for the
+	build system to determine whether an object file (\Term{object})
+	is out of date and needs recompilation.  You should \Code{make
+	dep} whenever a new include is added to any of the dependencies.
+\item	\Make{<source>.o}:\par
+	Build the named object if it does not exist or any of its
+	dependencies has modified since the last build.
+\item	\Make{<program>}:\par
+	Likewise.
+\item	\Make{tags}:\par
+	Index all source files with \Prog{ctags} for quick crossreference.
+\item	\Target\Make{eclipse}:\par
+	Clone header files where \Prog{Eclipse} finds them.
+	This is necessary because of a \Prog{gcc} extension
+	(\Code{-remap}) that \Prog{Eclipse} does not understand.
+\item	\Make{clean}:\par
+	Delete all compiled files from the current directory
+	and downwards.
+\item	\Target\Make{xclean}:\par
+	Delete all reproducible files.  Implies \Code{make clean}.
+\end{itemize}
+
+The test suite of \Link[\Tech{GSLib}]{gslib:test} and \Link\Tech{MGLib}
+are not administered from the top-level directory; see their sections
+to learn how to run them.
+
+% {deployment}
+The eventual target of \Prog{make} is the executable of \Link\Tech{daemon}.
+Its \Keyword<deployment> is very simple: copying that single file to
+any box where \Prog{OCI} has been installed will suffice.  Deploying
+the other components of the \Menugene can be just as easy as well, but
+so much depends on the actual operating environment that the matter is
+best left to experienced system administrators.
+% How to build it >>>
+% The codebase >>>
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\NewChapter[Implementation details]{GSLib}
+
+% Intro <<<
+\Topic{introduction}
+\Tech{GSLib} is the infrastructural library that both \Link\Tech{MGLib}
+and \Link\Tech{daemon} relies on.  It is a pool of functionalities not
+directly related to the problem \Menugene tries to solve---optimal dietary
+menu generation.  Its name (``Genetic Solver Library'') originates from
+the \Link[time]{first generation} when we thought bundling everything into
+a single library would be maintainable.  Since then the infrastructural
+needs have grown, and the engine has been granted its own library,
+\Link\Tech{MGLib}.
+
+\Warning
+% {template instantiation}, {header organization}
+\Tech{GSLib} is written in C++, and (though not for the faint of heart)
+makes heavy use of templates. Generic programming (templates) is a
+complex addition to modern C++, with startling syntax and peculiar
+semantics. One of its toughest aspect is the point of \Keyword<template
+instantiation>. Basically, the question is where in the source
+code instantiate templates in order to reduce compilation time and
+object code size. \Prog{gcc} offers several options \cite[Template
+Instantiation]{gccman}. Since neither of the factors mentioned was
+our concern, we decided to follow the Borland model and ``Do nothing
+[extraordinary]. Pretend g++ does implement automatic instantiation
+management.'' In a nutshell, in the Borland model template definitions
+must be visible to all sources that instantiate them, and the compiler
+emits object code for every instance for each file being compiled. In
+our case the definitions are in the files of \File<src/GSLib/inline>,
+which are \Code{#include}d whenever necessary. The drawback of
+this approach is that header files become interdependant upon each
+other---a phenomenon well-known to C programmers. To cut the long
+story short, we have come up with an \Keyword[organisation]{header
+organisation} in which header files are split into multiple files
+-- declarations, definitions, macros, prototypes -- and every one
+of them only \Code{#include}s those parts that are really needed,
+ordered such that the dependency cycles break open.  This mechanism
+is transparent to \Path{.cc} source files.  The commentary in
+\File<src/GSLib/include/gslib.h> presents an illustration of the
+problem and the solution.
+
+% {macros}
+Originally, templates were introduced into C++ to save developers from
+the `evil' C preprocessor, and increase the type safety of the language.
+It is ironic that the C++ standard committee seems to have fallen between
+two stools in their effort. It is our persuasion that the preprocessor
+has a place in the developer's toolbox, and we did not refrain from using
+it, despite its deteriorated reputation. As a result, \Tech{GSLib} has
+dozens of \Keyword<macros>, which are essential for the workings of the
+library.  A quick survey of \File{gslib/macros.h}{src/GSLib/include}
+will reveal that very few of them could possibly be replaced by templates.
+In fact, many of the macros are empolyed to circumvent the all too
+disciplining nature of C++.  Definitely, this is a case when good
+intentions fire back on consumers.
+
+% {macros.h}
+\Keyword[\File{macros.h}{src/GSLib/include/gslib}]{macros.h} is our
+store of general macros not belonging to any specific subsystem of
+the library.  They define shorthands for common expressions, help
+in defining classes, simplify casting etc. We cannot review here
+all the 69 of them, but the documentation in the file should give
+adequate coverage.
+% >>>
+
+\NewSection{Object model} % <<<
+
+% {[GSObject]}
+\Keyword\Target\Tech{GSObject} is the core object model of \Tech{GSLib}.
+The model defines a set of conventions that every \Tech{GSObject} must
+comform to, and another set of methods by which any comforming object
+can be manipulated.  The semantics and the implementation may be familiar
+from other frameworks; in particular, many ideas were borrowed from Java
+and Objective~C.
+
+\NewwSection{Basic facilities} % <<<
+
+% {CObject}
+\Keyword\Code{CObject}%
+%%%%%%%%%
+\footnote{All identifiers defined in the library are in the \Code{gslib}
+namespace.  For the sake of readability we omit the prefix in the text.}
+%%%%%%%%%
+is the ancestor of all \Tech{GSObject}s.  The common operations are
+propagated via inheritance (whenever possible), and the conventions
+are enforced via abstract methods (whenever possible, see \Link[usage]%
+{gsobj:usage}).  
+
+% {reference counting}
+% [SKIP] The very same technique is used in the Linux kernel.
+First and foremost what a \Tech{GSObject} `knows' is the semi-automatic
+management of its own lifecycle.  It is well-established that C++ does
+not reclaim dynamic memory automatically.  The problem is that it is
+left upon the shoulders of developers to find out when it is safe to
+\Code{delete} an object.  This is not trivial, because many other objects
+may hold reference to the named one.  \Tech{GSObject} helps to alleviate
+the problem by providing little-overhead means of explicit \Keyword<%
+reference counting>.  The principle is simple: a counter in every
+\Tech{GSObject} maintains the number of referrers to that object.
+Referrers express their (loss of) interest in a \Tech{GSObject} by
+manipulating that counter.
+
+% <retain()>, <[release()]>, <is_protected>
+\begin{itemize}
+\item	\Fun{retain}{}:\par
+	Tells the receiver \Tech{GSObject} that the caller got hold of
+	a reference to it.  We speak about \emph{joint ownership} if an
+	object has more than one referrers.
+\item	\Target\Fun{release}{}:\par
+	Informs the receiver that one of its referrers has ceased caring
+	about it.  When its last referrer has gone, the object is destroyed.
+\item	\Var{is_protected}:\par
+	Setting this field \Code{true} indicates that the object has a
+	permanent referrer, which will stay there no matter how many times
+	\Code{release()} is called.  Consequently, the reference counter
+	will not be allowed to reache zero, and the protected object will
+	not be destroyed then.
+\end{itemize}
+
+\Topic{release() policy}
+A newly created \Tech{GSObject} is assumed to be owned by its creator.
+When an object is destroyed, it must explicitly \Code{release()} every
+dynamically allocated \Tech{GSObject}s that it has reference to. Inline
+(non-dynamically allocated) \Tech{GSObject}s must not be \Code{release()}d
+by their container object, and at the time of destruction they must not
+be referred by other objects.
+
+% {ownership transfer}
+During its lifetime ownership of a \Tech{GSObject} \Keyword[ownership
+transfer]{may change}, for example when it is passed to a setter method.
+Technically, exactly nothing happens then, but semantically it implies
+that one reference of the caller to the object will belong to the
+called method from now on, as if the callee \Code{retain()}ed and the
+caller \Code{release()}d the passed object. It is not specified in
+what circumstances the ownership of a passed object is transferred, it
+depends entirely on the called method. For setter methods the usual
+convention is to take ownership, while getters keep their ownership of
+the returned object.
+
+% {protection}
+Sometimes the forceful takeover may be \Keyword[unacceptable]%
+{protection}.  For example, if the caller would continue to use
+the passed object, but somehow it ends up destroyed by the callee.
+This is when \Code{is_protected} can help.
+
+% {duplication}
+Besides reference counting \Tech{GSObject} has other things to offer with
+respect to object \Keyword<duplication>.  An object can be in \Term{has}
+relation with other objects, which in turn may \Term{have} other objects
+etc.  When making copy of an object it is desirable to specify how deeply
+the the hierarchy should be duplicated, and from which level should it be
+a clone of the original.  The distinction between clones and duplicates
+is clear: if \Code{A} is a clone of \Code{B} then changes to \Code{A}
+are visible in \Code{B}, while if \Code{A} is a duplicate then \Code{B}
+is unaffected (though initially they have the same contents).
+\FIGure{dup} will clarify the meaning of \Term{depth}.
+
+\input{figs/dup}
+
+% <ctor()>, <[dup()]>, <[copy()]>, <is_shared()>, <unshare()>
+\begin{itemize}
+\item	\Fun{ctor}{mate, depth}:\par
+	Every comforming \Tech{GSObject} is required to have a copy
+	constructor with a prototype like this.  The \Code{depth}
+	parameter specifies how many levels of the contents of
+	\Code{mate} should be duplicated; above that level contents
+	are cloned.
+\item	\Target\Fun{dup}{depth}:\par
+	Returns with an object of the same type as the receiver.
+	\cite{LiteFAQ} calls it a \Term{virtual constructor}.
+	The new object is initialized with the receiver.
+	\Code{depth} has the same meaning as at the copy constructor.
+\item	\Target\Fun{copy}{depth}:\par
+	The same as \Code{dup(depth $-$ 1)} for positive values of
+	\Code{depth}, otherwise the receiver is returned.
+\item	\Fun{is_shared}{}:\par
+	Returns whether the receiver has multiple referrers.
+\item	\Fun{unshare}{depth}:\par
+	\Code{dup(depth)} the receiver if it \Code{is_shared()}.
+\end{itemize}
+
+% <GSOBJ_{COPY,SET,ZERO,CLEAR}()>
+\Topic{more operators}
+\Code{dup()}, \Code{copy()}, and \Code{unshare()} return pointers
+of type \Code{CObject *}.  All three of them have a capitalized pair
+(\Code{Dup()}, \Code{Copy()}, \Code{Unshare()}), which behave exactly
+like the lowercase versions, except that they return upcasted pointers.
+In addition to these operators \Tech{GSObject}s can be moved around
+with the macros \Fun{GSOBJ_{COPY,SET,ZERO,CLEAR}}{}.  They are
+described in \File{GSObject/macros.h}{src/GSLib/include}.
+
+% {interfaces}, [gsobj:interfaces]
+Finally, a comforming \Tech{GSObject} \emph{may} choose to respond to a
+series of other \Keyword\Target[requests][interfaces]{gsobj:interfaces}.
+Implementing them is not compulsory---\Tech{CObject} only defines them
+to make it syntactically valid to invoke the methods in question of
+\emph{any} \Tech{GSObject}, regardless whether it actually implements
+them.  This can be considered a workaround to a fundamental flaw in the
+`object orientation' of C++.
+
+% <[compare()]>,   <[IComparable]>
+% <[serialize()]>, <[ISerialisable]>
+% <[print()]>,     <IPrintable>
+\begin{itemize}
+\item	\Target\Fun{compare}{mate, flags}:
+	(interface \Target\Class{IComparable})\par
+	Asks the receiver to compare itself to another object
+	from the same class, honoring the semantics laid out in the
+	\File[\Code{compare} namespace]{src/GSLib/include/GSObject/%
+	definitions.h}.
+\item	\Target\Fun{serialize}{options, base}:
+	(interface \Target\Class{ISerialisable})\par
+	Asks the receiver to give a \Link\Tech{GSXml} representation
+	of itself.  \Code{options} is a collection of arbitrary options
+	whose meaning is up to the receiver.  \Code{base}, if defined,
+	shall be the parent of the XML node of the XML representation
+	of the receiver class.
+\item	\Target\Fun{print}{stream}:
+	(interface \Class{IPrintable})\par
+	Asks the receiver to give a byte representation of itself, and
+	print it to \Code{stream}.  Details of this representation are
+	unspecified.  At the moment \Tech{GSLib} uses XML exclusively,
+	but you may choose any encoding you wish.
+\end{itemize}
+
+\Topic{other interfaces}
+There are other interfaces that a \Tech{GSObject} may implement,
+which are not part of the core \Code{CObject} class.  See \File%
+{GSObject/definitions.h}{src/GSLib/include} for further possibilities.
+
+% {usage}, [gsobj:usage]
+At the end let us examine how to \Keyword\Target[define][usage]{gsobj:usage}
+a class comforming to the \Tech{GSObject} model.  As mentioned earlier
+in the section many constraints cannot be expressed with the inheritance
+mechanism of C++. For this reason we need to use macros \emph{within}
+the class definition.  Unfortunately, this practice tends to confuse
+the source indexing feature of advanced IDE:s.  The following listing
+illustrates the procedure.  For background, please see the description
+of the macros involved.
+
+% TODO \textbf keywords
+\begin{lstlisting}[style=C++]
+class SomeClass:
+	/* GSObjects must be a descendant of CObject. */
+	public CObject
+{
+public:
+	/* Required by GSOBJ_DEFINE_METHODS(). */
+	GSLIB_DEFINE_TYPE_THIS(SomeClass);
+
+public:
+	/* Declares the copy constructor as required by the
+	 * GSObject object model. */
+	GSLIB_DECLARE_CTOR_COPY(SomeClass)
+
+public:
+	/* Defines common GSObject methods which cannot
+	 * be propagated via inheritance. */
+	GSOBJ_DEFINE_METHODS();
+
+public:
+	/* The following items are optional. */
+	/* Declares compare(), if you wish to provide
+	 * a real implementation. */
+	GSOBJ_DECLARE_COMPARE();
+
+	/* Declares serialize(). */
+	GSOBJ_DECLARE_SERIALIZE();
+
+	/* Declares print(). */
+	GSOBJ_DECLARE_PRINT();
+};
+\end{lstlisting}
+% Basic facilities >>>
+
+\NewwSection{Copy on write} % <<<
+
+\Topic{what is CoW}
+There are situations when having multiple \emph{private} copies of the
+same object is desired.  This could be achieved easily by creating and
+initializing the object, and \Link\Code{dup()}ing it as many times as
+required.  Then changes to one duplicate of the object would not affect
+the others, but the cost in terms of system memory may be intolerable.
+We faced this very problem when implementing our \Link[genetic model]%
+{solution encoding} in \Link\Tech{MGLib}, and our solution is based on
+the obsevation that often the requirement of having a private copy can
+be downgraded to ``give me a shared reference to the object which stays
+as it is, and give some means by which I can make it entirely my own as
+necessary comes''.  In less informal terms this technique is called
+\Term{copy on write}.
+
+% {protocol}, [cow:protocol]
+The \Keyword\Target[protocol][protocol]{cow:protocol} is as follows: every
+interested party gets the same reference to the object (let us call it
+a \Term{cow}).  The parties are registered as \Term{watchers}.  They may
+query the object as long as it remains unchanged.  When a watcher needs to
+change the object the other watchers are notified beforehand, so they can
+\Link\Code{dup()} it.  At the end there will be two copies of the object:
+the original one in the private posession of the watcher which wanted to
+change it, and a duplicate, being shared among the remaining watchers.
+Of course the duplicate will have one fewer watchers than the original
+object had.  \FIGure{cow} depicts the course of events.
+
+\input{figs/cow}
+
+% <[notify()]>, <GSOBJ_DECLARE_NOTIFY()>
+\Topic{notify()}
+For the \Target[notification mechanism]{notify()} to work watchers
+must implement the \Tech{INotifiable} interface (declared with
+\Fun{GSOBJ_DECLARE_NOTIFY}{}).  This interface is supposed to
+\Link\Code{dup()} the \Tech{cow} if necessary, and replace the
+watcher's reference to the original object by the new one.
+
+% {cows}
+A \Keyword[cow]{cows} object must be a descendant of the class \Class{CCow},
+which contains the registry of watchers and the code for the propagation
+of change notifications.
+
+% <add_watcher()>, <del_watcher()>, <notify_watchers()>, <cow_depth>
+\begin{itemize}
+\item	\Fun{add_watcher}{referrer}:\par
+	Adds \Code{referrer} to the list of watchers, which will be
+	informed when the object is about to change.
+\item	\Fun{del_watcher}{referrer}:\par
+	Removes \Code{referrer} from the watcher list of the cow.
+	\Code{referrer} remains a referrer---no \Link\Code{release()}
+	is implied.
+\item	\Fun{notify_watchers}{originator}:\par
+	Issued by a watcher before it alters the state of the cow.
+	By the time the method returns, the cow is guaranteed to have
+	become private to the caller.
+\item	\Var{cow_depth}:\par
+	Specifies how deep the duplication of the cow should be on write.
+	The default is to make the deepest copy possible.
+\end{itemize}
+% Copy on write >>>
+
+\NewwSection{Containers} % <<<
+
+\Topic{why containers}
+C++ is not a fully object-oriented language.  Its primitive data types
+(such as \Code{int}) cannot be handled as objects, therefore they cannot
+be incorporated into the object model without some extra undertaking.
+The ultimate goal is to be able to handle these primitives as if they
+were true \Tech{GSObject}s.  In \Tech{GSLib} the issue can be handled by
+wrapping the primitives in \Term{container} templates as \Term{payload}.
+Some programming language call this technique \Term{boxing}.  The
+containers are valid \Tech{CObject}s: they are refernce counted, and can
+be passed to methods that only accept \Tech{CObject}s.  In addition, they
+are making provision for the voluntary \Link[interfaces]{gsobj:interfaces}
+of \Tech{GSObject}.  Containers are crucial for the implementation
+\Link[collections]{GSAvl} in \Tech{GSLib}.
+
+\Warning
+% {container templates}
+Data types are divided into four \Keyword[categories]{container templates}:
+\Tech{Atom}, \Tech{Struct}, \Tech{CObj}, and \Tech{CCow} (not to be
+confused with the \Code{CCow} class).  All of them has a corresponding
+container template which can be used for wrapping.  Categorizing data
+types was necessary because the containers must know at least that
+much about the data types they are handling, and C++ has no syntax for
+selecting between code fragments based on template arguments (much like
+\Code{#if arg ==  #elif }).  Container classes are unrelated in the
+object-oriented sense, because the signatures of their methods vary with
+the data type the container wraps.
+
+% <[GSOBJ_CONTAINER()]>
+% <TContainerAtom>, <TContainerStruct>, <TContainerCObj>, <TContainerCCow>
+% <[CContainerVaradic]>
+\begin{itemize}
+\item	\Target\Fun{GSOBJ_CONTAINER}{category, data_type}%
+	%%%%%%%%%
+	\footnote{%
+	Actually, this macro and the \Code{TContainer{Atom,CObj,CCow}}
+	classes have another argument, which specifies the type of the
+	constant pointer if \Code{data_type} is a pointer.}:\par
+	%%%%%%%%%
+	Expands to a sequence instantiating the appropriate container
+	template embedding \Code{data_type}.  This is preferred over
+	spelling out the instantiation because it hides the line noise.
+\item	\Tpl{TContainerAtom}{data_type}:\par
+	For types you wish to pass by value when \Either[setting][retrieving]
+	the payload of the container.  Typically, \Code{data_type} will be
+	\Code{char}, \Code{unsigned}, or some pointer.
+\item	\Tpl{TContainerStruct}{data_type}:\par
+	The payload is communicated by address (nevertheless it is stored
+	in the container in its entirety).
+
+	\Warning
+	Containers wrapping \Code{Atom}ic and \Code{Struct}-like types
+	can \Link\Code{compare()} and \Link\Code{print()} themselves
+	(that is, their payload), but this is subject to the availability
+	of properly-typed \Code{compare_it()} and \Code{print_it()}
+	functions, which carry out the actual work.  Many functions
+	are supplied for the most primitive types (\Code{unsigned},
+	\Code{double}, \dots), but we could not prepare for uncountably
+	many user-defined types.  Thus, for example if you wish to use
+	the \Link\Code{IComparable} interface of a \Code{Struct} container,
+	it will be necessary to extend the \Code{compare_it()} set of
+	functions with a new overload which knows how to deal with the
+	\Code{Struct}.
+\item	\Tpl{TContainerCObj}{data_type}:\Warning\par
+	Wraps a \Tech{CObject}-derivate in a container.  Doing so makes
+	sense when the container \emph{type} is passed as an argument
+	to a template which asks for a container specifically.	In cases
+	like this the concrete container type has to be passed, since the
+	container templates have no common abstract container ancestor.
+	\Link\Code{compare()} etc. are relayed to the payload directly,
+	so the container will be comparable \emph{iff} the payload is.
+\item	\Tpl{TContainerCCow}{data_type}:\par
+	A descandent of \Code{TContainerCObj}, so everything written
+	about it apply to this container as well.  In addition, the
+	container becomes a watcher of the payload cow, therefore
+	it responds to \Link\Code{notify()} events.  Upon its receipt
+	the payload is \Link\Code{dup()}ed \AndOr replaced according
+	to the \Link[protocol]{cow:protocol}.
+\item	\Target\Code{CContainerVaradic}:\Warning\par
+	A container whose type of payload can be changed in run-time.
+	This class is not a template, and is typically used to define
+	container-like fields of non-template classes.  Its greatest
+	shortcoming is that it cannot be extended to handle arbitrary
+	payload types.
+\end{itemize}
+
+% {accessing the payload}
+What is left from containers is the question of \Keyword[setting and
+retrieving the payload]{accessing the payload}.  It is unavoidable that
+containers of different kinds behave differently, but much trouble was
+taken to get them `do the right thing' consistently.
+
+% [null value], <null_v()>
+% <assign()>, <retrieve()>, <replace()>, <payload>
+\begin{itemize}
+\item	\Fun{ctor}{payload}:\par
+	The payload can be set when the container is being constructed.
+	If the container is constructed via the default constructor,
+	its payload will be initialized to some (category-dependant) null
+	value.
+\item 	\Fun{null_v}{}:\par
+	Returns the \Target\Term{null value} for the type of the payload.
+	Null values are intended to represent undefined payloads.
+	Unfortunately it is only reliable for \Tech{CObj} and \Tech{CCow}
+	containers (for which the null value is simply \NULL).
+\item	\Fun{assign}{new_payload}:\par
+	Replaces the current payload of the container with
+	\Code{new_payload}.  For \Tech{Atom}ic and \Tech{Struct}
+	containers this method boils down to a C assignment.  \Tech{CObj}
+	containers pay attention to \Link\Code{release()} the old payload.
+	Ownership of \Code{new_payload} is taken.  \Tech{CCow} containers
+	also start watching it.
+\item	\Fun{retrieve}{}:\par
+	Returns the current payload.  \Tech{CObj} containers retain
+	the ownership of the payload.
+\item	\Fun{replace}{old_payload *, new_payload}:\par
+	Like \Code{assign()}, but the previous payload is returned,
+	whose ownership is given away.
+\item	\Var{payload}:\par
+	Alternatively the payload can be accessed directly.
+	Sometimes this is less cryptic, but it may hurt the
+	interchangeability of containers.
+\end{itemize}
+% Containers >>>
+% Object model >>>
+
+\NewSection{Logging} % <<<
+
+% {[gsmon]}
+\Topic{purpose}
+\Tech{GSLib} and the upper layers use logging to inform the user about the
+current activites of the system: what it is doing, why is it doing that,
+how it has interpreted the input, etc.  This information is a significant
+\Link[development aid]{information gathering}.  The goal of the
+\Keyword\Target\Tech{gsmon} subsystem is to offer structured interfaces
+to generate log messages, to filter those being important at the moment
+(per user configuration), and to present them in a consistent way.
+
+% {structure}
+\Tech{gsmon} has three \Keyword[aspects]{structure}.
+\Link[\Subject{Messages}]{gsmon:message} enter the subsystem
+through the use of \Link[\Code{GSMON_LOG*()}]{GSMON_LOG()} macros.
+The \Link[\Subject{monitor}]{gsmon:monitor} receives the messages,
+and decides which \Link[\Subject{output driver}]{gsmon:driver}
+to send them.  If configured so, the message may not be deliverd
+anywhere.  Output drivers are responsoble for formatting the messages
+and transmitting them to the display.  \FIGure{gsmon} illustrates the
+idea.  Unix administrators may realize similarities to \Prog{syslog-ng}
+(which the author has contributed to).
+
+% <CONFIG_GSDIAG_MONITOR>
+The logging facility can be disabled at compile time by setting
+\Var{CONFIG_GSDIAG_MONITOR} to zero in the library-wide \Link%
+[configuration header]{config.h}.  Then no messages will even be
+generated, bringing the process to the end at the very beginning,
+which may save many CPU cycles if the logging is in a critical
+path of the application.
+
+\input{figs/gsmon}
+
+% {messages}, [gsmon:messages]
+\Keyword\Target[Messages][messages]{gsmon:message} are actually
+composed of several parts beside the actual message text.  The first
+of them is the \Subject{message class}.  Callers of \Tech{gsmon}
+may group their log messages arbitrarily, for example based on the
+activity being performed, such as `init' or `decode'.  The user
+may configure the monitor to suppress certain classes of messages,
+reducing output noise.  Then, all messages are logged at the specified
+\Subject{severity level} which says how important it is: is it intended
+for developers, does it warn about a condition that is outght to be
+investigated, etc.  The full list of possible severities are documented
+in \File{gsmon/constants.h}{src/GSLib/include}.  Finally, the monitor
+is passed the location (source file name, method name and line number)
+where the message was generated implicitly.
+
+% <GSMON_REGISTER_MSGCLASS()>
+% <[GSMON_LOG()]>, <[GSMON_LOGF()]>
+% <GSMON_ENTER()>, <GSMON_LEAVE()>
+\Topic{logging}
+\begin{itemize}
+\item	\Fun{GSMON_REGISTER_MSGCLASS}{subsystem, message_class, message_class_id}:\par
+	This macro defines a message class for \Tech{gsmon}.  After that
+	messages of \Code{message_class_id} can be logged, and will be
+	recognized so.  The other parameters are strings, used to display
+	the name of the associated entity.
+\item	\Target\Fun{GSMON_LOG}{severity, message_class_id, string)}:\par
+	Log a string message.  \Code{message_class_id} must already
+	have been declared with the previous macro.  The namespace of
+	\Code{severity} need not be spelled out.
+\item	\Target\Fun{GSMON_LOGF}{severity, message_class, format, }:\par
+	Likewise, except that the message text is given \Code{printf()}-%
+	style.  This is the way to log numbers, for example.
+\item	\Fun{GSMON_ENTER}{}:\par
+	Logs at \Code{DEBUG} severity that control has entered a
+	function and increases the indentation of further messages.
+	This information makes it easier to deduce the dynamic scope
+	of a log message.
+\item	\Fun{GSMON_LEAVE}{}:\par
+	Undoes the effectots of \Code{GSMON_ENTER()}.
+\end{itemize}
+
+% {drivers}, [gsmon:driver], <CDriver>, <CDriverStdio>
+Output \Keyword\Target[drivers][drivers]{gsmon:driver} are C++ classes
+which know how to display a log message.  All of them are derived from
+\Class{CDriver}%
+%%%%%%%%%
+\footnote{All identifiers are in the \Code{gslib::gsmon} namespace.}
+%%%%%%%%%
+(which is a \Link\Tech{GSObject}).  Currently, only one driver,
+\Class{CDriverStdio} is defined, which writes to \Tech{stdio}
+\Code{FILE}s, but in theory one could create drivers for any medium.
+The drivers are configurable through the public interfaces.
+
+% <setopt_options()>, <setopt_fields()>, <setopt_format()>
+% <setopt_time_format()>, <set_tag()>
+\begin{itemize}
+\item	\Fun{setopt_options}{mask, enable}:\par
+	Enable or disable the options specified in \Code{mask}, which is
+	a bitmap of \Code{OUTOPT_*} constants.  The constants are defined
+	in \File{gsmon/constants.h}{src/GSLib/include}.
+\item	\Fun{setopt_fields}{mask, enable}:\par
+	Controls what additional information to log along with the message
+	text.  \Code{mask} is bitmask of \Code{OUTFLD_*} constants.
+\item	\Fun{setopt_format}{mask, enable}:\par
+	Controls the appearance of the log messages.  \Code{mask} is
+	a bitmask of \Code{OUTFMT_*} constants.  At the moment none
+	of the flags is honored.
+\item	\Fun{setopt_time_format}{time_format}:\par
+	This option is specific to \Code{CDriverStdio}, and sets the
+	exact format of the time field in the displayed log message.
+\item	\Fun{set_tag}{tag}:\par
+	Sets the tag for the \Code{OUTFLD_TAG} field.
+\end{itemize}
+
+% {configuration}, [gsmon:monitor]
+By default more severe messages (\Code{NOTTICE}\dots\Code{FATAL})
+are logged to the standard error.  Classless functions of \Tech{gsmon}
+are used to \Keyword\Target[tell][configutation]{gsmon:monitor} the
+subsystem how to route messages.
+
+% <set_route()>, <forked()>
+\begin{itemize}
+\item	\Fun{set_route}{driver, severities, message_classes}:\par
+	Instructs \Tech{gsmon} to send messages whose severity is
+	one of \Code{severities} and whose message class is one of
+	\Code{message_classes} to \Code{driver}.  The ownership of
+	\Code{driver} is taken.  If \Code{driver} is \NULL, the route
+	is removed.  Returns whether registration was successful.
+\item	\Fun{forked}{}:\par
+	Output drivers cache the PID of the process for the
+	\Code{OUTFLD_PID} field to eliminate frequent calls
+	to \Code{getpid(2)}.  When the process \Code{fork()}s,
+	its PID changes, and the cache needs to be invalidated.
+	This is done by this function.
+\end{itemize}
+% Logging >>>
+
+\NewSection{Error handling} % <<<
+
+% {[gserr]}, {error stack}
+The error handling facility of \Tech{GSLib} is called \Keyword\Target\Tech%
+{gserr}.  It is founded around one of the characteristics of errors
+that they can be \Subject{chained}.  A failure of a lower layer may
+cause failure of its caller, which in turn may make an upper layer
+fail etc.  For the user to fully understand a program failure it is
+not enough to know the limited information provided by any of the
+layers; it is the sum of the information which can frame the context.
+The \Keyword\Subject{error stack} of \Tech{gserr} is meant to support
+this requirement.  The stack consits of entries describing errors reported
+by layers invoked in the latest dynamic path of execution from the least
+recent one to the most recent.  The size of the stack is fixed at compile
+time, but it can be changed by adjusting \Code{CONFIG_GSDIAG_MAX_ERRORS}
+in the global \Link[configuration header]{config.h}.
+
+% <GSERR_PUSH()>, <GSERR_PUSHF()>, <GSERR_PUSH_SYS()>
+\begin{itemize}
+\item	\Fun{GSERR_PUSH}{message}:\par
+	Pushes a new error report onto the top of the error stack.
+	\Code{message} is the textual error message, intended for
+	humans.
+\item	\Fun{GSERR_PUSHF}{format, }:\par
+	Likewise, but the message is formatted with \Code{printf(3)}.
+	Compare \Link\Code{GSMON_LOG()} and \Link\Code{GSMON_LOGF()}.
+	Both this and the previous macro have a \Code{*_EC()} conterpart,
+	which allow for supplementing the report with an integer error
+	code, which can be used by the receiver to interpret the report
+	programmatically.
+\item	\Fun{GSERR_PUSH_SYS}{function}:\par
+	Like \Code{perror(3)}, but the error message is pushed onto
+	the stack.  This macro is intended to report errors returned
+	by functions of the C library.
+\end{itemize}
+
+% {error propagation}
+\Tech{gserr} does not enforce any scheme for the \Keyword[propagation
+of the error signal]{error propagation}.  Both C-style return codes
+and C++-style exceptions are acceptable.
+
+% <struct error_entry_st>, <GSLIB_THROW*()>, <throwit()>
+\begin{itemize}
+\item	\Var{struct error_entry_st}:%
+	%%%%%%%%%
+	\footnote{All identifiers are in the \Code{gslib::gserr} namespace.}
+	%%%%%%%%%
+	\par
+	This structure (defined in \File{gserr/definitions.h}{src/GSLib/%
+	include}) holds an error report; in particular, the location where
+	the report was generated, the textual error message, and the
+	(optional) error code.
+\item	\Fun{GSLIB_THROW*}{}:\par
+	These are a series of macros defined in \File{gslib/macros.h}%
+	{src/GSLib/include} which help you to propagate the error signal
+	via exceptions.  Generally, the macros create error reports based
+	on the arguments, push them onto the error stack, and throw an
+	\Code{error_entry_st} pertaining to this error.  This structure
+	can be examined in a \Code{catch} block.
+\item	\Fun{throwit}{}:\par
+	This function is internal to \Tech{gserr}, but it can be very
+	useful during debugging.  Every exception thrown by the macros
+	above goes through \Code{throwit()}, exposing a convenient hook
+	which can be breakpointed to pause the program when an error is
+	reported.
+\end{itemize}
+
+% {error examination}
+Error reporing is just the half of what is needed for proper error
+handling.  The error stack can be \Keyword[examined]{error examination}
+by the following functions.
+
+% <lasterr()>, <preverr()>, <forget_all()>, <GSERR_LOG()>
+\begin{itemize}
+\item	\Fun{lasterr}{}:\par
+	Returns the most recent error report from the top of the stack.
+\item	\Fun{preverr}{}:\par
+	Returns the error preceding \Code{err}.  Together with the
+	previous function they can be used to cycle through all the
+	reports from the most recent (generated nearest) to the least
+	recent (generated deepest in the dynamic scope).
+\item	\Fun{forget_all}{}:\par
+	Clears the error stack.  Must be called explicitly when the
+	error reports are no longer of interest (e.g. the exception
+	handler finished processing them).
+\item	\Fun{GSERR_LOG}{severity, message_class_id, format, }:\par
+	Like \Link\Code{GSMON_LOGF()}, but it also dumps the error stack.
+	After that the stack is cleared automatically.
+\end{itemize}
+% Error handling >>>
+
+\NewSection{Collections} % <<<
+
+% {[GSAvl]}
+The collections of \Tech{GSLib} are very versatile data structures.
+They try to combine the best breeds of linked lists, hashes, arrays,
+stacks, and queues.  Their implementation -- which we refer to as
+\Keyword\Target\Tech{GSAvl} -- is based on templates, which makes it
+possible to store any types of data in the collections.  \Tech{GSAvl}
+complies with the semantics of the \Link<object model> of the library.
+
+% {STL}
+The may be raised rightously why not use the Standard Template Library
+(\Keyword<STL>), which comes with the C++ compiler for free.  The answer
+has just been said: the STL does not (can not) fit in our \Link<object
+model>, its classes do not have the expected interfaces and do not
+expose expected behavior.  Compensating for these deficiences with
+thin wrappers seemed a futile attempt.
+
+% {RAII}
+One might further argue that the invention of \Link\Tech{GSObject} was a
+waste as a whole, since STL has smart pointers already.  True as it is,
+except that \Link\Tech{GSObject} does much more than reference counting.
+Besides, the author views the philosophy of the STL (\Term{Resource
+Acquisition Is Initialization}, \Keyword{RAII}) a well-marketed hack
+to make C++ \emph{appear} as if it had automatic garbage collection.
+RAII suggests allocating \emph{all} objects on stack, which \emph{are}
+reclaimed when the control leaves the frame.  It is nothing new compared
+to C, except that C++ takes the responsibilty to call the destructors of
+these objects, so they can clean up after themselves.  This \emph{is}
+automatic and garbage collection.  The problem is that dynamically
+allocated objects do not enjoy this guardianship, so RAII outlaws them
+as legacy heritage.  Of course many things (such as recursive data
+structures) cannot be done without resorting to pointers, so more
+workarounds (such as the smart pointers mentioned above) have been given
+birth to \emph{hide} the problem.  This prolification of kludge is what
+the author could not take in.
+
+% [ORIG] "An important aspect of Extreme Programming is not to commit
+% to infrastructure before you have to."
+Finally, there is the question of extensibility.  Our concern was:
+if the collections of STL happen to lack some feature whose neccessity
+we cannot decline, is there a way out?  \Link<Extreme programming>
+suggests avoiding commitment to a particular infrastructure unless no
+other options are feasible, and it does so for good reason: extensible
+software is expected to have (relatively) \Link[sane and documented]%
+{maintainability} internals, which is often not the case.  To illustrate
+the situation of \Prog{libstdc++3}, the then-current version of the
+standard C++ library implementation for Linux, let us quote a comment
+from a file (\Path{basic_file.h}) distributed with the library:
+
+\begin{quote}
+Ulrich \Interposition{the chief \Prog{glibc} supervisor} is going to make
+some detailed comment here, explaining all this unpleasantness, providing
+detailed performance analysis as to why we have to do all this lame
+vtable hacking instead of a sane, function-based approach. This verbiage
+will provide a clear and detailed description of the whole object-layout,
+vtable-swapping, sordid history of this hack.%
+%%%%%%%%%
+\footnote{The current version (\Prog{libstdc++6}, \Path{basic_string.h})
+has another amusing interposition in it: ``Documentation?  What's that?''.
+To be fair, this version seems to be much better commented.}
+%%%%%%%%%
+\end{quote}
+
+% {structure}, {CTree}, {CNode}
+Back to \Tech{GSAvl} \Keyword[details]{structure}, all of its
+collections are derivates of the \Keyword\Code{CTree} class%
+\footnote{Of the \Code{gslib::gsavl} namespace.}, which holds
+together \Keyword\Code{CNode} instances, called \Term{primary nodes}.
+The nodes are arranged in an AVL tree, regardless of whether
+the actual data structure the collection implements is an array
+or a hash.  The code managing the AVL-tree (e.g. rotation) is
+an improved version of what was found in \Link\Prog{Aapl}.
+The nodes are automatically linked into a list (the \Term{primary list}),
+by which they can be enumerated in order.  For this twofoldness,
+a \Tech{GSAvl} collection can be regarded either as a list or
+as a tree, and it is common to refer to them by these terms.
+Primary nodes may head \Term{secondary nodes} (or \Term{siblings})
+linked in the \Term{secondary list} (SLL).  The SSL is circular,
+for historycal reasons.  Secondary nodes can only be retrieved by
+their primary node; list operators will not normally access them.
+\FIGure{gsavl} shows the most important relationships.
+
+\input{figs/gsavl}
+
+% {[Array]}
+Collections come in three different flavors.  The library user can choose
+between them based on what she needs to store.  \Keyword\Target\Tech{Array}s
+are best when the elements only have \Term{values}, and they are to be
+accessed by index numbers.  \Tech{Array} lists offer operations to add
+and remove elements at the head, at the tail, or at any random place,
+so it can also be thought of either as a stack, as a queue, or as a
+linked list.  One interesting feature of \Tech{GSAvl} \Tech{Array}s
+is that indices need not be continuous: there may be an element in the
+third and in the nineth slot, but nothing between.
+
+% {[OrSet]}
+\Keyword\Target\Tech{OrSet}s (\Term{ordered sets}) are good fit when
+the elements shall be looked up by themselves, i.e. when they are the
+\Term{keys} to themselves.  This is handy to encode information as the
+\Either[presence][absence] of an element in the \Tech{OrSet}.
+This flavour of lists does not allow for values.
+
+% {[VOrSet]}
+\Keyword\Target\Tech{VOrSet}s are capable of more in exactly this regard.
+\Tech{VOrSet}s can be conceived as the \Tech{GSLib} equivalent of Perl
+hashes (while \Tech{Array}s coule be modeled as \Tech{VOrSet}s whose
+keys of nodes are the indices of the nodes in the list).  All three
+flavors support the ordered enumeration of their elements (this is why
+\Tech{OrSet}s are `ordered').
+
+% {VaList}
+Two other types of lists are built upon these flavors.  They are
+jointly referred to as \Keyword\Tech{VaList}s, and the speciality
+about them is that they can do math with their values.  For example,
+it is possible to numerically add matching elements of two lists,
+or to multiply all values of a list by a scalar.  \Code{TVaList}
+show the characteristics of an \Tech{Array}, while \Code{TKaList}
+is like a \Tech{VOrSet}.
+
+% {declaring collections}
+As suggested earlier, the exact data type of keys and values
+does not matter to \Tech{GSAvl}, apart from that keys must be
+\Link\Code{IComparable}.  Keys and values are embedded in
+\Link<containers> in the nodes.  This makes the concrete type
+of nodes and lists depend on the type of the keys and values,
+therefore the appropriate template classes must be \Keyword%
+[instantiated]{declaring collections} to enter into the posession
+of a collection.  The macros of \File{GSAvl/macros.h}{src/GSLib/include}
+help in this task.  See the header for the full range of possibilities.
+See \File{test/simple.cc}{src/GSLib} for examples.
+
+% [GSAVL_*()], <GSAVL_ARRAY()>, <GSAVL_ORSET()>, <GSAVL_VORSET()>
+\Topic<GSAVL_*()>
+\begin{itemize}
+\item	\Fun{GSAVL_ARRAY}{value_kind, value_type}
+\item	\Fun{GSAVL_ORSET}{key_kind, key_type}
+\item	\Fun{GSAVL_VORSET}{(key_kind, key_type), (value_kind, value_type)}:\par
+	These macros expand to the C++ type of a list, which can be
+	\Code{typedef}ed or used to define a variable.  The semantics
+	of the arguments follow that of \Link\Code{GSOBJ_CONTAINER()}.
+	Note the parentheses in the arguments of \Code{GSAVL_VORSET()};
+	they are \emph{required}.
+\end{itemize}
+
+% {[list-wide operations]}
+The heart of \Tech{GSAvl} collections lie in the operations one can
+do about them.  The \Keyword\Target[first group of operations]{list-wide
+operations} affect the list as a whole.  Since lists are full-rank
+\Link\Tech{GSObject}s, the `standard' interfaces are implicitly available
+as well.
+
+\begin{itemize}
+% <configure()>
+\item	\Fun{configure}{parameter, value}:\par
+	With this method you can configure the run-time behavior of
+	the list with respect to unanticipated events, such as when
+	a particular node is searched but none found.  The defaults
+	are biased toward the C-style `check the return' scheme, but
+	it may not always be the best choice.
+	See \File{GSAvl/definitions/CTree.h}{src/GSLib/include}.
+
+% <size()>, <volume()>
+\item	\Fun{size}{}:\par
+	Returns the number of primary nodes in the list.
+\item	\Fun{volume}{}:\par
+	Returns the number of all nodes (primary $+$ secondary) in the list.
+
+% <trim()>, <truncate()>
+\item	\Fun{trim}{}:\par
+	Eliminate all secondary nodes from the list.
+\item	\Fun{truncate}{}:\par
+	Empty the list completely.
+
+% <merge()>, <subtract()>, <intersect()>
+\item	\Fun{merge}{other, depth}:\par
+	Add all nodes of the \Code{other} list to the receiver.  In case
+	of \Tech{Array}s \Code{other} is effectively appended to the
+	receiver.  For other flavors of lists the result depend on the
+	list configuration; by default nodes whose key does not exist in
+	the receiver are added, otherwise they replace their conterparts.
+	Unless directed otherwise nodes are deep-copied.
+\item	\Fun{subtract}{other}:\par
+	Remove all nodes whose keys are present in the \Code{other} list.
+	This operation is not defined for \Tech{Array}s.  (Rationale:
+	in \Tech{Array}s there are not keys.)
+\item	\Fun{intersect}{other}:\par
+	Only keep those nodes whose keys are present in the \Code{other}
+	list.  This operation is not defined for \Tech{Array}s.
+\end{itemize}
+
+% {list node operations}
+The second group of operations are which deal with \Keyword[individual
+nodes]{list node operations}, and they are many and numerous.  Library
+users will spend most time with these methods, and may recognize heavy
+Perl influence.  Almost all of the methods take multiple calling
+conventions; these are indicated in the suffix of the method name.
+For example, one version of \Code{find()} returns the node found, another
+returns with its value directly.  Here we only list the versions taking
+or returning nodes; the semantics of the others are hopefully deducible
+from these descriptions examining their prototypes.
+
+\begin{itemize}
+% <node_t>, <mknode0()>, <is_in_list()>, <idx_n()>
+\item	\Var{node_t}:\par
+	The exact C++ type of nodes depend on the type of their keys
+	and values.  It is possible to recreate the node types by
+	the \Link[\Code{GSAVL_*_NODE()}]{GSAVL_*()} macros of
+	\File{GSAvl/macros.h}{src/GSLib/include}, but the \Code{node_t}
+	member of list classes has exactly the same meaning.
+\item	\Fun{mknode0}{}:\par
+	Returns a newly allocated node of the appropriate type
+	(\Code{node_t}), but does not add to the list.  The key
+	\AndOr the value of the node are \Link[null]{null value}.
+\item	\Fun{is_in_list}{node}:\par
+	Returns whether \Code{node} is in the list, either as a primary
+	or a secondary node.
+\item	\Fun{idx_n}{node}:\par
+	Returns the number of nodes ranked less than \Code{node} in the
+	primary list.  Indexing starts from zero.
+
+% <unshift_n()>, <push_n()>, <pred_n()>, <succ_n()>, <enter_n()>
+\item	\Fun{unshift_n}{node}:\par
+	Inserts \Code{node} at the beginning of the list.
+	Only meaningful in \Tech{Array} context.%
+	%%%%%%%%%
+	\footnote{In theory this and the following few methods can be
+	used in \Tech{OrSet} context as well, given that the key of
+	\Code{node} compares between \Code{where} and its predecessor,
+	otherwise the integrity of the list is ruined.}
+	%%%%%%%%%
+\item	\Fun{push_n}{node}:\par
+	Inserts \Code{node} at the end of the list.
+	Only meaningful in \Tech{Array} context.
+\item	\Fun{pred_nn}{where, node}:\par
+	Inserts \Code{node} just preceeding \Code{where}.
+	(Think \Code{splice()} of Perl.)
+	Equivalent to \Code{unshift_n()} if \Code{where} is \NULL.
+	Only meaningful in \Tech{Array} context.
+\item	\Fun{succ_nn}{where, node}:\par
+	Inserts \Code{node} just succeeding \Code{where}.
+	Equivalent to \Code{push_n()} if \Code{where} is \NULL.
+	Only meaningful in \Tech{Array} context.
+\item	\Fun{enter_n}{node, depth}:\par
+	Adds \Code{node} to the list at the appropriate place.
+	For \Tech{Array}s it is equivalent to \Code{push_n()}.
+	\Code{depth} observes \Link\Code{copy()} semantics, i.e.
+	ownership of \Code{node} is taken if \Code{depth} is zero,
+	ownership is shared if the parameter is one, otherwise
+	a \Link\Code{dup()} of \Code{node} is added to the list.
+
+% <nth_n()>, <any_n()>, <[find_n()]>
+\item	\Fun{nth_n}{index}:\par
+	Returns the node at the \Code{index}th position in the primary
+	list of the collection.  Think of it as a subscript operator.
+	If there is no such node the result depends on how the list is
+	\Code{configure()}d.
+\item	\Fun{any_n}{}:\par
+	Returns a \Code{rand(3)}omly chosen node from the list.
+\item	\Target\Fun{find_n}{key}:\par
+	Finds and returns the node whose key is \Code{key}.
+	Does not search the secondary list of nodes.
+	Only meaningful in \Tech{OrSet} and \Tech{VOrSet} contexts.
+
+% <[unlink_n()]>, <destroy_n()>, <shift_n()>, <pop_n()>
+\item	\Target\Fun{unlink_n}{node, is_chainwide}:\par
+	Removes \Code{node} from the list.  Returns \Code{node},
+	its ownership given away.  If the operation \Code{is_chainwide}
+	\Code{node} will keep its siblings (which then cease to be part
+	of the list); otherwise the first sibling of \Code{node} takes
+	its place.
+\item	\Fun{destroy_n}{node, is_chainwide}:\par
+	Removes \Code{node} from the list and \Link\Code{release()}s it.
+	If the operation \Code{is_chainwide} siblings of \Code{node}
+	will go away too, otherwise the first one takes its place.
+\item	\Fun{shift_n}{}:\par
+	Unlinks and returns the first node of the list.
+\item	\Fun{pop_n}{}:\par
+	Unlinks and returns the last node of the list.
+\end{itemize}
+
+% {standalone node operations}
+Nodes are not necessarity part of any list; they can be created
+standalone to enter a list later, or be detached from one via
+\Link\Code{unlink_n()}.  The following \Keyword[operations]%
+{standalone node operations} are available in either case.
+
+\begin{itemize}
+% <key>, <value>
+\item	\Var{key}, \Var{value}:\par
+	These fields embed the key \AndOr value of the node.
+	They are \Link<containers>, so to access the value of
+	a node for example one writes \Code{node->value.payload}
+	or \Code{node->value.retrieve()}.
+
+% <is_primary()>, <get_head()>
+\item	\Fun{is_primary}{}:\par
+	Tells whether the node is part of a list and is primary,
+	i.e. \Link\Code{find_n()} can find it.
+\item	\Fun{get_head}{}:\par
+	Returns the primary node in the secondary list of the node.
+	If the receiver \Code{is_primary()} then it returns itself.
+
+% <is_in_list()>, <get_list()>
+\item	\Fun{is_in_list}{list}:\par
+	Tells whether the receiver is in \Code{list}, or in any list
+	if the argument is \NULL.
+\item	\Fun{get_list}{}:\par
+	Returns the object reference to the list the node is part of,
+	or \NULL if there is no such list.
+
+% <HPrev()>, <HNext()>, <VPrev()>, <VNext()>
+\item	\Fun{HPrev}{}, \Fun{HNext}{}:\par
+	Return the node \Either[preceeding][succeeding] the receiver
+	in the primary list.  Standalone and secondary nodes are not
+	on primary lists, hence the methods return \NULL for them.
+\item	\Fun{VPrev}{}, \Fun{VNext}{}:\par
+	Return the \Either[previous][next] node in the secondary list
+	of the receiver.  The secondary list is circular at both ends.
+
+% <has_sibling()>, <make_subling()>, <unmake_sibling()>, <kill_siblings()>
+\item	\Fun{has_sibling}{}:\par
+	Tells whether the node has at least one sibling, i.e.
+	\Code{VNext()} would not return the receiver itself.
+\item	\Fun{make_sibling}{other}:\par
+	Joins the secondary lists of the receiver and the \Code{other}
+	node such that the former is broken open and pasted between
+	\Code{other} and its left (\Code{VPrev()}) sibling.
+	\File<src/GSLib/CNode.cc> has a nice diagram showing
+	the exact layout.
+\item	\Fun{unmake_sibling}{}:\par
+	Unlinks the receiver from its secondary list.  The node must
+	not be primary; use the \Link\Code{unlink_n()} list operation
+	in that case.
+\item	\Fun{kill_siblings}{}:\par
+	\Link\Code{release()}s all the siblings of the receiver, which
+	must either be primary or not part of any list.
+
+% <dismiss()>
+\item	\Fun{dismiss}{}:\par
+	\Link\Code{release()}s the receiver node, and returns its value.
+\end{itemize}
+% Collections >>>
+
+\NewSection{XML driver} % <<<
+
+% {[GSXml]}
+\Topic{overview}
+The purpose of the XML driver of \Tech{GSLib} is to allow developers to
+create XML printouts quickly and easily.  To achieve that the first task
+is to build the internal \Keyword\Target\Tech{GSXml} representation of
+the XML document.  From the library user's perpective this usually is
+done by invoking the \Link\Code{serialize()} standard \Link\Tech{GSObject}
+interface, which returns a \Tech{GSXml} object representing an XML subtree:
+the receiver and other objects that logically belong to it.  It is possible
+to traverse and manipulate this tree; however \Tech{GSXml} is optimized
+to extending and finally printing the XML structure to a file stream.
+This is realized by calling the \Link\Code{print()} standard interface
+of the returned \Tech{GSXml} object.
+
+% <print_it()>, <[start_output()]>, <end_output()>
+The carefree \Fun{print_it}{} function is provided to automate the whole
+procedure.  It has two accompanying functions, \Target\Fun{start_output}{}
+and \Fun{end_output}{}, which ensure that the output is a valid XML document.
+
+% {structure}
+The \Tech{GSXml} \Keyword[representation]{structure} is a very simple,
+tree-like structure, which describes what XML nodes constitute the
+document and how they are organized.  \FIGure{gsxml} gives an idea about
+the high-level structure of the tree.  From the driver's point of view
+an XML document consists of nodes (\Code{<Something></Something>}),
+node attributes (\Code{<Something attr="value"/>}), and freestanding text.
+They are mapped to \Code{CNode}%
+%%%%%%%%%
+\footnote{Not to be confused it with \Code{gslib::gsavl::CNode}.
+All identifiers introduced in this section are located in the
+\Code{gslib::gsxml} namespace.},
+%%%%%%%%%
+\Code{CAttr}, and \Code{CLeaf} class of objects respectively, all of
+them being proper \Link\Tech{GSObject}s, and proper \Link\Tech{GSAvl}
+nodes at the same time.
+
+\input{figs/gsxml}
+
+% {CNode}
+As it should be clear from the figure, the tree is defined recursively.
+In essence, a \Keyword\Code{CNode} is a handle for a (sub)tree.
+A \Tech{GSXml} node may have attributes, may contain freestanding text,
+and may link to other nodes.
+
+% <tag>, <attrs>, <children>, <find_child_by_tag()>, <ctor()>
+\begin{itemize}
+\item	\Var{tag}:\par
+	This is the strings what \Link\Code{print()}s between the
+	angle brackets.  It is not \Code{free()}d upon the destruction
+	of the node, so it is advisable not to assign it a dynamically
+	allocated string.
+\item	\Var{attrs}:\par
+	This is a \Link\Tech{OrSet} of \Code{CAttr}s, and it can be
+	manipulated by regular \Link<list-wide operations>.  The set
+	is indexed by textual attribute names.
+\item	\Var{children}:\par
+	This is an \Link\Tech{Array}-like collection, gathering
+	both \Code{CNode}s and \Code{CLeaf}s mixed in any order.
+	The children are \Link\Code{print()}ed in the order they
+	are in \Code{children}.
+\item	\Fun{find_child_by_tag}{tag}:\par
+	Would be \Code{children.find_n(tag)} if it were indexed.
+	But it is not, so this methods searches \Code{children}
+	linearly, and returns the first node whose \Code{tag} matches.
+\item	\Fun{ctor}{tag}:\par
+	This constructor initializes \Code{tag} to the specified value.
+	Since \Code{tag} must always be set, this is the only wasy to
+	create a \Code{CNode} object from the scratch.
+\end{itemize}
+
+% {CAttr}
+While \Tech{GSXml} attributes are collected in a pure \Link\Tech{OrSet},
+\Keyword\Code{CAttr}s \emph{do} have a value---it is only that this fact
+is concealed from its list to allow for varatic attribute value types.
+
+% <value>, <ctor()>
+\begin{itemize}
+\item	\Var{value}:\par
+	This is a \Link[varadic container]{CContainerVaradic}
+	of the attribute value.
+\item	\Fun{ctor}{name, value}:\par
+	Creates a \Code{CAttr} object, initializes its key
+	and value.  \Code{value} can be of any C++ data type
+	\Link\Code{CContainerVaradic} is ready to handle.
+\end{itemize}
+
+% {CLeaf}
+\Keyword\Code{CLeaf}s, representing freestanding text content in an
+XML node, are much like \Code{CAttr}s, except that they do not have
+an indexing key.  We note here that textual content only undergo basic
+encoding when \Link\Code{print()}ing it, i.e. the characters `<', '>',
+'\&', and '"' are encoded, but nothing else is (such as 8-bit accented
+characters).  The \Code{charset} argument of \Link\Code{start_output()}
+may help to preserve the XML-validity of the output.
+
+% {protocol}
+Developers who wish their object to be serialisable need to
+\Keyword[implement]{protocol} the \Link\Code{ISerialisable}
+interface, which consist of just one method:
+
+% <serialize()>
+\begin{itemize}
+\item	\Fun{serialize}{options, base}:\par
+	This method returns a \Tech{GSXml} \Code{CNode}, suitable to be
+	added to the \Code{children} of another node.  If \Code{base} is
+	not \NULL all contents must be added to that node; this is for
+	the caller in order to control where its objects serialize
+	themselves.  Otherwise the base node needs to be created,
+	setting its \Code{tag} appropriately.  Then add \Tech{GSXml}
+	attributes and children nodes as best represent the object,
+	possibly by asking subordinate objects to \Code{serialize()}
+	themselves, and adding the returned nodes to the \Code{children}
+	of the \Code{base} node.  \Code{options} is a \Link\Tech{VOrSet}
+	of strings pointing to unsigned integers, which is intended as a
+	platform free from all encumbrances for communicating directives
+	about what the caller wants to be included in the dump.  Beware
+	that \Code{options} can be \NULL. When serialization is done,
+	return the base node.
+\end{itemize}
+% XML driver >>>
+
+\NewSection[Test suite]{gslib:test} % <<<
+
+\Topic{overview}
+Basically, the \Link<second generation> \Tech{GSLib} was raised over its
+predecessor for the sole demand of \Link<collections>.  It may not be
+surprising then that the test suite of the library has \Link\Tech{GSAvl}
+in focus. but in such a way that the other subsystems are tried just as
+well with good coverage.  The suite is a compilation of standalone test
+programs, most of them aiming at \Link[streessing]{stress testing} the
+implementation.  The test programs also serve as source of examples on
+how to use a particular function of the library.  The \Link<build system>
+has \Prog{make} targets to run tests, with multiple configurations.
+It is worth noting that the \File{Makefile}{src/GSLib/test} controls
+what debugging libraries (such as \Link\Prog{efence} or \Link\Prog{ccmalloc})
+shall be linked with the test programs.  As noted at the discussion of
+the \Link<developer tools> these libraries carry a performance penalty,
+which can be unacceptable in long-ranging test runs.
+
+% [SKIP] valists
+\begin{itemize}
+\item	\File[simple]{src/GSLib/test/simple.cc}:
+	The purpose of this simple test program is to confirm \Tech{GSLib}
+	is functional (i.e. did not break in a fundamental way due
+	to a recent change).  The test is successful if the program
+	compiles, links, runs, and prints an XML dump of a list.
+	Looking at the source one can get insight into the basic usage
+	of \Link\Tech{GSObject}, \Link\Tech{GSAvl}, \Link\Tech{GSXml},
+	and \Link\Tech{gserr}.
+\item	\File[memory]{src/GSLib/test/memory.cc}:
+	Allocates a \Link[collection]{collections} and fills it with the
+	specified (large) number of items, displaying statistics about
+	the memory consumption regularly.  The use of this program is to
+	learn how well \Link\Tech{GSAvl} scales, with references to memory
+	and processor resources.
+\item	\File[trees]{src/GSLib/test/trees.cc}:
+	This is the main test for \Link\Tech{GSAvl}.  It has two modes of
+	operation: Running on its own it fills a collection with random
+	items, then removes them in the same order.  This is not very
+	interesting, but in the early days of development it allowed us
+	to examine the AVL properties of the trees as they were growing.
+
+	In the other mode it's playing as the mate of \File{trees-co.pl}%
+	{src/GSLib/test} in a \Link<co-testing> intercourse.  This case
+	the Perl program commands the mate what to do about the list,
+	both parties perform the operation, then compare the contents
+	of their lists.  The exact sequence of \Either[commands][events]
+	can be reproduced and recorded, greatly adding to debug information.
+
+	The \Link<build system> knows about the following test configurations:
+
+	% <make treetest>, <make qtreetest>,
+	% <make cotreetest>, <make qcotreetest>,
+	% <make hcotreetest>
+	\begin{itemize}
+	\item	\Make{treetest}:
+		Test \Link\Tech{Array}s and \Link\Tech{VOrSet}s thoroughly
+		standalone.  Can take hours if \Link\Code{CONFIG_DEBUG}
+		is \Code{full}.
+	\item	\Make{qtreetest}:
+		Likewise, but make it shorter.
+	\item	\Make{cotreetest}:
+		Launch a long test in \Link<co-testing> mode.
+	\item	\Make{qcotreetest}:
+		Likewise, but keep it short.
+	\item	\Make{hcotreetest}:
+		Run a series of very long \Code{cotreetest}s.
+		We found it useful in isolating deeply hidden
+		memory leaks.
+	\end{itemize}
+\item	\File[compare]{src/GSLib/test/compare.cc}:
+	This is the \Link<co-testing> mate of \File{compare-co.pl}%
+	{src/GSLib/test}.  Together they examine the \Link\Code{compare()}
+	interface of \Link\Tech{GSAvl} lists by the comparison of random
+	collections.
+
+	% <make acmptest>, <make scmptest>, <make cmptest>
+	\begin{itemize}
+	\item	\Make{acmptest}:
+		Test \Link\Tech{Array}s.
+	\item	\Make{scmptest}:
+		Test \Link\Tech{OrSet}s.
+	\item	\Make{cmptest}:
+		Test one after the other.
+	\end{itemize}
+\item	\File[buckets]{src/GSLib/test/buckets.cc}:
+	This program demonstrates the use and tests the implementation
+	of \Link<containers> and buckets.  (\Term{Buckets} have a
+	structured interface for throwing objects at, and they are
+	supposed to select one of them by some undefined criteria.)
+\end{itemize}
+% Test suite >>>
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\NewChapter{In closing}
+
+% <<<
+We have overviewed the functional structure of \Menugene, and examined
+the basic theory of genetic algorithms as applied to the problem of
+optimal dietary menu generation.  Later on we gained insight into the
+development environment---the workplace of the developers.  Lastly we
+went through the internals of \Link<GSLib>, which constitutes large
+part of the framework that the problem solver engine relies on, and is
+arguably the most difficult to understand amongst the system components.
+
+Acknowledging the fact that \Menugene stands on its own, and can generate
+menus fulfilling its \Link<purpose> we can conclude that genetic algorithms
+are a feasible method for this kind of problems.  It has also shown great
+potentials, which, however, needs considerable \Link<future> research.
+
+From the software development process we have learnt a number of lessons.
+First, \Link[rewriting software from scratch]{avl} is the luxury of those
+who possess unrestricted amount of resources.  (\cite{Joel} characterizes
+it as ``the \textbf{single} worst strategic mistake that any software
+company can make''.) It indeed can pay off very well, but the iterative
+development approach as advocated by \Link<extreme programming> provides
+much safer grounds for business software manufacturing.
+
+The appropriate choice of programming tools and languages may compensate
+for these time delays.  In our case \Prog{Perl} offered an appealing
+alternative to C++, even in areas (e.g. GUI programming) that are not
+commonly thought of as the prime examples of the applicability of script
+languages.  Its introduction meant significant boost to the project,
+visible in the rapid growth in the number of applications, such as
+\Link\Tech{rulez} and \Link\Tech{subborn}.
+
+Finally, we have found that it is worth investing time into the development
+tools.  Our \Link\Tech{BITS} served us very well in case of trouble, which
+came inevitably.  They have an important role from another aspect as well:
+these are the homegrown pet programs that have the best chance for living
+on then the current project is finally closed.
+% In closing >>>
+
+% vim: set comments=O\:% commentstring=%\ %s:
+% vim: set foldmarker=<<<,>>> foldmethod=marker:
+% vim: set hlsearch ignorecase smartcase formatoptions+=or:

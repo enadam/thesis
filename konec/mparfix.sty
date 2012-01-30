@@ -1,0 +1,39 @@
+%
+% konec/mparfix.sty -- make minor marginpars work on older texs
+%
+
+\newdimen\@minormparbottom
+\let\@majormparbottom\@mparbottom
+\let\konec@mpar@saved@addmpar\@addmarginpar
+
+\long\def\@xmpar[#1]#2{%
+	\@savemarbox\@marbox{#1}%
+	\setbox\@currbox\box\voidb@x
+	\@xympar
+        {\ifstr{#2}\@empty\else\marginpar{#2}\fi}}
+\long\def\@ympar#1{%
+	\setbox\@marbox\box\voidb@x
+	\@savemarbox\@currbox{#1}%
+	\@xympar}
+
+\def\konec@mpar@hijack@normal{%
+	\ifvoid\@marbox\let\@mparbottom\@minormparbottom}
+\def\konec@mpar@hijack@reversed{%
+	\konec@mpar@hijack@normal%
+	\setbox\@marbox\box\@currbox%
+	\else\setbox\@currbox\box\@marbox}
+\def\@addmarginpar{%
+	\let\konec@if@reversemargin\if@reversemargin
+	\if@reversemargin
+		\def\if@reversemargin{\konec@mpar@hijack@reversed}%
+	\else
+		\def\if@reversemargin{\konec@mpar@hijack@normal}%
+	\fi
+	%
+	\konec@mpar@saved@addmpar%
+	\let\@mparbottom\@majormparbottom%
+	\let\if@reversemargin\konec@if@reversemargin}
+
+\everypage{\global\@minormparbottom\z@}
+
+% End of konec/mparfix.sty

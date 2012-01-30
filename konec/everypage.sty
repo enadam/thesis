@@ -1,0 +1,25 @@
+%
+% konec/everypage.sty -- run commands on every page
+%
+% This is a shameless stealth of everypage.sty.
+% Modified to work with hyperref.
+%
+
+\def\everypage@init{%
+	\let\everypage@saved@outputpage\@outputpage
+	\def\@outputpage{%
+		\ifx\@begindvi\everypage@begindvi\else
+			\let\everypage@saved@begindvi\@begindvi
+			\let\@begindvi\everypage@begindvi
+		\fi
+		\everypage@saved@outputpage}}
+\def\everypage@begindvi{%
+	\everypage@callbacks%
+	\let\@begindvi\everypage@saved@begindvi
+	\@begindvi}
+\AtBeginDocument{\everypage@init}
+
+\def\everypage@callbacks{}
+\def\everypage#1{\g@addto@macro\everypage@callbacks{#1}}
+
+% End of konec/everypage.sty

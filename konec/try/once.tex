@@ -1,0 +1,52 @@
+\documentclass{article}
+\usepackage{afterpage}
+
+\makeatletter
+\def\UsedTreshold{1}
+
+\input{generic}
+\def\clear@used{}
+
+\def\mk@used#1{%
+	\ece\newcount{usi@#1}
+	\xdefappend\clear@used{%
+		\global\noexpand\csname usi@#1\endcsname=0}}
+\def\@used#1#2#3#4{%
+	\ece\ifx{usi@#1}\relax\mk@used{#1}\fi
+	\ece\ifnum{usi@#1}<#2 #3\else#4\fi
+	\ece\advance{usi@#1} by 1}
+\def\used@A#1[#2]{\@used{#1}{#2}}
+\def\Used#1{\@ifnextchar[{\used@A{#1}}{\@used{#1}\UsedTreshold}}
+
+\afterpage{\clear@used}
+%\makeatother
+
+\begin{document}
+
+\Used{valami/ize}{per before}{per after}
+
+\Used{valami_ize}[2]{dash before}{dash after}
+
+\Used{valami/ize}{per before}{per after}
+
+\Used{valami_ize}[2]{dash before}{dash after}
+
+\Used{valami/ize}{per before}{per after}
+
+\Used{valami_ize}[2]{dash before}{dash after}
+
+\newpage
+
+\Used{valami/ize}{per before}{per after}
+
+\Used{valami_ize}[2]{dash before}{dash after}
+
+\Used{valami/ize}{per before}{per after}
+
+\Used{valami_ize}[2]{dash before}{dash after}
+
+\Used{valami/ize}{per before}{per after}
+
+\Used{valami_ize}[2]{dash before}{dash after}
+
+\end{document}

@@ -1,0 +1,23 @@
+%
+% konec/mkfrac.sty -- convert a fixed-point number to a fraction
+%
+
+\def\mk@frac#1#2{%
+	\ifx#2\@%
+		\edef\mk@frac#1{\endgroup\edef\noexpand#1{\@tempb/\@tempa}}%
+	\else\if#2.%
+		\mkfrac@seen@dottrue
+	\else\ifmkfrac@seen@dot%
+		\edef\@tempa{\@tempa#2}%
+		\edef\@tempb{\@tempb0}%
+	\else
+		\edef\@tempa{\@tempa#2}%
+	\fi\fi\fi
+	\mk@frac#1}
+\def\mkfrac#1#2{%
+	\begingroup
+	\newif\ifmkfrac@seen@dot
+	\def\@tempa{}\def\@tempb{1}%
+	\mk@frac#1#2\@}
+
+% End of konec/mkfrac.sty

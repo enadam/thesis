@@ -1,0 +1,14 @@
+\documentclass[12pt]{article}
+\usepackage{url}
+
+\makeatletter
+
+\def\file@a#1#2{\url{#1/#2}}
+\def\File#1#2{\edef\dir{{#2}}\expandafter\file@a\dir{#1}}
+
+\begin{document}
+
+\def\cwd{src/daemon}
+\File{TODO}{\cwd/doc}
+
+\end{document}

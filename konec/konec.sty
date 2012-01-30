@@ -1,0 +1,69 @@
+%
+% konec/konec.sty -- internal helpers for the konec bundle
+%
+
+\ifjob{hardcopy}\konec@hardcopytrue\fi
+\ifjob{trace}\konec@tracetrue\fi
+
+% Diagnostics
+\ifkonec@trace
+	\def\konec@log#1{\typeout{#1}}
+\else
+	\def\konec@log#1{}
+\fi
+
+\def\konec@friendly@error#1#2{%
+	\nonstopmode
+	\message{^^J! konec error: #1 ^^J^^J#2^^J^^J}
+	\stop}
+\def\konec@error#1{%
+	\nonstopmode
+	\message{^^J! konec error: #1^^J^^J}
+	\stop}
+\def\konec@warning#1{\message{^^J! konec warning: #1^^J^^J}}
+
+% Marginpar
+\def\konec@mpar@style{\small\color{black}}
+\def\konec@mpar@@common#1{\ifstr\@currenvir{tabularx}\else\mbox{}\marginpar#1\fi}
+\def\konec@mpar@common#1{\ifinner\else\konec@mpar@@common{#1}\fi}
+\def\konec@major@mpar#1{\konec@mpar@common{{%
+	\raggedleft\leftskip 0pt plus .3\marginparwidth%
+	\hspace{0pt}\konec@mpar@style#1}}}
+\def\konec@minor@mpar#1{\konec@mpar@common{[%
+	\raggedright\hspace{0pt}\konec@mpar@style#1]{}}}
+
+% Argument parsing
+\def\konec@dfltarg#1#2{% \cmd, default
+	\def\@tempa[##1]{#1{##1}}%
+	\def\@tempb{#1{#2}}%
+	\@ifnextchar[\@tempa\@tempb}
+\def\konec@dblarg#1{% \cmd
+	\def\@tempa[##1]{#1{##1}}%
+	\def\@tempb##1{#1{##1}{##1}}%
+	\@ifnextchar[\@tempa\@tempb}
+\def\konec@unopt#1[#2]{#1{#2}}
+
+% Hyperref misfeature fix: don't let it add a default .pdf
+% extension to \href{}ed files which don't have one.
+\def\@hyper@linkfile file:#1\\#2#3{% %file url,link string, name
+	\def\use@file{#1}%
+	\ifx\@baseurl\@empty
+		\hyper@linkurl{#2}{\Hy@linkfileprefix\use@file\ifx\\#3\\\else\##3\fi}%
+	\else
+		\hyper@linkurl{#2}{\use@file\ifx\\#3\\\else\##3\fi}%
+	\fi}
+
+\ifkonec@hardcopy
+	% Mainly for minor mpars
+	\setlength\marginparpush{0pt}
+
+	% Be grayscale
+	\RequirePackage{color}
+	\definecolor{gray}{gray}{.65}
+	\def\@linkcolor{black}
+	\def\@citecolor{black}
+	\def\@urlcolor{gray}
+	\let\url\nolinkurl
+\fi
+
+% End of konec/konec.sty

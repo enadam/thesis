@@ -1,0 +1,124 @@
+%
+% konec/prog.sty -- citing programs
+%
+
+\def\konec@prog@lstyle{\scshape}
+\def\konec@prog@rstyle{\sffamily}
+
+% \konec@prog:<id>	=> <name>
+% \konec@prog@refs:<id>	=> {<target>}{<pageno>},...
+% \konec@prog@refs	## counter
+% konec@prog.<seq>	== target in text body
+% konec@prog:<id>	== target in progliography
+
+% Names
+\def\konec@prog@name#1{\csn{konec@prog:#1}}
+\def\konec@prog@name@def#1#2{% id, name
+	\ece\gdef{konec@prog:#1}{{\konec@prog@lstyle #2}}}
+\def\konec@prog@name@check#1{%
+	\ece\ifx{konec@prog:#1}\relax
+		\konec@warning{#1 undefined}%
+		\konec@prog@name@def{#1}{#1}%
+	\fi}
+
+% Referencing
+\newcount\konec@prog@refs
+\def\konec@prog@link#1#2{{%
+	\let\@linkcolor\@citecolor\hyperlink{konec@prog:#2}{#1}}}
+\def\konec@prog@ref@add#1#2{% label, id
+	\konec@log{prog: #2}%
+	\ece\ifx{konec@prog@refs:#2}\relax
+		\ece\xdef	{konec@prog@refs:#2}{{#1}{\the\c@page}}%
+	\else
+		\ece\xdefappend	{konec@prog@refs:#2}{,{#1}{\the\c@page}}%
+	\fi}
+\def\konec@prog@ref#1#2{{% text, id
+	\edef\@tempa{konec@prog.\the\konec@prog@refs}%
+	\global\advance\konec@prog@refs1
+	\expandafter\konec@prog@ref@add\expandafter{\@tempa}{#2}%
+	\expandafter\hypertarget\expandafter{\@tempa}{#1}}}
+
+% Backreferencing
+\def\konec@prog@ifnotrepeated#1#2#3{% target, pageno, iftrue
+	\expandafter\ifnum\konec@prog@last@pg=0\else
+		\expandafter\ifnum\konec@prog@last@pg=#2\else#3\fi\fi
+	\def\konec@prog@last@trg{#1}%
+	\def\konec@prog@last@pg{#2}}
+\def\konec@prog@backlinks#1#2{% list, id
+	\if#1\relax
+		\konec@warning{#2 unreferenced}%
+	\else
+		\begingroup
+		\def\konec@prog@p{p}%
+		\def\konec@prog@list{}%
+		\def\konec@prog@last@trg{}%
+		\def\konec@prog@last@pg{0}%
+		\@for\konec@tmp:=#1,{}{0}\do{%
+			\if\konec@tmp\@empty\else
+				\expandafter\konec@prog@ifnotrepeated\konec@tmp{%
+					\ifx\konec@prog@list\@empty
+						\edefappend\konec@prog@list{%
+							\noexpand\hyperlink%
+								{\konec@prog@last@trg}%
+								{\konec@prog@last@pg}}%
+					\else
+						\edefappend\konec@prog@list{,
+							\noexpand\hyperlink%
+								{\konec@prog@last@trg}%
+								{\konec@prog@last@pg}}%
+						\def\konec@prog@p{pp}%
+					\fi}%
+			\fi}%
+		$\rightarrow$ \konec@prog@p.~\konec@prog@list
+		\endgroup
+	\fi}
+
+% {Progliography}
+\def\konec@prog@lwidth{.50\linewidth}% read from
+\def\konec@prog@rwidth{.45\linewidth}% the aux file
+\newenvironment{Progliography}
+{%
+%	\let\konec@prog@lstyle\konec@prog@rstyle%
+	\setlength\LTleft{0pt}\setlength\LTright{0pt}
+	\begin{longtable}{@{\extracolsep{0pt plus 1fil}}%
+		p{\konec@prog@lwidth}p{\konec@prog@rwidth}}
+	\gdef\konec@prog@lwidth{0pt}%
+	\begingroup\def\\{\endgroup\ignorespaces}\ignorespaces}
+{%
+	\end{longtable}
+	\@tempdima\konec@prog@lwidth
+	\immediate\write\@auxout{%
+		\gdef\noexpand\konec@prog@lwidth{\the\@tempdima}}
+	\advance\@tempdima by -.95\linewidth
+	\@tempdima-\@tempdima
+	\immediate\write\@auxout{%
+		\gdef\noexpand\konec@prog@rwidth{\the\@tempdima}}}
+
+% \DefProg{id}{description}{url}
+% \DefProg{id}[lname]{description}{url}
+% \DefProg{id}[lname][rname]{description}{url}
+\def\konec@prog@def@width#1{%%%%%%%%%%%%%% update \konec@prog@lwidth if #1
+	\setbox\@tempboxa\hbox{{\konec@prog@rstyle#1}}% is wider than that
+	\ifdim\wd\@tempboxa>\konec@prog@lwidth
+		\xdef\konec@prog@lwidth{\the\wd\@tempboxa}\fi
+	\box\@tempboxa}
+\def\konec@prog@def#1#2#3#4#5{% id, lname, rname, description, url
+	\writeaux{\konec@prog@name@def{#1}{#2}}%
+	\\ \hypertarget{konec@prog:#1}{\konec@prog@def@width{#3}}
+	 & \hangindent2em #4
+	\\* \rightskip\@flushglue\hangindent2em%
+	   \ece\konec@prog@backlinks{konec@prog@refs:#1}{#1}
+	 & \rightskip\@flushglue\hangindent2em\url{#5}}
+\def\konec@prog@def@a#1#2{\konec@dfltarg{\konec@prog@def{#1}{#2}}{#2}}
+\def\DefProg#1{\konec@dfltarg{\konec@prog@def@a{#1}}{#1}}
+
+% \Prog{id}
+% \Prog[text]{id}
+\def\konec@prog@ref@id#1{% id
+	\konec@prog@name@check{#1}%
+	\konec@prog@ref{\konec@prog@link{\konec@prog@name{#1}}{#1}}{#1}}
+\def\konec@prog@ref@text@id[#1]#2{% text, id
+	\konec@prog@ref{\konec@prog@link{#1}{#2}}{#2}}
+\def\Prog{\@ifnextchar[\konec@prog@ref@text@id\konec@prog@ref@id}
+
+% End of konec/prog.sty

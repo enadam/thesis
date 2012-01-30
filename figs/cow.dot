@@ -1,0 +1,89 @@
+//
+// figs/cow.dot
+//
+
+digraph cow_init
+{
+	rankdir=LR; nodesep=.52; ranksep=.6;
+	node[fontname=TYPEWRITER,fontsize=10,height=.4];
+
+	cow[label="cow\n(read-only)",shape=hexagon];
+
+	watcher4;
+	watcher3;
+	watcher2;
+	watcher1;
+
+	watcher4 -> cow;
+	watcher3 -> cow;
+	watcher2 -> cow;
+	watcher1 -> cow;
+}
+
+graph cow_notify
+{
+	rankdir=LR; nodesep=.20; ranksep=0;
+	node[fontname=TYPEWRITER,fontsize=10,height=.4];
+	edge[fontname=TYPEWRITER_BOLD,fontsize=8]
+
+	cow[shape=hexagon];
+	cowdup[label="dup()\nof cow",shape=hexagon];
+
+	watcher1;
+	watcher2;
+	watcher3;
+	watcher4;
+
+	watcher2 -- cow[dir=back];
+	watcher3 -- cow[dir=back];
+	watcher4 -- cow[dir=back];
+
+	cow	 -- watcher1[dir=forward,label="notify(cow,\nwatcher4,NULL)",style=dashed];
+	watcher4 -- cow[dir=back,label="notify_watchers\n(watcher4)",style=dashed];
+	watcher1 -- cowdup[dir=back];
+}
+
+graph cow_dup
+{
+	rankdir=LR; nodesep=.145; ranksep=0;
+	node[fontname=TYPEWRITER,fontsize=10,height=.4];
+	edge[fontname=TYPEWRITER_BOLD,fontsize=8]
+
+	cow[shape=hexagon];
+	cowdup[label="dup()\nof cow",shape=hexagon];
+
+	watcher1;
+	watcher2;
+	watcher3;
+	watcher4;
+
+	watcher1 -- cowdup[dir=back];
+	watcher2 -- cow[dir=back];
+	watcher3 -- cow[dir=back];
+	watcher4 -- cow[dir=back];
+
+	watcher4 -- cow[dir=back,label="notify_watchers\n(watcher4)",style=dashed];
+	cow	 -- watcher2[dir=forward,label="notify(cow,\nwatcher4,cowdup)",style=dashed];
+	cow	 -- watcher3[dir=forward,label="notify(cow,\nwatcher4,cowdup)",style=dashed];
+	cow	 -- watcher4[dir=forward,headlabel="notify(cow,\nwatcher4,cowdup)",
+				labelfontname=TYPEWRITER_BOLD,labelfontsize=8,
+				labeldistance=6.0,labelangle=10,labelfloat=true,
+				style=dashed];
+}
+
+digraph cow_done
+{
+	rankdir=LR; nodesep=.6; ranksep=1;
+	node[fontname=TYPEWRITER,fontsize=10,height=.4];
+	edge[fontname=TYPEWRITER_BOLD,fontsize=8]
+
+	cow[shape=hexagon];
+	cowdup[label="dup()\nof cow",shape=hexagon];
+
+	watcher1 -> cowdup;
+	watcher2 -> cowdup;
+	watcher3 -> cowdup;
+	watcher4 -> cow;
+}
+
+// End of figs/cow.dot

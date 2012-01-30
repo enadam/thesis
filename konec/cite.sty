@@ -1,0 +1,13 @@
+%
+% konec/cite.sty -- convenienve wrappers around \cite
+%
+
+% \Cite<item>
+% \Cite\Format{item}
+\def\konec@cite#1{#1 \cite{#1}}
+\def\konec@cite@prog\Prog#1{\Prog{#1} \cite{#1}}
+
+% Dispatch
+\def\Cite{\@ifnextchar\Prog\konec@cite@prog\konec@cite}
+
+% End of konec/cite.sty

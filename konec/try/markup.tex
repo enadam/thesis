@@ -1,0 +1,48 @@
+\documentclass{article}
+\usepackage{hyperref}
+
+\newcommand{\Format}[1]{\textbf{#1}}
+
+\makeatletter
+\def\ProgHere#1{{\Large#1}}
+\def\ProgThere#1{{\tiny#1}}
+\def\Prog{\@ifstar\ProgHere\ProgThere}
+\makeatother
+
+\makeatletter
+\def\LinkI<#1>{(A1 href=#1)#1(/A)}
+\def\LinkII#1#2{(A2 href=#2)#1{#2}(/A)}
+\def\LinkIII[#1]#2{(A3 href=#2)#1(/A)}
+\def\Link{\@ifnextchar[\LinkIII{\@ifnextchar<\LinkI\LinkII}}
+\makeatother
+
+\makeatletter
+\def\KeyLinkI<#1>{marginpar\{#1\}\@ifnextchar[{\KeyLinkIII#1}{\KeyLinkIII#1[#1] }}
+\def\KeyLinkII#1#2{marginpar\{#1{#2}\}\@ifnextchar[{\KeyLinkIII{#1{#2}}}{\KeyLinkIII{#1{#2}}[#2] }}
+\def\KeyLinkIII#1[#2]{\Link[#1]{#2}}
+\def\KeyLink{\@ifnextchar<\KeyLinkI\KeyLinkII}
+\makeatother
+
+\begin{document}
+
+pitty \Link<text> patty
+
+pitty \Link\Format{text} patty
+
+pitty \Link[text]{label} patty
+
+pitty \Link[\Format{text}]{label} patty
+
+pitty \KeyLink<text> patty
+
+pitty \KeyLink<text>[label] patty
+
+pitty \KeyLink\Format{text} patty
+
+pitty \KeyLink\Format{text}[label] patty
+
+pitty \KeyLink\Prog{text}[label] patty
+
+pitty \KeyLink{\Prog*}{text}[label] patty
+
+\end{document}

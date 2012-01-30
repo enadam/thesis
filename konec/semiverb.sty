@@ -1,0 +1,19 @@
+%
+% konec/semiverb.sty -- typesetting well-breaking code fragments and paths
+%
+
+\def\UrlBreaks{%
+	\do\_\do\.%
+	\do\(\do\[\do\{\do\<\do\>\do\}\do\]\do\)%
+	\do\,\do\+\do\&\do\=\do\;}
+\def\UrlBigBreaks{\do\/\do\:\do@url@hyp}
+\def\UrlNoBreaks{}
+
+% Make ^D a valid, active character.
+\begingroup
+\chardef\ctrl@d4
+\global\catcode\ctrl@d=\active
+\endgroup
+\def\UrlSpecials{\do{\dots}}
+
+% End of konec/semiverb.sty

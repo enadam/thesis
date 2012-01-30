@@ -1,0 +1,5 @@
+comic ComicSansMS " TeXBase1Encoding ReEncodeFont " <8r.enc <fonts/comic.ttf
+futura-condensed FuturaBT-ExtraBlackCondensed " TeXBase1Encoding ReEncodeFont " <8r.enc <fonts/futura-condensed.ttf
+futura-condensed-slanted FuturaBT-ExtraBlackCondItalic " TeXBase1Encoding ReEncodeFont " <8r.enc <fonts/futura-condensed-slanted.ttf
+futura FuturaBT-ExtraBlack " TeXBase1Encoding ReEncodeFont " <8r.enc <fonts/futura.ttf
+futura-slanted FuturaBT-ExtraBlackItalic " TeXBase1Encoding ReEncodeFont " <8r.enc <fonts/futura-slanted.ttf

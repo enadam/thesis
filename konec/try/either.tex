@@ -1,0 +1,50 @@
+\documentclass[12pt]{article}
+\usepackage{xspace}
+
+\makeatletter
+
+\def\Either[#1]{\@ifnextchar[{#1\hspace{0pt plus 2em}/\hspace{0pt plus 2em}\Either}{#1\xspace}}
+\def\Alter#1#2{{%
+	\setbox\@tempboxa\hbox{\footnotesize #1}%
+	\@tempdima\wd\@tempboxa%
+	\setbox\@tempboxa\hbox{\footnotesize #2}%
+	\@tempdimb\wd\@tempboxa%
+	\ifnum\@tempdima<\@tempdimb
+		\hbox to \@tempdimb{%
+			\lower.8ex\hbox to 0pt{\footnotesize #2\hss}%
+			\hfil\raise.8ex\hbox{\footnotesize #1}\hfil}%
+	\else
+		\hbox to \@tempdima{%
+			\raise.8ex\hbox to 0pt{\footnotesize #1\hss}%
+			\hfil\lower.8ex\hbox{\footnotesize #2}\hfil}%
+	\fi}}
+
+\begin{document}
+
+\Either%
+[Merkur][Venusz][Fold][Mars][Jupiter][Szaturnusz][Uranusz][Neptunusz][Pluto]
+[Merkur][Venusz][Fold][Mars][Jupiter][Szaturnusz][Uranusz][Neptunusz][Pluto]
+[Merkur][Venusz][Fold][Mars][Jupiter][Szaturnusz][Uranusz][Neptunusz][Pluto]
+[Merkur][Venusz][Fold][Mars][Jupiter][Szaturnusz][Uranusz][Neptunusz][Pluto]
+
+Na most akkor \Either[befogod a pofadat][eltakarodsz] ha jot akarsz, kulonben
+\Either[megsutlek][megeszlek].
+
+pofazok pofazok \Alter{he}{she} pofazok pofazok
+\medskip
+
+pofazok pofazok \Alter{she}{he} pofazok pofazok
+\bigskip
+
+pofazok pofazok \Alter{his}{her} pofazok pofazok
+\medskip
+
+pofazok pofazok \Alter{her}{his} pofazok pofazok
+\bigskip
+
+pofazok pofazok \Alter{him}{her} pofazok pofazok
+\medskip
+
+pofazok pofazok \Alter{her}{him} pofazok pofazok
+
+\end{document}

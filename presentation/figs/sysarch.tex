@@ -1,0 +1,347 @@
+\newenvironment{gv_sysarch_layers}[1][sysarch]
+{	\begin{pgfpicture}{0bp}{0bp}{88bp}{192bp}
+	\pgfbox[left,bottom]{\pgfuseimage{#1}}
+
+	\pgfsetxvec{\pgfpoint{1bp}{0bp}}
+	\pgfsetyvec{\pgfpoint{0bp}{-1bp}}
+	\pgftranslateto{\pgfxy(-1,-191)}
+	\pgfsetlinewidth{1pt}
+
+	\def\gv##1{\expandafter\csname gv@##1\endcsname}
+
+	\expandafter\def\csname gv@Level1\endcsname{%
+		\pgfmoveto{\pgfxy(87,10)}
+		\pgflineto{\pgfxy(1,10)}
+		\pgflineto{\pgfxy(1,42)}
+		\pgflineto{\pgfxy(87,42)}
+		\pgflineto{\pgfxy(87,10)}
+		\pgfclosestroke}
+	\expandafter\def\csname gv@Level2\endcsname{%
+		\pgfmoveto{\pgfxy(87,80)}
+		\pgflineto{\pgfxy(1,80)}
+		\pgflineto{\pgfxy(1,112)}
+		\pgflineto{\pgfxy(87,112)}
+		\pgflineto{\pgfxy(87,80)}
+		\pgfclosestroke}
+	\expandafter\def\csname gv@Level1->Level2\endcsname{%
+		\pgfmoveto{\pgfxy(44,43)}
+		\pgfcurveto{\pgfxy(44,52)}{\pgfxy(44,63)}{\pgfxy(44,73)}
+		\pgfstroke
+		\pgfmoveto{\pgfxy(42,73)}
+		\pgflineto{\pgfxy(44,79)}
+		\pgflineto{\pgfxy(46,73)}
+		\pgflineto{\pgfxy(42,73)}
+		\pgffillstroke}
+	\expandafter\def\csname gv@Level3\endcsname{%
+		\pgfmoveto{\pgfxy(87,150)}
+		\pgflineto{\pgfxy(1,150)}
+		\pgflineto{\pgfxy(1,182)}
+		\pgflineto{\pgfxy(87,182)}
+		\pgflineto{\pgfxy(87,150)}
+		\pgfclosestroke}
+	\expandafter\def\csname gv@Level2->Level3\endcsname{%
+		\pgfmoveto{\pgfxy(44,113)}
+		\pgfcurveto{\pgfxy(44,122)}{\pgfxy(44,133)}{\pgfxy(44,143)}
+		\pgfstroke
+		\pgfmoveto{\pgfxy(42,143)}
+		\pgflineto{\pgfxy(44,149)}
+		\pgflineto{\pgfxy(46,143)}
+		\pgflineto{\pgfxy(42,143)}
+		\pgffillstroke}}
+{	\end{pgfpicture}}
+
+\newenvironment{gv_sysarch_now}[1][sysarch]
+{	\begin{pgfpicture}{0bp}{0bp}{295bp}{238bp}
+	\pgfbox[left,bottom]{\pgfuseimage{#1}}
+
+	\pgfsetxvec{\pgfpoint{1bp}{0bp}}
+	\pgfsetyvec{\pgfpoint{0bp}{-1bp}}
+	\pgftranslateto{\pgfxy(-1,-237)}
+	\pgfsetlinewidth{1pt}
+
+	\def\gv##1{\expandafter\csname gv@##1\endcsname}
+
+	\expandafter\def\csname gv@Users\endcsname{%
+		\pgfellipse[stroke]{\pgfxy(96,20)}{\pgfxy(35,0)}{\pgfxy(0,11)}}
+	\expandafter\def\csname gv@junkie\endcsname{%
+		\pgfmoveto{\pgfxy(52,89)}
+		\pgflineto{\pgfxy(83,89)}
+		\pgfstroke
+		\pgfmoveto{\pgfxy(83,89)}
+		\pgfcurveto{\pgfxy(88,89)}{\pgfxy(95,84)}{\pgfxy(95,78)}
+		\pgfstroke
+		\pgfmoveto{\pgfxy(95,78)}
+		\pgflineto{\pgfxy(95,80)}
+		\pgfstroke
+		\pgfmoveto{\pgfxy(95,80)}
+		\pgfcurveto{\pgfxy(95,73)}{\pgfxy(89,67)}{\pgfxy(83,67)}
+		\pgfstroke
+		\pgfmoveto{\pgfxy(83,67)}
+		\pgflineto{\pgfxy(52,67)}
+		\pgfstroke
+		\pgfmoveto{\pgfxy(52,67)}
+		\pgfcurveto{\pgfxy(47,67)}{\pgfxy(41,73)}{\pgfxy(41,79)}
+		\pgfstroke
+		\pgfmoveto{\pgfxy(41,79)}
+		\pgflineto{\pgfxy(41,77)}
+		\pgfstroke
+		\pgfmoveto{\pgfxy(41,77)}
+		\pgfcurveto{\pgfxy(41,84)}{\pgfxy(46,89)}{\pgfxy(52,89)}
+		\pgfstroke}
+	\expandafter\def\csname gv@Users->junkie\endcsname{%
+		\pgfmoveto{\pgfxy(91,31)}
+		\pgfcurveto{\pgfxy(87,39)}{\pgfxy(81,52)}{\pgfxy(76,62)}
+		\pgfstroke
+		\pgfmoveto{\pgfxy(75,61)}
+		\pgflineto{\pgfxy(74,67)}
+		\pgflineto{\pgfxy(78,62)}
+		\pgflineto{\pgfxy(75,61)}
+		\pgffillstroke}
+	\expandafter\def\csname gv@rulez\endcsname{%
+		\pgfmoveto{\pgfxy(198,89)}
+		\pgflineto{\pgfxy(229,89)}
+		\pgfstroke
+		\pgfmoveto{\pgfxy(229,89)}
+		\pgfcurveto{\pgfxy(234,89)}{\pgfxy(241,84)}{\pgfxy(241,78)}
+		\pgfstroke
+		\pgfmoveto{\pgfxy(241,78)}
+		\pgflineto{\pgfxy(241,80)}
+		\pgfstroke
+		\pgfmoveto{\pgfxy(241,80)}
+		\pgfcurveto{\pgfxy(241,73)}{\pgfxy(235,67)}{\pgfxy(229,67)}
+		\pgfstroke
+		\pgfmoveto{\pgfxy(229,67)}
+		\pgflineto{\pgfxy(198,67)}
+		\pgfstroke
+		\pgfmoveto{\pgfxy(198,67)}
+		\pgfcurveto{\pgfxy(193,67)}{\pgfxy(187,73)}{\pgfxy(187,79)}
+		\pgfstroke
+		\pgfmoveto{\pgfxy(187,79)}
+		\pgflineto{\pgfxy(187,77)}
+		\pgfstroke
+		\pgfmoveto{\pgfxy(187,77)}
+		\pgfcurveto{\pgfxy(187,84)}{\pgfxy(192,89)}{\pgfxy(198,89)}
+		\pgfstroke}
+	\expandafter\def\csname gv@Users->rulez\endcsname{%
+		\pgfmoveto{\pgfxy(115,29)}
+		\pgfcurveto{\pgfxy(135,39)}{\pgfxy(165,54)}{\pgfxy(186,65)}
+		\pgfstroke
+		\pgfmoveto{\pgfxy(185,66)}
+		\pgflineto{\pgfxy(191,67)}
+		\pgflineto{\pgfxy(186,63)}
+		\pgflineto{\pgfxy(185,66)}
+		\pgffillstroke}
+	\expandafter\def\csname gv@Experts\endcsname{%
+		\pgfellipse[stroke]{\pgfxy(214,20)}{\pgfxy(44,0)}{\pgfxy(0,11)}}
+	\expandafter\def\csname gv@Experts->junkie\endcsname{%
+		\pgfmoveto{\pgfxy(191,29)}
+		\pgfcurveto{\pgfxy(162,41)}{\pgfxy(116,60)}{\pgfxy(99,66)}
+		\pgfstroke
+		\pgfmoveto{\pgfxy(100,64)}
+		\pgflineto{\pgfxy(95,67)}
+		\pgflineto{\pgfxy(101,67)}
+		\pgflineto{\pgfxy(100,64)}
+		\pgffillstroke}
+	\expandafter\def\csname gv@Experts->rulez\endcsname{%
+		\pgfmoveto{\pgfxy(214,31)}
+		\pgfcurveto{\pgfxy(214,39)}{\pgfxy(214,52)}{\pgfxy(214,62)}
+		\pgfstroke
+		\pgfmoveto{\pgfxy(212,61)}
+		\pgflineto{\pgfxy(214,67)}
+		\pgflineto{\pgfxy(216,61)}
+		\pgflineto{\pgfxy(212,61)}
+		\pgffillstroke}
+	\expandafter\def\csname gv@mgadmin\endcsname{%
+		\pgfmoveto{\pgfxy(242,151)}
+		\pgflineto{\pgfxy(282,151)}
+		\pgfstroke
+		\pgfmoveto{\pgfxy(282,151)}
+		\pgfcurveto{\pgfxy(288,151)}{\pgfxy(295,145)}{\pgfxy(295,139)}
+		\pgfstroke
+		\pgfmoveto{\pgfxy(295,139)}
+		\pgflineto{\pgfxy(295,138)}
+		\pgfstroke
+		\pgfmoveto{\pgfxy(295,138)}
+		\pgfcurveto{\pgfxy(295,131)}{\pgfxy(288,125)}{\pgfxy(282,125)}
+		\pgfstroke
+		\pgfmoveto{\pgfxy(282,125)}
+		\pgflineto{\pgfxy(242,125)}
+		\pgfstroke
+		\pgfmoveto{\pgfxy(242,125)}
+		\pgfcurveto{\pgfxy(236,125)}{\pgfxy(230,132)}{\pgfxy(230,138)}
+		\pgfstroke
+		\pgfmoveto{\pgfxy(230,138)}
+		\pgflineto{\pgfxy(230,139)}
+		\pgfstroke
+		\pgfmoveto{\pgfxy(230,139)}
+		\pgfcurveto{\pgfxy(230,146)}{\pgfxy(236,151)}{\pgfxy(242,151)}
+		\pgfstroke}
+	\expandafter\def\csname gv@Experts->mgadmin\endcsname{%
+		\pgfmoveto{\pgfxy(223,31)}
+		\pgfcurveto{\pgfxy(230,40)}{\pgfxy(240,54)}{\pgfxy(246,67)}
+		\pgfcurveto{\pgfxy(248,73)}{\pgfxy(254,102)}{\pgfxy(258,121)}
+		\pgfstroke
+		\pgfmoveto{\pgfxy(256,120)}
+		\pgflineto{\pgfxy(259,125)}
+		\pgflineto{\pgfxy(259,119)}
+		\pgflineto{\pgfxy(256,120)}
+		\pgffillstroke}
+	\expandafter\def\csname gv@Devel\endcsname{%
+		\pgfellipse[stroke]{\pgfxy(141,78)}{\pgfxy(35,0)}{\pgfxy(0,11)}}
+	\expandafter\def\csname gv@daemon\endcsname{%
+		\pgfmoveto{\pgfxy(131,127)}
+		\pgflineto{\pgfxy(77,127)}
+		\pgflineto{\pgfxy(77,149)}
+		\pgflineto{\pgfxy(131,149)}
+		\pgflineto{\pgfxy(131,127)}
+		\pgfclosestroke}
+	\expandafter\def\csname gv@Devel->daemon\endcsname{%
+		\pgfmoveto{\pgfxy(134,89)}
+		\pgfcurveto{\pgfxy(129,99)}{\pgfxy(121,112)}{\pgfxy(114,122)}
+		\pgfstroke
+		\pgfmoveto{\pgfxy(113,121)}
+		\pgflineto{\pgfxy(111,127)}
+		\pgflineto{\pgfxy(115,123)}
+		\pgflineto{\pgfxy(113,121)}
+		\pgffillstroke}
+	\expandafter\def\csname gv@BITS\endcsname{%
+		\pgfmoveto{\pgfxy(196,127)}
+		\pgflineto{\pgfxy(142,127)}
+		\pgflineto{\pgfxy(142,149)}
+		\pgflineto{\pgfxy(196,149)}
+		\pgflineto{\pgfxy(196,127)}
+		\pgfclosestroke}
+	\expandafter\def\csname gv@Devel->BITS\endcsname{%
+		\pgfmoveto{\pgfxy(146,89)}
+		\pgfcurveto{\pgfxy(150,98)}{\pgfxy(157,112)}{\pgfxy(162,122)}
+		\pgfstroke
+		\pgfmoveto{\pgfxy(160,122)}
+		\pgflineto{\pgfxy(164,127)}
+		\pgflineto{\pgfxy(163,121)}
+		\pgflineto{\pgfxy(160,122)}
+		\pgffillstroke}
+	\expandafter\def\csname gv@junkie->daemon\endcsname{%
+		\pgfmoveto{\pgfxy(75,89)}
+		\pgfcurveto{\pgfxy(80,98)}{\pgfxy(88,112)}{\pgfxy(94,122)}
+		\pgfstroke
+		\pgfmoveto{\pgfxy(93,123)}
+		\pgflineto{\pgfxy(97,127)}
+		\pgflineto{\pgfxy(95,121)}
+		\pgflineto{\pgfxy(93,123)}
+		\pgffillstroke}
+	\expandafter\def\csname gv@Database\endcsname{%
+		\pgfmoveto{\pgfxy(161,229)}
+		\pgflineto{\pgfxy(266,229)}
+		\pgflineto{\pgfxy(266,188)}
+		\pgflineto{\pgfxy(161,188)}
+		\pgflineto{\pgfxy(161,229)}
+		\pgfclosestroke
+		\pgfmoveto{\pgfxy(161,203)}
+		\pgflineto{\pgfxy(266,203)}
+		\pgfstroke
+		\pgfmoveto{\pgfxy(204,229)}
+		\pgflineto{\pgfxy(204,203)}
+		\pgfstroke}
+	\expandafter\def\csname gv@rulez->Database\endcsname{%
+		\pgfmoveto{\pgfxy(214,89)}
+		\pgfcurveto{\pgfxy(214,110)}{\pgfxy(214,154)}{\pgfxy(213,181)}
+		\pgfstroke
+		\pgfmoveto{\pgfxy(211,181)}
+		\pgflineto{\pgfxy(213,187)}
+		\pgflineto{\pgfxy(215,181)}
+		\pgflineto{\pgfxy(211,181)}
+		\pgffillstroke}
+	\expandafter\def\csname gv@mgadmin->Database\endcsname{%
+		\pgfmoveto{\pgfxy(253,151)}
+		\pgfcurveto{\pgfxy(247,160)}{\pgfxy(239,171)}{\pgfxy(231,182)}
+		\pgfstroke
+		\pgfmoveto{\pgfxy(230,181)}
+		\pgflineto{\pgfxy(228,187)}
+		\pgflineto{\pgfxy(232,183)}
+		\pgflineto{\pgfxy(230,181)}
+		\pgffillstroke}
+	\expandafter\def\csname gv@MGLib\endcsname{%
+		\pgfmoveto{\pgfxy(55,127)}
+		\pgflineto{\pgfxy(1,127)}
+		\pgflineto{\pgfxy(1,149)}
+		\pgflineto{\pgfxy(55,149)}
+		\pgflineto{\pgfxy(55,127)}
+		\pgfclosestroke}
+	\expandafter\def\csname gv@daemon->MGLib\endcsname{%
+		\pgfmoveto{\pgfxy(61,138)}
+		\pgfcurveto{\pgfxy(66,138)}{\pgfxy(72,138)}{\pgfxy(77,138)}
+		\pgfstroke
+		\pgfmoveto{\pgfxy(61,136)}
+		\pgflineto{\pgfxy(55,138)}
+		\pgflineto{\pgfxy(61,140)}
+		\pgflineto{\pgfxy(61,136)}
+		\pgffillstroke}
+	\expandafter\def\csname gv@GSLib\endcsname{%
+		\pgfmoveto{\pgfxy(126,197)}
+		\pgflineto{\pgfxy(72,197)}
+		\pgflineto{\pgfxy(72,219)}
+		\pgflineto{\pgfxy(126,219)}
+		\pgflineto{\pgfxy(126,197)}
+		\pgfclosestroke}
+	\expandafter\def\csname gv@daemon->GSLib\endcsname{%
+		\pgfmoveto{\pgfxy(103,149)}
+		\pgfcurveto{\pgfxy(102,160)}{\pgfxy(101,179)}{\pgfxy(100,192)}
+		\pgfstroke
+		\pgfmoveto{\pgfxy(98,191)}
+		\pgflineto{\pgfxy(100,197)}
+		\pgflineto{\pgfxy(102,191)}
+		\pgflineto{\pgfxy(98,191)}
+		\pgffillstroke}
+	\expandafter\def\csname gv@daemon->Database\endcsname{%
+		\pgfmoveto{\pgfxy(122,149)}
+		\pgfcurveto{\pgfxy(136,158)}{\pgfxy(157,172)}{\pgfxy(175,183)}
+		\pgfstroke
+		\pgfmoveto{\pgfxy(175,185)}
+		\pgflineto{\pgfxy(181,187)}
+		\pgflineto{\pgfxy(177,182)}
+		\pgflineto{\pgfxy(175,185)}
+		\pgffillstroke}
+	\expandafter\def\csname gv@MGLib->GSLib\endcsname{%
+		\pgfmoveto{\pgfxy(39,149)}
+		\pgfcurveto{\pgfxy(51,161)}{\pgfxy(70,180)}{\pgfxy(84,193)}
+		\pgfstroke
+		\pgfmoveto{\pgfxy(83,194)}
+		\pgflineto{\pgfxy(88,197)}
+		\pgflineto{\pgfxy(85,192)}
+		\pgflineto{\pgfxy(83,194)}
+		\pgffillstroke}
+	\expandafter\def\csname gv@GALib\endcsname{%
+		\pgfmoveto{\pgfxy(55,197)}
+		\pgflineto{\pgfxy(1,197)}
+		\pgflineto{\pgfxy(1,219)}
+		\pgflineto{\pgfxy(55,219)}
+		\pgflineto{\pgfxy(55,197)}
+		\pgfclosestroke}
+	\expandafter\def\csname gv@MGLib->GALib\endcsname{%
+		\pgfmoveto{\pgfxy(25,149)}
+		\pgfcurveto{\pgfxy(24,160)}{\pgfxy(24,179)}{\pgfxy(25,192)}
+		\pgfstroke
+		\pgfmoveto{\pgfxy(23,191)}
+		\pgflineto{\pgfxy(25,197)}
+		\pgflineto{\pgfxy(27,191)}
+		\pgflineto{\pgfxy(23,191)}
+		\pgffillstroke}
+	\expandafter\def\csname gv@GALib->MGLib\endcsname{%
+		\pgfmoveto{\pgfxy(31,152)}
+		\pgfcurveto{\pgfxy(33,166)}{\pgfxy(33,185)}{\pgfxy(31,197)}
+		\pgfstroke
+		\pgfmoveto{\pgfxy(33,155)}
+		\pgflineto{\pgfxy(31,149)}
+		\pgflineto{\pgfxy(29,155)}
+		\pgflineto{\pgfxy(33,155)}
+		\pgffillstroke}
+	\expandafter\def\csname gv@BITS->Database\endcsname{%
+		\pgfmoveto{\pgfxy(176,149)}
+		\pgfcurveto{\pgfxy(182,158)}{\pgfxy(190,171)}{\pgfxy(197,182)}
+		\pgfstroke
+		\pgfmoveto{\pgfxy(196,183)}
+		\pgflineto{\pgfxy(200,187)}
+		\pgflineto{\pgfxy(198,181)}
+		\pgflineto{\pgfxy(196,183)}
+		\pgffillstroke}}
+{	\end{pgfpicture}}

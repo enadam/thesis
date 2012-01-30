@@ -1,0 +1,120 @@
+//
+// figs/cmtest.dot -- display Adobe and Computer Modern fonts simultanously
+//
+
+#define GRAPH		ranksep=0
+#define NODE		shape=plaintext,width=0,height=0,label="Test Test"
+
+#define BOX1				\
+subgraph cluster_box1			\
+{	label="";			\
+	box1_8 [fontsize=8];		\
+	box1_10[fontsize=10];		\
+	box1_12[fontsize=12];		\
+}
+
+#define BOX2				\
+subgraph cluster_box2			\
+{					\
+	label="";			\
+	box2_8 [fontsize=8];		\
+	box2_10[fontsize=10];		\
+	box2_12[fontsize=12];		\
+}
+
+#define CHARBOX				\
+subgraph chartest			\
+{					\
+	node[fontsize=12];		\
+	test1[label="!azAZ09`~!"];	\
+	test2[label="!!@#$%^&*()!"];	\
+	test3[label="!-=[];'\\,./!"];	\
+	test4[label="!_+{}:\"|<>?!"];	\
+	test5[label="!áéíóõöúûü!"];	\
+	test6[label="!ÁÉÍÓÕÖÚÛÜ!"];	\
+}
+
+#define LINKS				\
+	box1_10 -- box2_10		\
+	-- test1 -- test2 -- test3	\
+	-- test4 -- test5 -- test6	\
+	[style=invis]
+#define DIRLINKS			\
+	box1_10 -> box2_10		\
+	-> test1 -> test2 -> test3	\
+	-> test4 -> test5 -> test6	\
+	[style=invis]
+
+graph roman
+{	label="Roman";
+	GRAPH; node[NODE];
+
+	node[fontname="Times-Roman"];
+	BOX1;
+	node[fontname="ComputerModern"];
+	BOX2; CHARBOX;
+
+	LINKS;
+}
+
+graph bold
+{	label="Bold";
+	GRAPH; node[NODE];
+
+	node[fontname="Times-Bold"];
+	BOX1;
+	node[fontname="ComputerModern-Bold"];
+	BOX2; CHARBOX;
+
+	LINKS;
+}
+
+graph sansserif
+{	label="SansSerif";
+	GRAPH; node[NODE];
+
+	node[fontname="Helvetica"];
+	BOX1;
+	node[fontname="ComputerModern-SansSerif"];
+	BOX2; CHARBOX;
+	
+	LINKS;
+}
+
+digraph smallcaps
+{	label="Smallcaps";
+	GRAPH; node[NODE];
+
+	node[fontname="ComputerModern"];
+	BOX1;
+	node[fontname="ComputerModern-Smallcaps"];
+	BOX2; CHARBOX;
+	
+	DIRLINKS;
+}
+
+digraph ascii
+{	label="\ASCII";
+	GRAPH; node[NODE];
+
+	node[fontname="Times-Roman"];
+	BOX1;
+	node[fontname="ComputerModern-\ASCII"];
+	BOX2; CHARBOX;
+
+	DIRLINKS;
+}
+
+graph typewriter
+{	label="Typewriter";
+	GRAPH; node[NODE];
+
+	node[fontname="Courier"];
+	BOX1;
+	node[fontname="ComputerModern-Typewriter"];
+	BOX2; CHARBOX;
+
+	LINKS;
+}
+
+// End of figs/cmtest.dot

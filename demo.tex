@@ -1,0 +1,99 @@
+%
+% demo.tex -- typeset structural parts of the document for testing
+%
+\documentclass[12pt]{report}
+\usepackage[american]{babel}
+\usepackage[latin2]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
+\usepackage{caption}
+\usepackage{pdfpages}
+\usepackage[numbers,sort]{natbib}
+\usepackage[hyperref=colorlinks,subfigure=tight]{konec}
+
+\makeatletter
+\def\showarg#1{{\def\@tempa{#1}\show\@tempa}}
+\setlength\parindent{0pt}
+
+\pdfoptionpdfminorversion=4
+
+% left: 4cm, right: 3cm
+\geometry{showframe,paper=a4paper,head=15pt,%
+	left=4cm,right=3cm,vmargin=3cm,marginparwidth=3cm}
+\reversemarginpar
+
+\graphicspath{{figs/}{images/}}
+\captionsetup{font=small}
+
+\bibsep0pt
+\def\bibfont{\small}
+\def\bibnamestyle{\textsc}
+
+\begin{document}
+
+\ifjob{overhead}
+	\begin{Times}
+	\input{parts/titlepage}
+	\includepdf{parts/assignment}
+	\input{parts/shitbluff}
+	\newpage
+	\input{parts/abstract-en}
+	\newpage
+	\input{parts/abstract-hu}
+	\end{Times}
+
+	\input{parts/guide}
+\fi
+
+\ifjob{figs}
+	\par\input{figs/sysinf}
+	\par\input{figs/sysact}
+	\par\input{figs/sysarch}
+
+	\par\input{figs/ga}
+	\par\input{figs/mg}
+
+	\par\input{figs/dup}
+	\par\input{figs/cow}
+	\par\input{figs/gsmon}
+	\par\input{figs/gsavl}
+	\par\input{figs/gsxml}
+
+	\par\input{figs/fitness}
+	\par\input{figs/relations}
+
+	\listoffigures
+\fi
+
+\ifjob{bib}
+	\nocite{*}
+	\bibliographystyle{mybeast}
+	\bibliography{duma}
+\fi
+
+\ifjob{progs}
+	\bibfont
+	\input{parts/progliography}
+\fi
+
+\ifjob{images}
+	\input{parts/images}
+	\listoffigures
+\fi
+
+\ifjob{postgres}
+	\begin{adjustwidth}{-2cm}{-2cm}
+	\lstinputlisting[print,style=SQL,breaklines=false,%
+		basicstyle=\small,keywordstyle=\upshape\ttfamily,%
+		sensitive=true,%
+		delim={**[l][commentstyle]--},%
+		deletestring={[d]"},deletestring={[d]'},
+		otherkeywords={(,),\[,\],\{,\},[TODO]},
+		linerange={1-163,713-987,1495-1837}]
+		{parts/postgre.sql}
+	\end{adjustwidth}
+\fi
+
+\end{document}
+
+% End of demo.tex

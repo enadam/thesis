@@ -1,0 +1,29 @@
+#
+# figs/fitness.gpl -- `gnuplot' parameter file for the fitness graph
+#
+
+set xrange [0.800000 : 7.20000]
+set yrange [-1.80000 : 0.00000]
+
+set nokey
+set grid
+
+set xtics 1, 0.4
+set ytics 0.1
+
+set arrow 1 from 1.4, -1.1 to 1.04, -1.005  linewidth 3.000
+set arrow 2 from 6.6, -1.1 to 6.95, -1.00 linewidth 3.000
+
+set size 1.1
+
+# The x11 driver gets it wrong and chops a lot from the right margin
+set lmargin 4
+set bmargin 2
+set rmargin 0
+set tmargin 1
+
+set terminal postscript eps "ComputerModern-SansSerif" 20
+plot '<./fitness.pl' smooth cspline linewidth 4
+
+# vim: set filetype=gnuplot:
+# End of figs/fitness.gpl

@@ -1,0 +1,68 @@
+//
+// figs/gsmon.dot
+//
+
+digraph gsmon
+{
+	rankdir=TD; fontsize=12;
+	node[fontsize=10,width=0,height=.0];
+
+	subgraph cluster_sources
+	{	label="Source"; labelloc="t";
+		style=filled; fillcolor=lightgray;
+
+		// Fucking `dot' doesn't let me center the cluster label.
+		// It is documented incorrectly that they are centered
+		// by default.
+
+		source1[label="Subsystem 1"];
+		source2[label="Subsystem 2"];
+		source3[label="Subsystem 3"];
+	}
+
+	message1[shape=record,label="{msgclass 1|severity|message}"];
+	message2[shape=record,label="{msgclass 2|severity|message}"];
+	message3[shape=record,label="{msgclass 3|severity|message}"];
+
+	monitor[label="Monitor",shape=hexagon,fontname=BOLD,fontsize=12];
+
+	subgraph cluster_destination
+	{
+		label="Destination";
+		labelloc="t";
+
+		subgraph cluster_drivers
+		{	label="CDriver:s"; labelloc="b";
+			style=filled; fillcolor=lightgray;
+
+
+			driver1[label="Driver 1"];
+			driver2[label="Driver 2"];
+			driverN[label="Driver ..."];
+		}
+
+		subgraph cluster_output
+		{	label="Output"; labelloc="b";
+			style=filled; fillcolor=lightgray;
+
+			terminal;
+			file;
+		}
+
+		driver1 -> terminal;
+		driver2 -> file[style=dashed];
+	}
+
+	source1  -> message1;
+	message1 -> monitor;
+	monitor  -> driver1[];
+
+	source2  -> message2[style=dashed];
+	message2 -> monitor [style=dashed];
+	monitor  -> driver2 [style=dashed];
+
+	source3  -> message3[style=dotted];
+	message3 -> monitor [style=dotted];
+}
+
+// End of figs/gsmon.dot

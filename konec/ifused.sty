@@ -1,0 +1,24 @@
+%
+% konec/ifused.sty -- realizing that something's already been done
+% to the current page
+%
+
+\def\ifusedtreshold{1}
+
+\def\clear@konec@fusi{}
+\everypage{\clear@konec@fusi}
+
+\def\mk@konec@fusi#1{%
+	\ece\gdef{konec@fusi@#1}{0}%
+	\xdefappend\clear@konec@fusi{%
+		\gdef\expandafter\noexpand\csname konec@fusi@#1\endcsname{0}}}
+\def\konec@ifus#1#2#3#4{% name, limit, iftrue, iffalse
+	\ece\ifx{konec@fusi@#1}\relax\mk@konec@fusi{#1}\fi
+	\ece\@tempcnta{konec@fusi@#1}%
+	\advance\@tempcnta by 0% bug in TeX?
+	\ifnum\@tempcnta<#2 #4\else#3\fi
+	\advance\@tempcnta by 1
+	\ece\xdef{konec@fusi@#1}{\the\@tempcnta}}
+\def\ifused#1{\konec@dfltarg{\konec@ifus{#1}}\ifusedtreshold}
+
+% End of konec/ifused.sty

@@ -1,0 +1,25 @@
+%
+% konec/file.sty -- referring to files in the dist
+%
+
+% \File<path>
+\def\konec@file@path<#1>{\href{#1}{\Path{#1}}}
+
+% \File[text]{path}
+\def\konec@file@text[#1]#2{\href{#2}{#1}}
+
+% \File{fname}{dir}
+\def\konec@file@@fname#1#2{\href{#1/#2}{\Path{#2}}}
+\def\konec@file@fname#1#2{%
+	\edef\@tempa{{#2}}%
+	\expandafter\konec@file@@fname\@tempa{#1}}
+
+% Dispatch
+\def\File#1{%
+	\ifx<#1\def\@tempa{\konec@file@path#1}\else
+	\ifx[#1\def\@tempa{\konec@file@text#1}\else
+		\def\@tempa{\konec@file@fname{#1}}%
+		\fi\fi
+	\@tempa}
+
+% End of konec/file.sty

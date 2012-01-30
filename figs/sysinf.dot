@@ -1,0 +1,29 @@
+//
+// figs/sysinf.dot
+//
+
+digraph sysinf
+{
+	rankdir=LR; ranksep=.8;
+	node[shape=plaintext,height=0,width=0];
+
+	users	[fontsize=12,label="consumers"];
+	experts	[fontsize=12,label="dietary experts"];
+	eggheads[fontsize=12,label="researchers"];
+	devels	[fontsize=12,label="developers"];
+	menugene[shape=Mrecord,
+		// `dot' becomes frustrated if fontsize != 14
+		SPECIAL(literal (12.00 /ROMAN set_font)),
+		label="<L3>menu generation|{{<L23>preferences|<L22>dietary\nallowances|<L21>nutritional\nneeds}|structured\ninformation|<L2>}|<L1>algorithms|<L0>recipe database"];
+
+	users	-> experts[constraint=false];
+	users	-> menugene:L23;
+	experts	-> menugene:L22;
+	experts	-> menugene:L21;
+	menugene:L2 -> menugene:L3;
+	menugene:L3 -> users;
+	eggheads-> menugene:L1;
+	devels	-> menugene:L0;
+}
+
+// End of figs/sysinf.dot

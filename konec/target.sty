@@ -1,0 +1,80 @@
+%
+% konec/target.sty -- creating hypertargets (anchors)
+%
+
+% The low-level worker
+\def\konec@trg#1#2{% text, label
+	\lowercase{\konec@log{target: #2}}%
+	\lowercase{\label{#2}}%
+	\lowercase{\hypertarget{#2}}{#1}}
+
+% \Target<text>
+\def\konec@trg@label<#1>{\konec@trg{#1}{#1}}
+
+% \Target[\Format{text}]{label}
+\def\konec@trg@text[#1]{\konec@trg{#1}}
+
+% \Target*{label}
+\def\konec@trg@notext*{\konec@trg{}}
+
+% \Target\Var{name}
+\def\konec@trg@var#1#2{% both for \Var and \Class
+	\lowercase{\label{#2}}%
+	\Bookmark[\Code{#2}][#2]{#2}}
+
+% \Target\Fun{name}{args}
+\def\konec@trg@fun\Fun#1#2{%
+	\lowercase{\label{#1()}}%
+	\Bookmark[\Code{#1(#2)}][#1()]{#1()}}
+
+% \Target\Class{name}
+\def\konec@trg@class#1#2{%
+	\lowercase{\label{#2}}%
+	\Bookmark[\Code{#2}][#2]{#2}}
+
+% \Target\Tpl{name}{args}
+\def\konec@trg@tpl\Tpl#1#2{%
+	\lowercase{\label{#1}}%
+	\Bookmark[\Code{#1<#2>}][#1]{#1}}
+
+% \Target\Make{target}
+\def\konec@trg@make\Make#1{%
+	\lowercase{\label{make #1}}%
+	\Bookmark[\Code{make #1}][make #1]{make #1}}
+
+% \Target\Repo{fname}{dir}
+% \Target\Repo{fname}[label]{dir}
+\def\konec@trg@repo@label#1#2#3{%
+	\lowercase{\label{#2}}%
+	\Bookmark[\File{#1}{#3}][#1]{#2}}
+\def\konec@trg@repo\Repo#1{%
+	\@ifnextchar[%
+		{\konec@unopt{\konec@trg@repo@label{#1}}}
+		{\konec@trg@repo@label{#1}{#1}}}
+
+% \Target\Prog{prog}
+\def\konec@trg@prog\Prog#1{%
+	\konec@prog@name@check{#1}%
+	\lowercase{\konec@prog@ref@add{#1}}{#1}%
+	\konec@trg{\konec@prog@link{\konec@prog@name{#1}}{#1}}{#1}}
+
+% \Target\Format{text}
+\def\konec@trg@format#1#2{\konec@trg{#1{#2}}{#2}}
+
+% Dispatch
+\def\Target#1{%
+	\ifx#1<\let\@tempa=\konec@trg@label\else
+	\ifx#1[\let\@tempa=\konec@trg@text\else
+	\ifx#1*\let\@tempa=\konec@trg@notext\else
+	\ifx#1\Var\let\@tempa=\konec@trg@var\else
+	\ifx#1\Fun\let\@tempa=\konec@trg@fun\else
+	\ifx#1\Class\let\@tempa=\konec@trg@class\else
+	\ifx#1\Tpl\let\@tempa=\konec@trg@tpl\else
+	\ifx#1\Make\let\@tempa=\konec@trg@make\else
+	\ifx#1\Repo\let\@tempa=\konec@trg@repo\else
+	\ifx#1\Prog\let\@tempa=\konec@trg@prog\else
+		\let\@tempa=\konec@trg@format%
+		\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi
+	\@tempa#1}
+
+% End of konec/target.sty

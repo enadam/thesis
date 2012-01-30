@@ -1,0 +1,53 @@
+% same
+\ifstr{akarmi}{akarmi}same\else unsame\fi
+
+% unsame
+\ifstr{akarmi}{valami}same\else unsame\fi
+
+% prefix
+\ifprefix{akarmi}{aka}prefix\else not prefix\fi
+
+% not prefix
+\ifprefix{bakarmi}{aka}prefix\else not prefix\fi
+
+% not prefix
+\ifprefix{akarmi}{baka}prefix\else not prefix\fi
+
+% not prefix
+\ifprefix{akarmi}{akb}prefix\else not prefix\fi
+
+% prefix
+\ifprefix{akarmi}{akarmi}prefix\else not prefix\fi
+
+% not prefix
+\ifprefix{akarmi}{akarmib}prefix\else not prefix\fi
+
+% kicsi
+\iflowercase{akarmi}kicsi\else nagy\fi
+
+% nagy
+\iflowercase{Akarmi}kicsi\else nagy\fi
+
+% nagy
+\iflowercase{akarmI}kicsi\else nagy\fi
+
+% nagy
+\iflowercase{AKARMI}kicsi\else nagy\fi
+
+% megsutlek
+\ifjob{test}megsutlek\else megeszlek\fi
+
+% megeszlek
+\ifjob{something}megsutlek\else megeszlek\fi
+
+\label{jozsika}
+
+% section.0.1
+\label@to@anchor{jozsika}
+
+% section.0.1
+\lowercase{\edef\xxx{\label@to@anchor{JOzsIKa}}}
+\xxx
+
+% 1
+\label@to@pageno{jozsika}

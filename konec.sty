@@ -1,0 +1,85 @@
+%
+% konec.sty -- macro package for crossreferenced technical documents
+%
+
+% Environment check
+% Are we running under e-tex?
+% A couple of macros would \detokenize and \dimexpr.
+\NeedsTeXFormat{LaTeX2e}
+\begingroup
+\expandafter\ifx\csname eTeXversion\endcsname\relax
+	\nonstopmode
+	\message{^^J! konec error: process me with e-TeX, please.^^J^^J}
+	\aftergroup\stop
+\fi
+\endgroup
+
+% Process package options with keyval.
+\RequirePackage{keyval}
+
+\newif\ifkonec@hardcopy
+\newif\ifkonec@trace
+
+% Rely options to graphicx, subfigure, hyperref
+\define@key{konec@opts}{hardcopy}[true]{\csname konec@hardcopy#1\endcsname}
+\define@key{konec@opts}{trace}[true]{\csname konec@trace#1\endcsname}
+\define@key{konec@opts}{draft}[true]{%
+	\global\overfullrule2pt%
+	\PassOptionsToPackage{draft}{graphicx}%
+	\let\ifGin@draft=\iftrue%
+	\PassOptionsToPackage{draft}{listings}}
+\define@key{konec@opts}{subfigure}{\PassOptionsToPackage{#1}{subfigure}}
+\define@key{konec@opts}{hyperref}{\PassOptionsToPackage{#1}{hyperref}}
+
+\edef\@curroptions{{konec@opts}{\@ptionlist{\@currname.\@currext}}}
+\expandafter\setkeys\@curroptions
+\AtEndOfPackage{\let\@unprocessedoptions\relax}
+
+% Include other packages
+\RequirePackage[T1]{fontenc}
+\RequirePackage{chngpage}
+\RequirePackage{xspace}
+\RequirePackage{longtable}
+\RequirePackage{listings}
+\RequirePackage{graphicx}
+\RequirePackage{subfigure}
+\RequirePackage[T1,obeyspaces,spaces]{url}
+\RequirePackage{hyperref}
+
+% Put it together
+\input{konec/generic.sty}
+\input{konec/everypage.sty}
+\input{konec/ifrpr.sty}
+\input{konec/ifused.sty}
+\input{konec/ifnewer.sty}
+\input{konec/semiverb.sty}
+\input{konec/mkfrac.sty}
+\input{konec/konec.sty}
+\if@latex@atleast{2002/01/02}% TODO exact version?
+\else	\konec@warning{%
+		Your LaTeX may be buggy, enabling lame workarounds^^J%
+		to get minoral marginpars.}
+	\input{konec/mparfix.sty}
+\fi
+
+\input{konec/bookmark.sty}
+\input{konec/topic.sty}
+\input{konec/target.sty}
+\input{konec/link.sty}
+\input{konec/keyword.sty}
+
+\input{konec/section.sty}
+\input{konec/figure.sty}
+\input{konec/ref.sty}
+\input{konec/cite.sty}
+\input{konec/prog.sty}
+\input{konec/file.sty}
+
+\input{konec/styles.sty}
+\input{konec/things.sty}
+\input{konec/warning.sty}
+
+\input{konec/either.sty}
+\input{konec/abbrev.sty}
+
+% End of konec.sty

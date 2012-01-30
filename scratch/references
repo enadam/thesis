@@ -1,0 +1,219 @@
+Bibliography
+------------
+
+Books
+~~~~~
+
+XP:		Extreme Programming Explained
+		Kent Beck
+		Addison-Wesley Professional; 1999
+Java:		Java Application Development on Linux
+		Carl Albing, Michael Schwarz 
+		Prentice Hall Professional Technical Reference
+		Boston, 2004
+SWEBOK:		Guide to the Software Engineering Body of Knowledge
+		Pierre Bourque, Robert Dupois (eds)
+		IEEE Computer Society; 2004
+		http://www.swebok.org
+ESR:		The Art of Unix Programming
+		Eric S. Raymond
+		Addison-Wesley Professional; 2003
+Critique:	C++?? : A Critique of C++
+		Ian Joyner
+		3rd edition; 1996
+		http://burks.brighton.ac.uk/burks/pcinfo/progdocs/cppcrit/index.htm
+SecProg:	Secure Programming for Linux and Unix HOWTO -- Creating Secure Software
+		David A. Wheeler
+		2003
+		http://www.dwheeler.com/secure-programs
+PostScript1:	Mathematical Illustrations: A Manual of Geometry and PostScript
+		Bill Casselman
+		University of British Columbia, Vancouver; 2005
+		http://www.math.ubc.ca/~cass/graphics/manual
+PostScript2:	PostScript Language---Tutorial and Cookbook
+		Adobe Systems, Inc.
+		Addison-Wesley Publishing Company, Inc.
+		Reading, Massachusetts
+		1985
+
+Standards and references
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+USDA:		National Nutrient Database for Standard Reference
+		Composition of Foods: Raw, Processed, Prepared
+		Release 19
+		U.S. Department of Agriculture
+		August, 2006
+		http://www.ars.usda.gov/Services/docs.htm?docid=8964
+IEEE:unit_testing:
+		IEEE Standard for Software Unit Testing
+		IEEE 1008-1987; 1987
+CORBA:		CORBA C++ Language Mapping Specification, version~1.1
+		Object Management Group, Inc.
+		June 2003
+		http://www.omg.org/technology/documents/formal/c++.htm
+gccman:		Using the GNU Compiler Collection
+		Richard M. Stallman and the GCC Developer Community
+		GNU Press; 2007
+		http://gcc.gnu.org/onlinedocs/gcc-4.1.2/gcc
+
+University
+~~~~~~~~~~
+
+TDK:		Intelligens menügenerálás táplálkozási tanácsadó rendszerhez
+		2002/2003
+Attee:		Szakértõi rendszer monitorozó szolgáltatásának tervezése és
+		megvalósítása J2EE technológiával
+
+Articles
+~~~~~~~~
+
+IEEE:maintainability:
+		Salvatore Mamone
+		The IEEE Standard for Software Maintenance
+		ACM SIGSOFT Software Engineering
+		Volume 19,  Issue 1 (January 1994); pp. 75-76
+Knuth:		A torture test for \TeX
+		Technical Report: CS-TR-84-1027; 1984
+Lindsay:	Designing for failure may be the key to success
+		Bruce Lindsay
+		interviewer: Steve Bourne
+		ACM Queue vol. 2, no. 8; 2004, November
+
+Presentations
+~~~~~~~~~~~~~
+
+dietlibc:	Writing Small and Fast Software
+		Felix von Leitner
+		Chemnitzer Linux Tag 4
+		2001 Jan
+		http://www.fefe.de/dietlibc/diet.pdf
+qbot:		\texttt{qbot}: A framework for the creation of robots
+		testing networking programs
+
+Booklets
+~~~~~~~~
+
+LiteFAQ:	C++ FAQ Lite
+		Marshall Cline
+		http://www.parashift.com/c++-faq-lite
+GotW:		Guru of the Week (GotW) Archive
+		Herb Sutter
+		1997-2003
+		http://www.gotw.ca/gotw
+
+Leaflets
+~~~~~~~~
+
+OWASP:		PHP Top 5
+		Open Web Application Security Project (OWASP)
+		http://www.owasp.org/index.php/PHP_Top_5
+Joel:		Things You Should Never Do, Part I
+		Joel Spolsky
+		2000, Apr
+		http://www.joelonsoftware.com
+ICC:		Commercial company compiles kernel with ICC
+		KernelTrap forum thread
+		http://kerneltrap.org/node/3866
+		(also http://kerneltrap.org/node/2964)
+
+Progliography
+-------------
+
+Aapl:		C++ Template Library
+		http://www.sourcefiles.org/Programming/Libraries/Utilities/aapldev-2.14.tar.gz
+Bugzilla:	Web-based general-purpose bugtracker
+		http://www.bugzilla.org
+ccmalloc:	C/C++ memory profiler and memory leak detector
+		http://www.inf.ethz.ch/personal/biere/projects/ccmalloc
+cons:		\Prog{Perl}-based software construction tool
+		http://www.dsmit.com/cons
+Cordelia:	Szív-érrendszeri kockázatmerõ és tanácsadó oldal
+		http://cordelia.vein.hu
+ctags: (Exuberant Ctags)
+		Multilanguage reimplementation of the Unix \Tech{ctags} program
+		http://ctags.sourceforge.net
+CVS:		The Concurrent Versioning System
+		http://www.nongnu.org/cvs
+Date::Parse:	\Prog{Perl} module for parsing textual time expressions
+		http://search.cpan.org/~gbarr/TimeDate-1.16/lib/Date/Parse.pm
+DBD::Oracle:	\Prog{Oracle} driver for the \Prog{Perl} Database Interface module
+		http://search.cpan.org/author/PYTHIAN/DBD-Oracle-1.19
+doxygen:	\Prog{Javadoc}-like documentation system for C, C++ and other languages
+		http://www.doxygen.org
+Eclipse:	An open development platform
+		http://eclipse.org
+efence: (Electric Fence)
+		A \Code{malloc()} buffer-overrun debugger that uses the VM hardware
+		http://www.pf-lug.de/projekte/haya/efence.php
+GALib:		Matthew's genetic algorithm library
+		http://lancet.mit.edu/ga
+gcc:		The GNU Compiler Collection
+		http://gcc.gnu.org
+gdb:		The GNU Debugger
+		http://www.gnu.org/software/gdb/gdb.html
+glibc:		The GNU C Library
+		http://www.gnu.org/software/libc/libc.html
+gobjc:		Objective-C frontend of \Prog{gcc}
+		http://gcc.gnu.org
+Graphviz:	Set of graph drawing tools and libraries
+		http://www.graphviz.org
+gtk: (GTK+)	The GIMP Toolkit, version~1.2
+		http://www.gtk.org
+Gtk:		\Prog{Perl} bindings to \Prog{gtk}
+		http://www.gtkperl.org
+HTML::Parser:	HTML parser class for \Prog{Perl}
+		http://search.cpan.org/~gaas/HTML-Parser-3.56
+HTML::Tree:	Suite of \Prog{Perl} modules for making parse trees out of HTML source
+		http://search.cpan.org/~petek/HTML-Tree-3.23
+icc: (ICC)	Intel Compilers for Linux
+		http://www.intel.com/cd/software/products/asmo-na/eng/compilers/277618.htm
+jam:		A powerful, multi-platform \Prog{make} replacement
+		http://www.perforce.com/jam/jam.html
+Javadoc:	Tool for generating API documentation in HTML format from doc comments
+		http://java.sun.com/j2se/javadoc/index.jsp
+JBoss:		JBoss an enterprise JavaBeans application server
+		http://www.jboss.org
+libstdc++3:	The GNU Standard C++ Library, version~3
+		ftp://ftp.gwdg.de/pub/misc/gcc/libstdc++/old-releases/libstdc++-3.0.tar.gz
+libstdc++6:	The GNU Standard C++ Library, version~6
+		http://gcc.gnu.org
+make: (GNU make)
+		Controls the generation of executables and other non-source files
+		http://www.gnu.org/software/make/make.html
+Math::Combinatorics:
+		Perform combinations and permutations on lists
+		http://search.cpan.org/~allenday/Math-Combinatorics-0.09
+Math::Random:	Random Number Generators for \Prog{Perl}
+		http://search.cpan.org/~grommel/Math-Random-0.69
+Monotone:	Distributed version control system
+		http://monotone.ca
+OCI:		\Prog{Oracle} database client tools and libraries
+		http://www.oracle.com/technology/software/products/database/xe/htdocs/102xelinsoft.html
+Oracle:	(Oracle9i)
+		Object-relational database manager
+		http://www.oracle.com/education/description_oracle9i.html
+Perl:		High-level programming language with an eclectic heritage
+		http://www.perl.net
+PostgreSQL:	Powerful, open source relational database system
+		http://postgresql.org
+Prima:		Extensible \Prog{Perl} toolkit for multi-platform GUI development
+		http://www.prima.eu.org
+qbot:		The IRT test robot
+		http://cvs.irt.vein.hu/qbot
+Subversion:	A version control system created to supersede CVS
+		http://subversion.tigris.org
+syslog-ng:	A portable syslogd replacement with enhanced, flexible configuration scheme
+		http://www.balabit.com/products/syslog-ng
+TinyXml:	A simple, small, and minimal C++ XML parser
+		http://www.grinninglizard.com/tinyxml/index.html
+valgrind:	Tool that helps findind memory management problems
+		http://www.valgrind.org
+Vim:		An almost fully-compatible version of the Unix editor \Tech{vi}
+		http://www.vim.org
+zsh:		A powerful Unix shell
+		http://www.zsh.org
+TeX:		Powerful typesetting programming language
+		http://tug.org
+darcs:		David's Advanced Revision Control System
+		http://www.abridgegame.org/darcs

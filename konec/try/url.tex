@@ -1,0 +1,54 @@
+\documentclass[12pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
+\usepackage[T1,obeyspaces,spaces]{url}
+\usepackage[colorlinks]{hyperref}
+
+% left: 4cm, right: 3cm
+\geometry{showframe,paper=a4paper,left=4cm,right=3cm,vmargin=3cm}
+\reversemarginpar
+
+\makeatletter
+
+\urlstyle{tt}
+\def\UrlBreaks{\do\/\do\_\do\.\do\(\do\[\do\]\do\)\do\,\do\+\do\=\do\;}
+\def\UrlNoBreaks{}
+
+\chardef\ctrl@d4
+\catcode\ctrl@d=\active
+\def\UrlSpecials{\do{\dots}}
+
+\def\Code{\begingroup\Url}
+
+\begin{document}
+
+duma
+\Code{some_funny_function(with lots of things)}
+duma
+\marginpar{\Code{some_funny_function(with lots of things)}}
+duma
+\hyperlink{CONFIG_DEBUG}{\Code{some_funny_function(with lots of things)}}
+duma
+\Code{some_funny_function(with lots of things)}
+duma
+\Code{some_funny_function(with lots of things)}
+duma
+\Code{some_funny_function(with lots of things)}
+duma
+
+\Code{#if  #else  #endif}
+
+pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok
+pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok
+pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok
+pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok
+pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok
+
+\hypertarget{CONFIG_DEBUG}{megsutlek}
+pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok
+pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok
+pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok
+pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok
+pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok
+
+\end{document}

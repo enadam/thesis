@@ -1,0 +1,70 @@
+%
+% konec/bookmark.sty -- for creating bookmarks in a PDF
+%
+
+\newcount\konec@bm@cnt
+\newif\ifkonec@may@bm
+\konec@may@bmtrue
+\def\konec@bm@lastlabel{doesntexist}
+
+% The low-level worker is robust enough to be called \bookmark.
+\def\konec@bm@write#1#2#3{\@@writetorep{}{#2}{#1}{#3}{toc}}
+\def\konec@bm#1#2#3{% text, mark, label
+	\ifx\WriteBookmarks\relax\else\ifkonec@may@bm
+		\konec@log{bookmark: #2}%
+		\lowercase{%
+			\konec@log{target: #3}%
+			\xdef\konec@bm@lastlabel{#3}}%
+		\@tempcnta\Hy@currentbookmarklevel
+		\advance\@tempcnta by 1% make #2 verbatim
+		\lowercase{\konec@bm@write{#3}}%
+			{\detokenize{#2}}%
+			{\expandafter\the\@tempcnta}%
+		\lowercase{\hypertarget{#3}}{#1}%
+		\advance\@tempcnta by -1
+		\xdef\Hy@currentbookmarklevel{\the\@tempcnta}%
+	\fi\fi}
+\def\konec@bm@nolabel#1#2{% text, mark
+	\konec@bm{#1}{#2}{bookmark\expandafter.\the\konec@bm@cnt}%
+	\@bsphack\global\advance\konec@bm@cnt by 1\@esphack}
+
+% \Bookmark<text>
+\def\konec@bm@text<#1>{\konec@bm@nolabel{#1}{#1}}
+
+% \Bookmark[\Format{text}]{mark}
+% \Bookmark[\Format{text}][mark]{label}
+\def\konec@bm@mark[#1]{% text
+	\@ifnextchar[%
+		{\konec@unopt{\konec@bm{#1}}}
+		{\konec@bm@nolabel{#1}}}
+
+% \Bookmark*{mark}
+% \Bookmark*[mark]{label}
+\def\konec@bm@notext*{%
+	\@ifnextchar[%
+		{\konec@unopt{\konec@bm{}}}
+		{\konec@bm@nolabel{}}}
+
+% \Bookmark\Format{text}
+\def\konec@bm@format#1#2{\konec@bm@nolabel{#1{#2}}{#2}}
+
+% Dispatch
+\def\Bookmark#1{%
+	\ifx#1<\let\@tempa=\konec@bm@text\else
+	\ifx#1[\let\@tempa=\konec@bm@mark\else
+	\ifx#1*\let\@tempa=\konec@bm@notext\else
+		\let\@tempa=\konec@bm@format%
+		\fi\fi\fi
+	\@tempa#1}
+\def\BumpBMLevel{%
+	\bgroup%
+	\@tempcnta\Hy@currentbookmarklevel
+	\advance\@tempcnta by 1
+	\xdef\Hy@currentbookmarklevel{\the\@tempcnta}}
+\def\KnockBMLevel{%
+	\@tempcnta\Hy@currentbookmarklevel
+	\advance\@tempcnta by -1
+	\xdef\Hy@currentbookmarklevel{\the\@tempcnta}%
+	\egroup}
+
+% End of konec/bookmark.sty

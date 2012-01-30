@@ -1,0 +1,36 @@
+\documentclass[12pt]{article}
+
+\makeatletter
+
+\def\Format#1{FORMAT #1 EFOR}
+
+\def\Fun#1{FUN #1 EFUN}
+
+\def\target@angle<#1>{angle #1 eang\egroup}
+
+\def\target@bracket[#1]#2{bracket #1, #2 ebra\egroup}
+
+\def\target@fun#1#2{fun #1{#2} efun\egroup}
+
+\def\target@format#1#2{format #1{#2} efor\egroup}
+
+\def\Target#1{
+	\bgroup
+	\ifx#1<\let\cmd=\target@angle\else
+	\ifx#1[\let\cmd=\target@bracket\else
+	\ifx#1\Fun\let\cmd=\target@fun\else
+		\let\cmd=\target@format
+		\fi\fi\fi
+	\cmd#1}
+
+\begin{document}
+
+\Target<akarmi>
+
+\Target[akarmi]{valami}
+
+\Target\Fun{akarmi}
+
+\Target\Format{akarmi}
+
+\end{document}

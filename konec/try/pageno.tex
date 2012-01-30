@@ -1,0 +1,70 @@
+\documentclass[12pt]{article}
+\usepackage{hyperref}
+\usepackage{afterpage}
+
+\reversemarginpar
+
+\makeatletter
+
+\def\label@@to@pageno#1{%
+	\ifx#1\relax\noexpand\relax\else\expandafter\@secondoffive#1\@empty\@empty\fi}
+\def\label@to@pageno#1{\expandafter\label@@to@pageno\csname r@#1\endcsname}
+
+\def\last@mp@pageno{\relax}
+
+% defined new && old != new && new != this
+\def\MPPageNo#1{{%
+	\edef\this@mp@pageno{\label@to@pageno{#1}}%
+	\ifx\this@mp@pageno\relax\else
+		\ifx\this@mp@pageno\last@mp@pageno\else
+			\@tempcnta\this@mp@pageno%
+			\advance\@tempcnta0%
+			\ifnum\@tempcnta=\c@page\else
+				\marginpar{\hyperlink{#1}{\small p.~\this@mp@pageno}}%
+				\xdef\last@mp@pageno{\this@mp@pageno}%
+			\fi
+		\fi
+	\fi}}
+
+\afterpage{\gdef\last@mp@pageno{\relax}}
+
+\begin{document}
+
+\MPPageNo{akarmi} duma \bigskip\bigskip\bigskip
+
+\MPPageNo{valami} duma \bigskip\bigskip\bigskip
+
+\MPPageNo{valami} duma \bigskip\bigskip\bigskip
+
+\MPPageNo{semmi}  duma \bigskip\bigskip\bigskip
+
+\MPPageNo{semmi}  duma \bigskip\bigskip\bigskip
+
+\MPPageNo{akarmi} duma \bigskip\bigskip\bigskip
+
+\label{akarmi}
+pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok
+pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok
+pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok
+pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok
+pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok
+
+\newpage xx \newpage
+
+\label{valami}
+pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok
+pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok
+pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok
+pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok
+pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok
+
+\newpage xx \newpage
+
+\label{semmi}
+pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok
+pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok
+pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok
+pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok
+pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok
+
+\end{document}

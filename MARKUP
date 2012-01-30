@@ -1,0 +1,284 @@
+
+Primitives
+----------
+
+\sffamily			% sans serif
+\ttfamily			% typewriter
+\scshape			% small caps
+\itshape			% italics
+\upshape			% upright
+
+\marginpar{mpar}		% marginal note
+\label{label}			% \pageref target
+\hypertarget{label}{text}	% <SPAN name=label>text</A>
+\hyperlink{label}{text}		% <A href=#label>text</A>
+\href{url}{text}		% <A href=url>text</A>
+
+
+Text styles
+-----------
+
+\Tech{text}			= {\sffamily text}
+\Path{path}			= {\ttfamily \verb|path|}
+\Code{code}			= {\ttfamily \verb|path|}
+\Term{term}			= {\itshape term}
+\Talk{rhetorics}		= {\itshape rhetorics}
+\Subject{text}			= \emph{text}
+\Interposition{text}		= {\upshape [text]}
+\MathFun{function}		= \textrm{function}
+\MathVar{variable}		= \textit{variable}
+
+
+Abbreviations
+-------------
+
+\Menugene			= \Tech{Menugene}
+\Ibid				= \textit{ibid}.
+\AndOr				= and/or
+\HeShe				= he|she
+\HisHer				= his|her
+\NULL				= \Code{NULL}
+
+
+Symbols
+-------
+
+\Warning			= \marginpar{\dbend}
+				= \dots
+				% in \Code
+
+
+Convenience
+-----------
+
+\Either[alt1][alt2]		= alt1/alt2
+
+
+Environments
+------------
+
+{quote}				= {quote}
+{lstlisting}[style=C++]		= {verbatim}
+{lstlisting}[style=XML]		= {verbatim}
+
+Subject
+-------
+
+% \bookmark
+\Bookmark<text>			= \bookmark{text}{text}
+\Bookmark\Format{text}		= \bookmark[\Format{text}]{text}
+\Bookmark[\Format{text}]{mark}	= \bookmark{\Format{text}}{mark}
+\Bookmark*{mark}		= \bookmark{}{mark}
+
+% \bookmark
+\Topic{mark}			= \Bookmark*{mark}
+
+% \bookmark, \marginpar
+\Keyword<text>			= \marginpar{text}
+				  \Bookmark<text>
+\Keyword\Format{text}		= \marginpar{\Format{text}}
+				  \Bookmark\Format{text}
+\Keyword[\Format{text}]{mpar}	= \marginpar{mpar}
+				  \Bookmark[\Format{text}]{mpar}
+\Keyword*{mpar}			= \marginpar{mpar}
+				  \Bookmark*{mpar}
+
+
+Targets
+-------
+
+% \hypertarget, \label
+\Target<text>			= \hypertarget{text}{text}
+				  \label{text}
+\Target\Format{text}		= \hypertarget{text}{\Format{text}}
+				  \label{text}
+\Target[\Format{text}]{label}	= \hypertarget{label}{\Format{text}}
+				  \label{label}
+\Target*{label}			= \hypertarget{label}{}
+				  \label{label}
+
+% \hypertarget, \bookmark (it *does not* \label ATM)
+\Bookmark*[mark]{label}		= \bookmark{\Target*{label}}{mark}
+\Bookmark[\Format{text}][mark]{label}
+				= \bookmark{\Target[\Format{text}]{label}}{mark}
+
+% \hypertarget, \label, \bookmark
+\Topic<mark>			= \Bookmark*[mark]{mark}
+\Topic[mark]{label}		= \Bookmark*[mark]{label}
+
+% \hypertarget, \label, \bookmark, \marginpar
+\Keyword\Target<text>		= \marginpar{text}
+				  \Bookmark[text][text]{text}
+\Keyword\Target\Format{text}	= \marginpar{\Format{text}}
+				  \Bookmark[\Format{text}][text]{text}
+\Keyword\Target[\Format{text}]{mpar}
+				= \marginpar{mpar}
+				  \Bookmark[\Format{text}][mpar]{mpar}
+\Keyword\Target[\Format{text}][mpar]{label}
+				= \marginpar{mpar}
+				  \Bookmark[\Format{text}][mpar]{label}
+
+
+Internal linkage
+----------------
+
+% \hyperlink
+\Link<label>			= \hyperlink{label}{label}
+\Link[text]{label}		= \hyperlink{label}{text}
+\Link\Format{label}		= \hyperlink{label}{\Format{label}}
+\Link[\Format{text}]{label}	= \hyperlink{label}{\Format{text}}
+
+% \hyperlink, \marginpar, \bookmark
+\Keyword\Link<text>		= \marginpar{text}
+				  \Bookmark[\Link<text>]{text}
+\Keyword\Link\Format{text}	= \marginpar{\Format{text}}
+				  \Bookmark[\Link\Format{text}]{text}
+\Keyword\Link[\Format{text}]{mpar}
+				= \marginpar{mpar}
+				  \Bookmark[\Link[\Format{text}]{mpar}]{mpar}
+\Keyword\Link[\Format{text}][mpar]{label}
+				= \marginpar{mpar}
+				  \Bookmark[\Link[\Format{text}]{label}]{mpar}
+
+
+External linkage
+----------------
+
+% \href
+\File<path>			= \href{path}{\Path{path}}
+\File{fname}{dir}		= \href{dir/fname}{\Path{fname}}
+\File[text]{path}		= \href{path}{text}
+
+% \href, \marginpar, \bookmark
+\Keyword\File{fname}{dir}	= \marginpar{\Path{fname}}
+				  \Bookmark[\File{fname}{dir}]{fname}
+
+
+Objects
+-------
+
+% \bookmark
+\Var{name}			= \Bookmark[\Code{name}]{name}
+\Fun{name}{args}		= \Bookmark[\Code{name(args)}]{name()}
+\Class{name}			= \Var{name}
+\Tpl{name}{args}		= \Bookmark[\Code{name<args>}]{name}
+\Make{target}			= \Bookmark[\Code{make target}]{make target}
+\Repo{fname}{dir}		= \Bookmark[\File{fname}{dir}]{fname}
+
+% \hypertarget, \label, \bookmark
+\Target\Var{name}		= \Bookmark[\Code{name}][name]{name}
+\Target\Fun{name}{args}		= \Bookmark[\Code{name(args)}][name()]{name()}
+\Target\Class{name}		= \Target\Var{name}
+\Target\Tpl{name}{args}		= \Bookmark[\Code{name<args>}][name]{name}
+\Target\Make{target}		= \Bookmark[\Code{make target}][make target]{make target}
+\Target\Repo{fname}{dir}	= \Bookmark[\File{fname}{dir}][fname]{fname}
+\Target\Repo{fname}[label]{dir}	= \Bookmark[\File{fname}{dir}][fname]{label}
+
+
+Sectioning
+----------
+
+% \hypertarget, \label, \section
+\NewChapter{title}		= \Target\chapter{title}
+\NewChapter[title]{label}	= \Target[\chapter{title}]{label}
+\NewSection{title}		= \Target\section{title}
+\NewSection[title]{label}	= \Target[\section{title}]{label}
+\NewwSection{title}		= \Target\subsection{title}
+\NewwSection[title]{label}	= \Target[\subsection{title}]{label}
+\NewwwSection{title}		= \Target\subsubsection{title}
+\NewwwSection[title]{label}	= \Target[\subsubsection{title}]{label}
+
+
+Figures
+-------
+
+{NewFig}[stretch]{label}	= {figure}
+				  \advance\textwidth stretch
+				  \hypertarget{fig:label}{}
+				  \label{fig:label}
+{NewFig}[stretch]{}		= {figure}
+				  \advance\textwidth stretch
+{NewFig}{label}			= {NewFig}[0pt]{label}
+{NewFig}{}			= {NewFig}[0pt]{}
+
+\FigPair{fname}% creates subfigures, only if `label' was given
+	[subfig][div][opts]{caption}
+				= \IncludeFig[div][subfig][opts]{fname}
+	[subfig][div]{caption}	= \IncludeFig[div][subfig]{fname}
+	[subfig]{caption}	= \IncludeFig[subfig]{fname}
+				  \caption{caption}
+				  \hypertarget{fig:label-nextsubfignumber}{}
+				  \label{fig:label-nextsubfignumber}
+
+\FigPair% creates subfigures/multifigures, depending on the environment
+	[fname][label][div][opts][lofline]{caption}
+				= \IncludeFig[div][subfig][opts]{fname}
+	[fname][label][div][opts]{caption}
+				= \IncludeFig[div][subfig][opts]{fname}
+	[fname][label][div]{caption}
+				= \IncludeFig[div][subfig]{fname}
+	[fname][label]{caption}	= \IncludeFig[subfig]{fname}
+				  \caption[lofline]{caption}
+				  \hypertarget{fig:label}{}
+				  \label{fig:label}
+
+\IncludeFig[div][subfig][opts]{fname}
+				= \includegraphics%
+				  [page=subfig,width=\linewidth/div,opts]%
+				  {fname}
+\IncludeFig[div][subfig]{fname}	= \IncludeFig[div][subfig][]{fname}
+\IncludeFig[div]{fname}		= \IncludeFig[div][0]{fname}
+\IncludeFig{fname}		= \IncludeFig[0]{fname}
+
+
+References
+----------
+
+% \hyperlink
+\Appendix{label}		= \Link[appendix~\ref*{label}]{label}
+\APPendix{label}		= \Link[Appendix~\ref*{label}]{label}
+
+\Chapter{label}			= \Link[chapter~\ref*{label}]{label}
+\CHAPter{label}			= \Link[Chapter~\ref*{label}]{label}
+
+\Section*{label}		= \Link[\ref*{label}]{label}
+\Section{label}			= \Link[section~\ref*{label}]{label}
+\Section[label]{chapter}	= \Link[section~\ref*{label}]{label}
+				  in \Chapter{chapter}
+\SECTion{label}			= \Link[Section~\ref*{label}]{label}
+\SECTion[label]{chapter}	= \Link[Section~\ref*{label}]{label}
+				  in \Chapter{chapter}
+
+\Figure*{label}			= \Link[\ref*{fig:label}]{fig:label}
+\Figure{label}			= \Link[figure~\ref*{fig:label}]{fig:label}
+\Figure[label]{chapter}		= \Link[figure~\ref*{fig:label}]{fig:label}
+				  in \Chapter{chapter}
+\FIGure{label}			= \Link[Figure~\ref*{fig:label}]{fig:label}
+\FIGure[label]{chapter}		= \Link[Figure~\ref*{fig:label}]{fig:label}
+				  in \Chapter{chapter}
+
+
+Citations
+---------
+
+% \hyperlink
+\Prog{Prog}			= \Link[\Prog*{Prog}]{prg:Prog}
+\Prog[text]{prog}		= \Link[text]{prg:prog}
+
+% \hyperlink
+\Target\Prog{prog}		= \Target[\Prog{prog}]{prog}
+\Link\Prog{prog}		= \Link[\Prog*{prog}]{prog}
+\Keyword\Prog{prog}		= \Keyword[\Prog{prog}]{prog}
+
+% \hypertarget
+{Progliography}			= {tabular}
+\DefProg[prog][lname][rname]{desc}{url}
+				= \Target{rname}{prg:prog} desc & \url{url}
+\DefProg{prog}[lname]{desc}{url}= \DefProg{prog}[lname][lname]{desc}{url}
+\DefProg{prog}{desc}{url}	= \DefProg{prog}[prog][prog]{desc}{url}
+
+% \hyperlink
+\Cite{item}			= item \cite{item}
+\Cite\Prog{item}		= \Prog{item} \cite{item}
+
+% vim: set filetype=tex:

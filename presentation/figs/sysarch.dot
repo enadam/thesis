@@ -1,0 +1,77 @@
+//
+// figs/sysarch.dot
+//
+
+#define NODE		fontname=SANSSERIF,fontsize=10,height=.3
+#define EDGE		arrowsize=.6
+#define FAKE		style=invis
+
+#define HUMAN		fontname=ROMAN
+#define APP		shape=Mrecord
+#define PROG		shape=box
+#define LIB		shape=box
+
+#define MINE		style=filled,fillcolor=lightblue
+#define MINEHACK	SPECIAL(fillhsv 0.537 0.247 0.902)
+#define HALFMINE	style=filled,fillcolor=lightgray
+#define HALFMINEHACK	SPECIAL(fill .827)
+
+#define TCP		style="Dashing([ 1, 2 ])"
+#define RMI		style="Dashing([ 5, 2, 1, 2 ] 2)"
+
+digraph sysarch_layers
+{
+	node[fontname=BOLD,fontsize=10,width=1.2,height=.46];
+	node[shape=box];
+	edge[EDGE];
+
+	Level1[label="User-visible\ncomponents"];
+	Level2[label="Controller"];
+	Level3[label="Engine"];
+
+	Level1 -> Level2 -> Level3;
+}
+
+digraph sysarch_now
+{
+	nodesep=.15;
+	node[NODE];
+	edge[EDGE];
+
+	Users	[HUMAN,label="Consumers"];
+	Experts	[HUMAN,label="Dietary experts"];
+	Devel	[HUMAN,label="Developers"];
+
+	junkie	[APP,MINEHACK];
+	rulez	[APP,MINEHACK];
+	mgadmin	[APP,label="MenuGene\nAdmin"];
+	daemon	[PROG,MINE];
+	MGLib	[LIB,MINE];
+	GSLib	[LIB,MINE];
+	GALib	[LIB,HALFMINE];
+	Database[shape=record,fontname=ROMAN,
+		SPECIAL((setfont (Database) ROMAN 12)),HALFMINEHACK,
+		label="{Database|{recipes|common\nconstraints}}"];
+	BITS	[PROG,MINE];
+
+	Users	-> junkie	[TCP];
+	Users	-> rulez;
+	Experts	-> junkie	[TCP];
+	Experts	-> mgadmin;
+	Experts	-> rulez;
+	Devel	-> daemon	[weight=2.0];
+	Devel	-> BITS;
+
+	rulez	-> Database	[TCP];
+	junkie	-> daemon	[TCP];
+	daemon	-> GSLib;
+	daemon	-> MGLib	[constraint=false,minlen=2];
+	daemon	-> Database	[TCP,weight=.5];
+	MGLib	-> GSLib;
+	MGLib	-> GALib;
+	GALib	-> MGLib	[constraint=false];
+	mgadmin	-> Database	[TCP];
+	BITS	-> Database	[TCP];
+}
+
+// End of figs/sysarch.dot

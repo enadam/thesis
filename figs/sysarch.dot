@@ -1,0 +1,120 @@
+//
+// figs/sysarch.dot
+//
+
+#define NODE		fontname=SANSSERIF,fontsize=10,height=.3
+#define EDGE		arrowsize=.6
+#define FAKE		style=invis
+
+#define HUMAN		fontname=ROMAN
+#define APP		shape=Mrecord
+#define PROG		shape=box
+#define LIB		shape=box
+
+// `dot' doesn't fill Mrecords, we need to do it in SPECIAL() way.
+// FYI lightgray == HSB 0 0 .827
+#define CENTRUM		style=filled,fillcolor=lightgray
+#define CENTRUMHACK	"fill .827"
+#define NOTMINE		style=dashed
+
+#define TCP		style="Dashing([ 1, 2 ])"
+#define RMI		style="Dashing([ 5, 2, 1, 2 ] 2)"
+
+digraph sysarch_layers
+{
+	node[fontname=BOLD,fontsize=10,width=1.2,height=.46];
+	node[shape=box];
+	edge[EDGE];
+
+	Level1[label="User-visible\ncomponents"];
+	Level2[label="Controller"];
+	Level3[label="Engine"];
+
+	Level1 -> Level2 -> Level3;
+}
+
+digraph sysarch_now
+{
+	nodesep=.15;
+	node[NODE];
+	edge[EDGE];
+
+	Users	[HUMAN,label="Consumers"];
+	Experts	[HUMAN,label="Dietary experts"];
+	Devel	[HUMAN,label="Developers"];
+
+	junkie	[APP];
+	rulez	[APP];
+	mgadmin	[APP,NOTMINE,label="MenuGene\nAdmin"];
+	daemon	[PROG,CENTRUM];
+	MGLib	[LIB];
+	GSLib	[LIB];
+	GALib	[LIB,SPECIAL(underline (GALib))];
+	Database[shape=record,fontname=ROMAN,
+		SPECIAL((setfont (Database) ROMAN 12),
+			(underline (Quadro Byte))),
+		label="{Database|{Quadro Byte\nrecipes|common\nconstraints}}"];
+	BITS	[PROG];
+
+	Users	-> junkie	[TCP];
+	Users	-> rulez;
+	Experts	-> junkie	[TCP];
+	Experts	-> mgadmin;
+	Experts	-> rulez;
+	Devel	-> daemon	[weight=2.0];
+	Devel	-> BITS;
+
+	rulez	-> Database	[TCP];
+	junkie	-> daemon	[TCP];
+	daemon	-> GSLib;
+	daemon	-> MGLib	[constraint=false,minlen=2];
+	daemon	-> Database	[TCP,weight=.5];
+	MGLib	-> GSLib;
+	MGLib	-> GALib;
+	GALib	-> MGLib	[constraint=false];
+	mgadmin	-> Database	[TCP];
+	BITS	-> Database	[TCP];
+}
+
+digraph sysarch_planned
+{
+	ranksep=.2; nodesep=.3;
+	node[NODE];
+	edge[EDGE,RMI];
+
+	Users	[HUMAN,label="Consumers"];
+	Experts	[HUMAN,label="Dietary experts"];
+	Admins	[HUMAN,label="Operators"];
+
+	JBoss	[shape=Mrecord,
+		SPECIAL((CENTRUMHACK),
+			(setfont (JBoss) SANSSERIF 12),
+			(rotate (mm) (Consumer's\ninterface)	-90),
+			(rotate (ww) (Expert's\ninterface)	 90)),
+		label="<junkie>mm|{<monitor>Monitor|\nJBoss\n\n|<s>Beans}|<mgadmin>ww"];
+	daemon	[shape=record,
+		SPECIAL(setfont (daemon) SANSSERIF 12),
+		label="{daemon|{{MGLib|GALIB}|GSLib}}"];
+	Protege	[shape=record,fontname=ROMAN,
+		SPECIAL(setfont (Protege) SANSSERIF 12),
+		label="{Protege|Knowledge base}"];
+	Database[shape=record,fontname=ROMAN,
+		SPECIAL(setfont (Database) ROMAN 12),
+		label="{Database|{USDA\nrecipes|common\nconstraints|learnt\ncases}}"];
+
+	Users	-> JBoss:junkie;
+	Experts	-> JBoss:junkie	[minlen=2];
+	Experts	-> JBoss:mgadmin;
+	Admins	-> JBoss:monitor;
+
+	fake[FAKE,label="",width=.6];
+	JBoss:s	-> fake		[FAKE];
+	fake	-> Protege	[FAKE,constraint=false];
+	fake	-> Database	[FAKE,weight=2];
+
+	JBoss:s	-> daemon	[dir=both,weight=1];
+	JBoss:s	-> Protege;
+	Protege	-> Database	[TCP];
+}
+
+// End of figs/sysarch.dot

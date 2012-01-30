@@ -1,0 +1,31 @@
+\documentclass[12pt]{article}
+\usepackage{hyperref}
+
+\makeatletter
+
+\def\lower@hypertarget#1{\lowercase{\hypertarget{#1}}}
+\def\HyperSection#1#2{%
+	\lower@hypertarget{#2}{#1{#2}}%
+	\lowercase{\label{#2}}}
+\def\Section#1{\HyperSection\section{#1}}
+\def\SubSection#1{\HyperSection\subsection{#1}}
+\def\SubSubSection#1{\HyperSection\subsubsection{#1}}
+
+\begin{document}
+
+\hyperlink{akarmi}{Duma}\ref{akarmi}
+pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok
+pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok
+pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok
+pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok
+pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok
+
+\Section{Akarmi}
+
+pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok
+pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok
+pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok
+pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok
+pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok pofazok
+
+\end{document}

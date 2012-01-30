@@ -1,0 +1,8 @@
+\def\if@defined#1{%
+	\begingroup
+	\expandafter\ifx\csname#1\endcsname\relax
+		\expandafter\aftergroup\csname iffalse\endcsname
+	\else
+		\expandafter\aftergroup\csname iftrue\endcsname
+	\fi
+	\endgroup}

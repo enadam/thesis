@@ -1,0 +1,173 @@
+%
+% konec/figure.sty -- defning \Link-able {figure}s
+%
+
+\def\konecnewfigplacement{[tbp]}
+
+% {NewFig}[stretch]{label}
+\newenvironment{NewFig}[2][0pt]% extra width, label
+{%
+	\expandafter\figure\konecnewfigplacement
+	\newif\ifkonec@fig@widen
+	\ifdim#1=0pt\else
+		\konec@fig@widentrue
+		\begin{adjustwidth}{-#1}{-#1}
+	\fi
+%
+	\lowercase{\edef\konec@fig@label{#2}}
+	\ifx\konec@fig@label\@empty
+		\def\FigPair{\konec@fipa@mufi}
+	\else
+		\def\FigPair{\konec@fipa@sufi}
+		\edef\konec@fig@label{fig:\konec@fig@label}
+		\konec@log{target: \konec@fig@label}
+		\hypertarget{\konec@fig@label}{}
+	\fi
+%	stupid hyperref forgets to restore it
+	\let\konec@fig@globalanchor@save=\@currentHref
+%	redefine \caption so it won't create an anchor on its own
+%	and \label will point to the right \hypertarget
+	\let\konec@old@caption=\caption
+	\def\caption{% enclose it if used multiple times
+		\let\konec@old@hyper@makecurrent=\hyper@makecurrent
+		\def\hyper@makecurrent####1{%
+			\konec@old@hyper@makecurrent{####1}
+			\xdef\@currentHref{\konec@fig@label}}%
+		\def\hyper@@anchor####1####2{####2}%
+		\konec@old@caption}%
+%	make \Link work in the \caption
+	\let\konec@old@addcontentsline=\addcontentsline
+	\def\addcontentsline##1##2##3{%
+		\begingroup
+		\def\Link{}
+		\konec@old@addcontentsline{##1}{##2}{##3}
+		\endgroup}
+%	\caption typesets \Link:s twice
+	\def\ifusedtreshold{2}
+%	\url is fragile, so let's fake it
+	\def\Url##1{\UrlFont##1\endgroup}
+%	make '_' work in both lr and math mode
+	\catcode`_=11
+	\everymath=\expandafter{\the\everymath\catcode`_=8}
+	\everydisplay=\expandafter{\the\everydisplay\catcode`_=8}
+%
+	\centering}
+{%
+	\ifx\konec@fig@label\@empty\else\label{\konec@fig@label}\fi
+	\global\let\@currentHref=\konec@fig@globalanchor@save
+	\ifkonec@fig@widen\end{adjustwidth}\fi
+	\endfigure}
+
+% \FigPair common
+\long\def\konec@fipa@@next#1#2#3{\@ifnextchar[{#1\FigPair#2}{#3}}
+\def\konec@fipa@next#1{\@ifnextchar\vrule%
+	{\begingroup\def\vrule{\endgroup% self-destruction
+		\konec@fipa@@next{\hfill\vrule\hfill}{#1}{\vrule}}}
+	{\konec@fipa@@next{\hfill}{#1}{\par}}}
+\def\konec@fipa@ifig#1#2{% label, ifigcmd
+	\konec@log{target: #1}%%%%% goddamn \hypertarget would
+	\setbox\@tempboxa\hbox{#2}% anchor the bottom of the image
+	\hbox to \wd\@tempboxa{\hypertarget{#1}{}\hss}\box\@tempboxa}
+
+% \FigPair% mufi (multiple figures)
+%	[fname][label][div][opts][lofline]{caption}
+%	[fname][label][div][opts]{caption}
+%	[fname][label][div]{caption}
+%	[fname][label]{caption}
+\def\konec@fipa@@mufi#1#2#3#4#5#6{%
+	% fname, label, div, ifigopts, lofline, caption
+	\begingroup% the redefined \caption *must* be enclosed
+	\lowercase{\edef\konec@fig@label{fig:#2}}%
+	\setbox\@tempboxa\vbox{\konec@fipa@ifig{\konec@fig@label}%
+		{\konec@ifig{#3}{0}{#4}{#1}}}%
+	\parbox{\wd\@tempboxa}{%
+		\unvbox\@tempboxa%
+		\caption[#5]{#6}%
+		\label{\konec@fig@label}}%
+	\endgroup
+	\konec@fipa@next{}}
+\def\konec@fipa@mufi@lofline#1#2#3#4{\konec@dblarg%
+	{\konec@fipa@@mufi{#1}{#2}{#3}{#4}}}
+\def\konec@fipa@mufi@ifopts#1#2#3{\konec@dfltarg%
+	{\konec@fipa@mufi@lofline{#1}{#2}{#3}}{}}
+\def\konec@fipa@mufi[#1][#2]{\konec@dfltarg%
+	{\konec@fipa@mufi@ifopts{#1}{#2}}
+	{0}}
+
+% sufi (subfigures)
+\def\konec@fipa@@sufi#1#2#3#4#5#6#7{%
+	% carryopts, fname, label, subfig, div, ifigopts, caption
+	\subfigure[#7]{%%%%% we're approaching
+		\begingroup% the 9-argument limit
+		\edef\@currentHref{#3}%
+		\vbox{\konec@fipa@ifig{\@currentHref}%
+			{\konec@ifig{#5}{#4}{#6}{#2}}}%
+		\label{\@currentHref}%
+		\endgroup}%
+	\konec@fipa@next{#1}}
+\def\konec@fipa@sufi@ifopts#1#2{\konec@dfltarg{\konec@fipa@@sufi#1{#2}}{}}
+
+% \FigPair{fname}%	pufi
+%	[subfig][div][opts]{caption}
+%	[subfig][div]{caption}
+%	[subfig]{caption}
+% \FigPair%		lufi
+%	[fname][label][div][opts]{caption}
+%	[fname][label][div]{caption}
+%	[fname][label]{caption}
+\def\konec@fipa@pufi#1[#2]{\konec@dfltarg%
+	{\konec@fipa@sufi@ifopts{{{#1}}{#1}{\konec@fig@label-#2}{#2}}}
+	{0}}
+\def\konec@fipa@lufi[#1][#2]{\konec@dfltarg%
+	{\konec@fipa@sufi@ifopts{{}{#1}{#2}{0}}}
+	{0}}
+\def\konec@fipa@sufi{\@ifnextchar[\konec@fipa@lufi\konec@fipa@pufi}
+
+% "frame" option for \includegraphics
+\newif\ifkonec@ifig@frame
+\define@key{Gin}{framed}[true]{\global\konec@ifig@frametrue}
+
+% \IncludeFig{fname}
+% \IncludeFig[div]{fname}
+% \IncludeFig[div][subfig]{fname}
+% \IncludeFig[div][subfig][opts]{fname}
+\def\konec@ifig#1#2#3#4{% div, subfig, opts, fname
+	\begingroup
+	\newif\ifkonec@ifig@frame
+	\define@key{Gin}{framed}[true]{}%
+	\define@key{konec@ifig}{framed}[true]{\global\konec@ifig@frametrue}%
+		\begingroup
+		\def\KV@errx##1{}%
+		\setkeys{konec@ifig}{#3}%
+		\endgroup
+	\ifdim#1pt=0pt%		div == 0
+		\def\@tempa{}%
+	\else\ifdim#1pt=1pt%	div == 1
+		\ifkonec@ifig@frame% avoid overfull
+			\@tempdima=\dimexpr\linewidth-2\fboxrule-2\fboxsep
+			\edef\@tempa{width=\the\@tempdima}%
+		\else
+			\def\@tempa{width=\linewidth}%
+		\fi
+	\else%			div  > 1
+		\mkfrac\@tempa{#1}% avoid overfull
+		\@tempdima=\dimexpr\linewidth*\@tempa
+		\ifkonec@ifig@frame\advance\@tempdima%
+			\dimexpr-2\fboxrule-2\fboxsep\fi
+		\edef\@tempa{width=\the\@tempdima}%
+	\fi\fi
+	\ifnum#2>0\edef\@tempa{\@tempa,page=#2}\fi
+	\edef\@tempa{*[\@tempa,#3]}%
+	\ifkonec@ifig@frame
+		\framebox{\expandafter\includegraphics\@tempa{#4}}%
+	\else
+		\expandafter\includegraphics\@tempa{#4}%
+	\fi
+	\endgroup}
+\def\konec@ifig@div@subfig#1#2%
+	{\konec@dfltarg{\konec@ifig{#1}{#2}}{}}
+\def\konec@ifig@div#1%
+	{\konec@dfltarg{\konec@ifig@div@subfig{#1}}{0}}
+\def\IncludeFig{\konec@dfltarg\konec@ifig@div{0}}
+
+% End of konec/figure.sty

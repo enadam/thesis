@@ -1,0 +1,59 @@
+%
+% parts/abstract-hu.tex -- Hungarian abstract
+%
+
+\begin{otherlanguage*}{magyar}
+\vspace*{1cm}
+{\centering\large\bfseries\MakeUppercase{Tartalmi összefoglaló}\par}
+\vspace*{12ex}
+
+\footnotesize\itshape
+
+Jelen dolgozat a \Menugene projekt mûszaki és történeti hátterérõl
+számol be.  A projektet az Információs Rendszerek Tanszékének égisze
+alatt, a Semmelweis Egyetem Dietetikai Tanszékével közösen mozdították
+elõre, amelyben a szerzõ szoftverfejlesztõként mûködött közre.  A program
+célja egy olyan informatikai szolgáltatás megalapozása, amely képes az
+átlagembereknek hatékony segítséget nyújtani étlapjuk összeállításában
+úgy, hogy az mind táplálkozási szükségleteiknek, mind egyéni ízlésüknek
+maximálisan megfeleljen.
+
+A rendszer részei között akadnak önállóan, saját számítógépen futtatható
+felhasználói programok, web alapú felület, idõben nem változó tápanyag-%
+információkat tároló adatbázis, valamint egy háttérben futó rendszer%
+program, ami felhasználói kérésre megfelelõ menüt állít elõ.  Mindezen
+részek hálózaton keresztül tartják egymással a kapcsolatot.  A rendszer
+a megfelelõ menüt genetikus algoritmusok segítségével keresi meg.
+
+A felsorolt komponensek létrejöttéhez rendelkezésre állnak kiforrott,
+vagy legalább kísérleti fázisban álló technológiák.  A dolgozat mögött
+meghúzódó munka célja az volt, hogy ezeket a technológiákat alkalmas
+megvalósításokba bújtatva összeálljon a rendszer, továbbá hogy kiépüljön
+egy jól használható keretrendszer az alacsony szintû problémamegoldó
+módszer további finomításához.  A munkálatok során a karbantarthatóság
+különösen lényeges szerephez jutott.
+
+A feladat elvégzéséhez számos programot, felhasználói alkalmazást,
+programkönyvtárat és segédprogramot kellett kifejleszteni Perl, C,
+C++ és PHP nyelveken; ezen kívül az adatbázis már meglevõ sémája is
+alapos átdolgozáson esett át.  A forráskódbázis jelentõs mennyiségû
+dokumentációval rendelkezik, amelyet a jelen dolgozat is gyarapítani
+szándékozik.  A rendszer készültségi állapota elérte a bemutathatóság
+határát.
+
+Az elkövetkezendõ írás a \Menugene mérnöki szoftverfejlesztési oldalát
+mutatja be.  Áttekintésre kerülnek a fejlesztési folyamat során alkalmazott
+eszközök és konvenciók, csakúgy mint a különbözõ megvalósítási technológiák
+és módszerek.  A szöveg erõs hangsúlyt fektet a folyamat során meghozott
+döntések alátámasztására, valamint helyet kapott a genetikus algoritmusok
+általános ismertetése is.
+
+\bigskip
+\upshape\bfseries
+\noindent
+Kulcsszavak: \Menugene, táplálkozás, genetikus algoritmusok,
+többszempontú optimalizálás, hosszútávú szoftverfejlesztés,
+védekezõ programozás
+\end{otherlanguage*}
+
+% End of parts/abstract-hu.tex

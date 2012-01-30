@@ -1,0 +1,28 @@
+%
+% figs/gsxml.tex
+%
+
+\begin{NewFig}{gsxml}
+\IncludeFig{gsxml}
+
+\begin{lstlisting}[style=XML,basicstyle=\small\ttfamily]
+<Article type="editorial" year="1982" reviewed="true">
+	<Authors>
+		<Author initials="L." last_name="Joseph"/>
+		<AndOthers/>
+	</Authors>
+	<Title>My apologies</Title>
+	When I was born...
+</Article>
+\end{lstlisting}
+
+\caption[Internal \Tech{GSXml} representation of an XML document]%
+	{The internal \Tech{GSXml} representation of the XML document
+	underneath.  (Read left-to-right, top-to-bottom.)  Framed
+	drawings symbolize objects of the corresponding class set at
+	the top of the drawings.  Below that are the relevant fields
+	of the objects.  Arrows denote \emph{has} relationship between
+	objects.}
+\end{NewFig}
+
+% End of figs/gsxml.tex

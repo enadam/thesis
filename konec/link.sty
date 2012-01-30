@@ -1,0 +1,53 @@
+%
+% konec/link.sty -- creating internal hyperlinks
+%
+
+\def\konec@link@mpar#1#2{\konec@minor@mpar{p.~#2}}
+\def\konec@link#1#2{% text, label
+	\lowercase{\konec@log{link: #2}}%
+	\ifkonec@hardcopy
+		% section labels are called sec:...
+		\lowercase{\ifcsname r@sec:#2\endcsname
+			\ifrecentpageref{sec:#2}\relax\relax\konec@link@mpar%
+		\else
+			\ifrecentpageref{#2}\relax\relax\konec@link@mpar%
+		\fi}%
+		\textcolor{gray}{#1}%
+	\else
+		\begingroup
+		% sections are anchored by \section; maybe we should throw
+		% out \label altogether? (we did in case of {figure}s)
+		\lowercase{\ifused{#2}}{\def\@linkcolor{black}}{}%
+		\lowercase{\ifcsname r@sec:#2\endcsname}
+			\lowercase{\edef\konec@link@anchor{\label@to@anchor{sec:#2}}}%
+		\else
+			\lowercase{\edef\konec@link@anchor{#2}}%
+		\fi
+		\hyperlink{\konec@link@anchor}{#1}%
+		\endgroup
+	\fi}
+
+% \Link<label>
+\def\konec@link@label<#1>{\konec@link{#1}{#1}}
+
+% \Link[text]{label}
+\def\konec@link@text[#1]{\konec@link{#1}}
+
+% \Link\Prog{prog}
+\def\konec@link@prog\Prog#1{%
+	\konec@prog@name@check{#1}%
+	\konec@prog@ref{\konec@link{\konec@prog@name{#1}}{#1}}{#1}}
+
+% \Link\Format{label}
+\def\konec@link@format#1#2{\konec@link{#1{#2}}{#2}}
+
+% Dispatch
+\def\Link#1{%
+	\ifx#1<\let\@tempa=\konec@link@label\else
+	\ifx#1[\let\@tempa=\konec@link@text\else
+	\ifx#1\Prog\let\@tempa=\konec@link@prog\else
+		\let\@tempa=\konec@link@format%
+		\fi\fi\fi
+	\@tempa#1}
+
+% End of konec/link.sty

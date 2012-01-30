@@ -1,0 +1,100 @@
+
+Questions
+---------
+
+-- Was it an Orszagos TDK? How was the thesis awarded?
+   Egyetemi TDK-n 3., országos TDK-n 2. helyezett.
+-- More details about EtkezesLib.
+   TODO
+-- What is the name of our GUI PostgreSQL client?
+   EMS Database Management Solutions, Inc.
+   http://sqlmanager.net
+   .
+   SQL Manager 2005 for PostgreSQL (3.8.0.2)
+   http://pgsqlmanager.com
+
+Packages
+--------
+
+-- babel[american]
+-- inputenc[latin2]
+-- geometry
+-- fancyhdr
+-- setspace (must precede footmisc)
+-- footmisc[perpage]
+-- pdfpages
+-- tabularx
+-- caption (*preceeding* subfigure, hence konec)
+-- natbib[numbers,sort]
+-- subfigure=tight
+-- hyperref=colorlinks
+
+Settings
+--------
+
+-- \pdfoptionpdfminorversion=4
+-- \geometry{paper=a4paper,head=15pt,%
+	left=4cm,right=3cm,vmargin=3cm,marginparwidth=3cm}
+-- \reversemarginpar
+-- \onehalfspacing
+-- \sectionmark{\markright{\thesection. #1}}
+-- \lhead{\rightmark}\chead{}\rhead{}
+-- \lfoot{}\cfoot{}\rfoot{\thepage}
+-- \bibsep0pt\bibfont{small}\bibnamestyle{scshape}
+-- \graphicspath{figs/}{images/}}
+-- \captionsetup{font=small}
+-- \tocdepth=4
+
+Naming convention
+-----------------
+
+the author, we	:= me
+the team	:= all the monkeys (including me)
+the reader	:= you
+you		:= general subject
+caller		:= user or function
+receiver	:= `this'
+
+Comment conventions
+-------------------
+
+{text}		"text" is a \Keyword
+[text]		"text" is a \Target
+<text>		"text" is a \Topic
+/text/		undecided
+
+TODO
+----
+
+-- make konec/test work again (sh+tex)
+-- pagenos in some \cite:s
+
+TODO (Later)
+------------
+
+-- ESR misses `url'
+-- OWASP misses `author'
+-- ICC misses `year'
+-- accidentally deleted the Secure Programming HOWTO.pdf
+
+Wishlist
+--------
+
+-- maybe \cite some other CORBA-book instead of the mapping specs?
+-- \cite{ICC} is so silly
+-- links in figs; pdftex eats pdfmark of \includegraphics :(
+-- do fontres.pl in PS
+-- merge specialuh.st + fontdef.st
+
+Ideas
+-----
+
+-- \cite from "Thoughts about the first prog language"?
+-- extract {longxtbl} bits from prog.sty
+
+Don't forget
+------------
+
+-- \noindent wherever necessary
+-- ensure there aren't any dead \Link:s
+-- spellcheck, doubleword check

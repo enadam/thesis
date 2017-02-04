@@ -1,8 +1,8 @@
 This is the LaTeX source code of my university master thesis about an AI
 counselling system.  The typesetting and the figures employ many custom
-techniques which might be interesting for TeX and graphviz hackers.
+techniques which might be of interest of TeX and graphviz practitioners.
 
-thesis.pdf	the full text of the thesis in English
-master.tex	the main document, holding together all parts
-duma.tex	the main content of the document
-presentation/	the slideshow presentation I used when defending the thesis
+thesis.pdf      the full thesis itself in English
+master.tex      the top-level document piecing together all parts
+duma.tex        the gist of the thesis
+presentation/   its presentation slides
